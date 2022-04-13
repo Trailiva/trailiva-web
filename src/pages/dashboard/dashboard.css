@@ -1,0 +1,479 @@
+.search {
+    width: 96%;
+    margin: 0 auto 2rem;
+    height: 60px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.search_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.2rem 1rem;
+    border: 1px solid #A8ABBD;
+    border-radius: 8px;
+    width: 350px;
+}
+
+.search_container input {
+    width: 100%;
+    display: block;
+    padding: 0.5rem 0;
+    outline: none;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    color: black;
+}
+
+.search_container input::placeholder {
+    font-size: 0.9rem;
+    color: #4D5163;
+}
+
+.search img {
+    cursor: pointer;
+}
+
+.welcome_container {
+    width: 96%;
+    margin: 0 auto;
+    height: 250px;
+}
+
+
+.welcome_header h2 {
+    line-height: 2rem;
+    font-size: 30px;
+    text-transform: capitalize;
+}
+
+.welcome_header .welcome_text {
+    color: #636363;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.quote {
+    position: relative;
+    margin-top: 1rem;
+}
+
+.quote img {
+    width: 100%;
+}
+
+.top-left {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    color: white;
+    width: 500px;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.quote small{
+    font-style: italic;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: white;
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+}
+
+.quote_btn {
+    padding: 0.7rem 2.5rem;
+    position: absolute;
+    right: 50px;
+    bottom: 40px;
+    background: #3754DB;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1rem;
+    text-transform: capitalize;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.setup {
+    width: 96%;
+    margin: 7rem auto 0;
+    height: 300px;
+}
+
+.setup h4 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.02em;
+    color: #000000;
+}
+
+.onboard_setup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 0.5rem;
+    margin-top: 1.5rem;
+    cursor: pointer;
+}
+
+.onboard_setup p {
+    font-weight: 400;
+    font-size: 16px;
+    color: #666666;
+}
+
+.onboard_setup button {
+    display: flex;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    text-transform: capitalize;
+}
+
+.onboard_setup button img {
+    margin-left: 0.7rem;
+}
+
+.active {
+    border: 1px solid #3754DB;
+    cursor: pointer;
+}
+
+.active button, .active p {
+    color: #3754DB;
+    font-weight: 600;
+}
+
+.user_thumb {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 4rem;
+}
+
+.user_thumb img {
+    opacity: 1;
+    margin-bottom: 1rem;
+    width: 90px;
+    height: 90px;
+    border-radius: 16px;
+    object-fit: cover;
+    transition: .5s ease;
+    backface-visibility: hidden;
+
+}
+
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.fill:hover img, .fill:hover h2{
+    opacity: 0.2;
+    background: black;
+}
+
+.fill:hover .middle {
+    z-index: 100;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.fill{
+    position: relative;
+}
+
+.fill:before{
+    content: "";
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background: #00C271;
+    position: absolute;
+    top: -7%;
+    right: -5%;
+    border: 1px solid white;
+}
+
+.text {
+    color: #000000;
+    font-weight: bolder;
+    font-size: 0.7rem;
+    text-transform: capitalize;
+    line-height: 1rem;
+}
+
+.user_thumb h4 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 2rem;
+    letter-spacing: -0.02em;
+    color: #101C56;
+}
+
+.user_thumb p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: -0.02em;
+    color: #666666;
+}
+
+.user_thumb button {
+    padding: 0.7rem 1.5rem;
+    background: #3754DB;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: capitalize;
+    margin-top: 2rem;
+    cursor: pointer;
+}
+
+.user_profile{
+    width: 90px;
+    height: 90px;
+    color: White;
+    text-align: center;
+    background: #16171D;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.8rem;
+}
+
+.calendar {
+    width: 315px;
+    margin: 0 auto;
+}
+
+.space_name {
+    margin-top: 5.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.space_name h4 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 2rem;
+    letter-spacing: -0.02em;
+    color: #101C56;
+}
+
+.space_name p {
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+    color: #666666;
+}
+
+.nav_links {
+    margin-top: 5rem;
+}
+
+.nav_links li {
+    margin-bottom: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.02em;
+    text-transform: capitalize;
+    color: #666666;
+    cursor: pointer;
+    position: relative;
+}
+
+.nav_links li img {
+    margin-right: 1rem;
+}
+
+.active_link li::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #3754DB;;
+    left: -15px;
+}
+
+/*Profile Upload*/
+
+.upload_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.upload_container{
+    position: fixed;
+    width: 400px;
+    padding: 1rem 1rem 2rem;
+    background: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    z-index: 100;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.upload_container h3{
+    font-family: Poppins, sans-serif;
+    font-style: normal;
+    line-height: 2.5rem;
+    letter-spacing: 0.035em;
+    color: #000000;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.upload_container p{
+    font-family: Poppins, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    text-align: center;
+    color: #828282;
+    line-height: 1.5rem;
+}
+
+.wrapper{
+    box-sizing: border-box;
+    border-radius: 12px;
+    width: 80%;
+    height: 320px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
+}
+
+.wrapper img{
+    margin: 1rem auto;
+    display: block;
+    width: 250px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 16px;
+    position: relative;
+}
+.upload_btn_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload_btn {
+    color: white;
+    background: #3754DB;
+    border: none;
+    padding: 0.7rem 0;
+    outline: none;
+    cursor: pointer;
+    border-radius: 12px;
+    width: 250px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.upload_message{
+    position: absolute;
+    padding: 0.6rem 1rem;
+    text-transform: capitalize;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white !important;
+    z-index: 10;
+    text-align: center;
+    bottom: 10%;
+}
+
+.upload_btn:active{
+    opacity: 0.5;
+}
+
+
+.backdrop{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+}
+
+.image_successful_icon{
+    position: absolute;
+    bottom:  3%;
+    left: 40%;
+    animation: wiggle 2s;
+}
+
+@keyframes wiggle {
+    0%, 7% {
+        transform: rotate(0);
+    }
+    15% {
+        transform: rotate(-15deg);
+    }
+    20% {
+        transform: rotate(10deg);
+    }
+    25% {
+        transform: rotate(-10deg);
+    }
+    30% {
+        transform: rotate(6deg);
+    }
+    35% {
+        transform: rotate(-4deg);
+    }
+    40%, 100% {
+        transform: rotate(0);
+    }
+}
+
+
+
+/*Profile Upload*/
