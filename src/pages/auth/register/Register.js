@@ -18,10 +18,9 @@ const Register = () => {
     const navigate = useNavigate();
 
     const handleRegistration = async (data) => {
-        const [firstName, lastName] = data.fullName.split(" ");
         const userData = {
-            firstName,
-            lastName,
+            firstName: data.firstName,
+            lastName: data.lastName,
             email: data.email,
             password: data.password
         };
@@ -55,7 +54,8 @@ const Register = () => {
         }
 
         reset({
-            fullName: "",
+            firstName: "",
+            lastName: "",
             email: "",
             password: ""
         })
@@ -76,11 +76,20 @@ const Register = () => {
                 </Alert>}
                 <form onSubmit={handleSubmit(handleRegistration, handleError)} noValidate>
                     <FormControl
-                        label="Enter your full name"
-                        name="fullName"
-                        placeholder="John Doe"
+                        label="Enter your first name"
+                        name="firstName"
+                        placeholder="John"
                         visibility={false}
-                        useForm_register_return={register("fullName", registrationOption.fullName)}
+                        useForm_register_return={register("firstName", registrationOption.fullName)}
+                        errors={errors}
+                    />
+
+                    <FormControl
+                        label="Enter your last name"
+                        name="lastName"
+                        placeholder="Doe"
+                        visibility={false}
+                        useForm_register_return={register("lastName", registrationOption.fullName)}
                         errors={errors}
                     />
 
