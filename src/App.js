@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import Register from "./pages/auth/register/Register";
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Login from "./pages/auth/login/Login";
 import ForgetPassword from "./pages/auth/forgetPassword/ForgetPassword";
 import ResetPassword from "./pages/auth/ResetPassword/ResetPassword";
 import Verification from "./pages/auth/verificationPage/Verification";
 import ToVerify from "./pages/auth/verificationPage/ToVerify";
 import PageNotFound from "./components/PageNotFound";
-import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 import Dashboard from "./pages/dashboard/Dashboard";
 import {getCurrentUser} from "./api/ApiUtils";
 import {ACCESS_TOKEN} from "./constants";
 import ProtectedRoute from "./components/ProtectedRoute";
+import {CircularProgress} from "@mui/material";
+import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 
 function App() {
 
@@ -29,11 +30,13 @@ function App() {
 
     const loadCurrentUser = () => {
         getCurrentUser().then(response => {
-            setUser({
-                currentUser: response.data,
-                isAuthenticated: true,
-                isLoading: false
-            })
+           setTimeout(()=> {
+               setUser({
+                   currentUser: response.data,
+                   isAuthenticated: response.enabled,
+                   isLoading: false
+               })
+           }, 1000)
             console.log(response.data)
         }).catch(error => {
             console.log(error)
@@ -46,36 +49,45 @@ function App() {
     }
 
     useEffect(() => {
-        console.log("Got Here")
-        console.log()
         loadCurrentUser();
     }, [])
 
     return (
-        <Routes>
-            <Route path="/" element={<ProtectedRoute user={user.currentUser}>
-                <Dashboard/>
-            </ProtectedRoute>}/>
+        user.isLoading ? <>
+            <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: "100vh"
+            }}>
+                <CircularProgress />
+            </div>
+            </> :
+            <Routes>
+                <Route path="/"
+                       element={<ProtectedRoute isAllowed={user.currentUser && user.currentUser.isAuthenticated}>
+                           <Dashboard/>
+                       </ProtectedRoute>}/>
 
-            <Route path="create-workspace" element={
-                <ProtectedRoute user={user.currentUser}>
-                    <CreateWorkspace/>
-                </ProtectedRoute>}/>
-            }/>
-            <Route path="user-verification/:token" element={
-                <ProtectedRoute user={user.currentUser}>
-                    <Verification/>
-                </ProtectedRoute>}/>
-            }/>
-            <Route path="register" element={<Register/>}/>
-            <Route path="login" element={<Login/>}/>
-            <Route exact path="to-verify" element={<ToVerify/>}/>
+                <Route path="create-workspace" element={
+                    <ProtectedRoute isAllowed={user.currentUser && user.currentUser.isAuthenticated}>
+                        <CreateWorkspace/>
+                    </ProtectedRoute>}/>
+                }/>
+                <Route path="user-verification/:token" element={
+                    <ProtectedRoute isAllowed={user.currentUser && user.currentUser.isAuthenticated}>
+                        <Verification/>
+                    </ProtectedRoute>}/>
+                }/>
+                <Route path="register" element={<Register/>}/>
+                <Route path="login" element={<Login/>}/>
+                <Route exact path="to-verify" element={<ToVerify/>}/>
 
-            <Route path="forget-password" element={<ForgetPassword/>}/>
-            <Route path="reset-password" element={<ResetPassword/>}/>
+                <Route path="forget-password" element={<ForgetPassword/>}/>
+                <Route path="reset-password" element={<ResetPassword/>}/>
 
-            <Route exact path="*" element={<PageNotFound/>}/>
-        </Routes>
+                <Route exact path="*" element={<PageNotFound/>}/>
+            </Routes>
 
     );
 }
