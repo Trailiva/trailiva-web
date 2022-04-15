@@ -6,7 +6,6 @@ const uploadImage = (getRootProps, isDragActive, getInputProps, imagePath, isUpl
     const uploadStyle = {
         background: "rgba(68, 68, 68, 0.8)"
     }
-    console.log("Upload", isUploaded)
     return (
         <div className="wrapper" {...getRootProps()} style={{background: isDragActive && "rgba(82,82,82,0.2)"}}>
             <input type="text" {...getInputProps()}/>

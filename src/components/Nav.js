@@ -2,13 +2,15 @@ import React, {useState} from 'react';
 import Box from "@mui/material/Box";
 import {SIDE_BAR_DATA} from "../data/dashbaordData";
 
-function SidebarLink(props) {
-    return (<div className={props.active ? "active_link" : null} key={props.key}>
-        <li>
-            <img src={props.icon} alt="nav icon"/>
-            {props.text}
-        </li>
-    </div>);
+function SidebarLink({id, active, icon, text}) {
+    return (
+        <div className={active ? "active_link" : null} key={id}>
+            <li key={id}>
+                <img src={icon} alt="nav icon"/>
+                {text}
+            </li>
+        </div>
+    );
 }
 
 function SpaceName({name}) {
@@ -43,6 +45,7 @@ const Nav = ({name}) => {
                 {links.map((link, index) => {
                     return <SidebarLink
                         key={index}
+                        id={index}
                         icon={link.icon}
                         text={link.text}
                         active={link.active}

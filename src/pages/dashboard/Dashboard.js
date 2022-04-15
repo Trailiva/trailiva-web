@@ -41,9 +41,7 @@ const Dashboard = () => {
         setOpen(false);
     };
 
-
     const setProfilePictureThumb = (user) => {
-        console.log(user)
         if (!user)
             return <img src={UserThumb} alt="user icon"/>
         else if (user.profileImage)
