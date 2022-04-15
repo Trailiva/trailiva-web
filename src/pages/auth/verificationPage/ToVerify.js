@@ -3,13 +3,16 @@ import Navbar from "../../../components/Navbar";
 import {Alert, Snackbar} from "@mui/material";
 import VerificationIcon from "../../../images/verify.svg";
 import ResendIcon from "../../../images/App.test.svg"
-import {api} from "../../../api/api";
+import {handleResetVerificationToken} from "../../../api/ApiUtils";
+import {useNavigate} from "react-router-dom";
+
 
 const ToVerify = () => {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("Your account has been created successfully.  A verification\n" +
         "link has been sent to your registered email address.");
     const [icon, setIcon] = useState(VerificationIcon);
+    const navigate = useNavigate();
     const delay = 6000
 
     useEffect(() => {
@@ -26,22 +29,22 @@ const ToVerify = () => {
         setOpen(false);
     };
 
-    const handleResendToken = () =>{
-        api.get("/auth/resend-token?email="+localStorage.getItem('email'))
-            .then(res => {
-                console.log(res.data);
-                setIcon(ResendIcon);
-                setMessage(res.data.message);
-            })
-            .catch(err => {
-                console.log(err.request);
-                console.log(err.response);
-            })
+    const handleResendToken = async () => {
+        try {
+            const res = await handleResetVerificationToken();
+            console.log(res.data);
+            setIcon(ResendIcon);
+            setMessage(res.data.message);
+        } catch (err) {
+            console.log(err.request);
+            console.log(err.response);
+            navigate("/login")
+        }
     }
 
     return (
         <>
-            <Navbar path="/" text="Create Account"/>
+            <Navbar path="/login" text="Login"/>
             <Snackbar
                 open={open}
                 autoHideDuration={delay}

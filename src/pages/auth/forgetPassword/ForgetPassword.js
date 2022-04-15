@@ -5,50 +5,43 @@ import FormControl from "../../../components/FormControl";
 import {registrationOption} from "../../../utils/formValidation";
 import AuthButton from "../../../components/AuthButton";
 import {useForm} from "react-hook-form";
-import {api} from "../../../api/api";
 import {TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
+import {handleForgetPassword} from "../../../api/ApiUtils";
+import {useNavigate} from "react-router-dom";
 
 const ForgetPassword = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const [isSuccessFul, setIsSuccessFul] = useState(true);
     const [loading, setLoading] = useState(false);
     const [errorDate, setErrorData] = useState("");
+    const navigate = useNavigate();
 
-    const handleForgetPassword = async (data) => {
-        const userData = {
-            email: data.email,
-            password: data.password
-        };
-
+    const forgetPassword = async (data) => {
         setLoading(true);
-
-        let response;
-        const token = localStorage.getItem(VERIFICATION_TOKEN);
         try {
-            response = await api.post(`auth/password/reset/${token}`, userData);
+            const res = await handleForgetPassword(data);
             localStorage.removeItem(VERIFICATION_TOKEN);
             localStorage.removeItem(TOKEN_EXPIRY_DATE);
-        } catch (error) {
+            setLoading(res.data.successful);
+            setIsSuccessFul(res.data.successful);
+        } catch (err) {
+            setErrorData(err);
+            navigate("/login")
+            setLoading(false);
             setIsSuccessFul(false);
-            setErrorData(error.response.data.message);
-            setTimeout(() => {
-                setIsSuccessFul(true);
-            }, [5000])
         }
-
-        setLoading(false);
-        console.log(response.data);
-
         reset({
             email: "",
             password: ""
         })
     };
+
     const handleError = (errors) => console.log(errors);
+
 
     return (
         <>
-            <Navbar path="/" text="Create Account"/>
+            <Navbar path="/register" text="Create Account"/>
             <div className="form-container">
                 {!isSuccessFul &&
                     <Alert variant="filled" severity="error" style={{marginBottom: "1rem"}}>{errorDate}!</Alert>}
@@ -56,7 +49,7 @@ const ForgetPassword = () => {
                     <h2>Forget Password</h2>
                 </div>
 
-                <form onSubmit={handleSubmit(handleForgetPassword, handleError)} noValidate>
+                <form onSubmit={handleSubmit(forgetPassword, handleError)} noValidate>
 
                     <FormControl
                         label="Enter email address"

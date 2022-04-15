@@ -7,55 +7,31 @@ import {api} from "../../../api/api";
 import {ACCESS_TOKEN, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
 import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
-import {Link} from "react-router-dom";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {handleUserLogin} from "../../../api/ApiUtils";
 
 
 const Login = () => {
-
-
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const [isSuccessFul, setIsSuccessFul] = useState(true);
     const [loading, setLoading] = useState(false);
     const [errorDate, setErrorData] = useState("");
     const navigate = useNavigate();
 
-    const handleLogin = async (data) => {
-        const userData = {
-            email: data.email,
-            password: data.password
-        };
-
+    const login = async (data) => {
         setLoading(true);
-
-        let response;
         try {
-            response = await api.post("/auth/login", userData);
-            localStorage.setItem(ACCESS_TOKEN, response.data.jwtToken);
+            const res = await handleUserLogin(data);
+            localStorage.setItem(ACCESS_TOKEN, res.data.jwtToken);
             navigate("/")
-        } catch (error) {
+            setLoading(res.data.successful);
+            setIsSuccessFul(true);
+        }catch (err) {
+            console.log("err", err);
             setLoading(false);
-            if (error.response) {
-                // Request made and server responded
-                console.log(error.response.data);
-                setErrorData(error.response.data.message);
-
-            } else if (error.request) {
-                // The request was made but no response was received
-                console.log(error.request);
-                setErrorData("Server is currently down")
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
-                setErrorData("Internet not connected")
-            }
-            setTimeout(() => {
-                setErrorData("");
-            }, [5000])
+            setIsSuccessFul(false);
+            setErrorData(err);
         }
-
-        setLoading(false);
-
         reset({
             email: "",
             password: ""
@@ -71,7 +47,7 @@ const Login = () => {
 
     return (
         <>
-            <Navbar text="Create Account" path="/"/>
+            <Navbar text="Create Account" path="/register"/>
 
             <div className="form-container">
                 {!isSuccessFul &&
@@ -80,7 +56,7 @@ const Login = () => {
                     <h2>Welcome Back Login</h2>
                 </div>
 
-                <form onSubmit={handleSubmit(handleLogin, handleError)} noValidate>
+                <form onSubmit={handleSubmit(login, handleError)} noValidate>
 
                     <FormControl
                         label="Enter email address"

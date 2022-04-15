@@ -1,5 +1,5 @@
 import React from 'react';
-import {dummyTask} from "./taskData";
+import {dummyTask} from "../../data/taskData";
 import TaskCard from "./TaskCard";
 
 const TaskWrapper = () => {

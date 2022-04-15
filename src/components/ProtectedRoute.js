@@ -1,11 +1,13 @@
 import React from 'react';
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet, Navigate} from "react-router-dom";
+import {ACCESS_TOKEN} from "../constants";
 
-const ProtectedRoute = ({isAllowed, redirectPath = '/login', children,}) => {
-    let navigate = useNavigate();
-    if (!isAllowed)
-        navigate(redirectPath)
-    return children ? children : <Outlet/>;
+const ProtectedRoute = ({children, redirectPath = '/login'}) => {
+    const isAuthenticated = localStorage.getItem(ACCESS_TOKEN);
+    if(isAuthenticated)
+        return children ? children : <Outlet />;
+    else return <Navigate to={redirectPath} replace />;
+
 };
 
 export default ProtectedRoute;

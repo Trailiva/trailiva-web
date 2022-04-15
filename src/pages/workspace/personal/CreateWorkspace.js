@@ -6,31 +6,26 @@ import Profile from "../../../images/profile.svg";
 import Checked from "../../../images/check.svg";
 import CheckedProfile from "../../../images/checkedProfile.svg";
 import CheckedOffice from "../../../images/checkOffice.svg";
-import {api} from "../../../api/api";
-import {ACCESS_TOKEN} from "../../../constants";
+import {useNavigate} from "react-router-dom";
+
 
 const CreateWorkspace = () => {
     const [checked, setChecked] = useState(false);
     const [selected, setSelected] = useState(false);
     const [step, setStep] = useState(1);
+    const navigate = useNavigate();
 
-    const INITIAL_DATA = {
-        name: "", workSpaceType: "", description: "", referenceName: "TA"
-    }
+    const INITIAL_DATA = {name: "", workSpaceType: "", description: "", referenceName: "TA"}
     const [formState, setFormState] = useState(INITIAL_DATA);
 
-    const handleWorkspaceCreation = async e => {
+    const handleWorkspaceCreation = async (e) => {
         e.preventDefault();
-        const headers = {'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)}
-        try {
-            console.log(formState);
-            const response = await api.post("workspace/create/1", formState, {headers});
-            const data = response.data;
-            console.log(data);
-
-        } catch (e) {
-            console.log(e.request);
-            console.log(e.response);
+        try{
+            const res = await  handleWorkspaceCreation(formState);
+            console.log(res.data);
+        }catch (err) {
+            console.log('err', err);
+            navigate("/login")
         }
     }
 

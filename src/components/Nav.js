@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Box from "@mui/material/Box";
-import {SIDE_BAR_DATA} from "../data/dashbaord";
+import {SIDE_BAR_DATA} from "../data/dashbaordData";
 
 function SidebarLink(props) {
     return (<div className={props.active ? "active_link" : null} key={props.key}>

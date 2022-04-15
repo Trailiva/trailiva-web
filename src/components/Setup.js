@@ -3,13 +3,10 @@ import React from "react";
 import Arrow from "../images/Arrow.svg";
 import "../pages/dashboard/dashboard.css"
 
-const Setup = ({active, icon, key, onChecked, text, name, onUpload, firstName}) => {
-    const uploadImage = () => {
-        onChecked(name)
-        onUpload()
-    }
+const Setup = ({active, icon, key, text, name, firstName, handleSetup}) => {
+
     return <div className={active ? "onboard_setup active" : "onboard_setup"} key={key}
-                onClick={uploadImage}>
+                onClick={()=> handleSetup(name)}>
         <img src={icon} alt="setup action icon"/>
         <p className="setup_action">Hey {firstName}, {text}</p>
         <button>

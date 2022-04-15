@@ -16,7 +16,7 @@ const PageNotFound = () => {
 
     return (
         <>
-            <Navbar path="/" text="Create Account"/>
+            <Navbar path="register" text="Create Account"/>
             <div style={pageNotFoundStyle}>
                 <img src={PageNotFoundImage} alt="404 Icon" style={{width: "600px"}}/>
                 <ClickableButton text="Go Back Home" to="/"/>

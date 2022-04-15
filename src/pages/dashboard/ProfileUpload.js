@@ -2,6 +2,7 @@ import React from 'react';
 import DragDrop from "./Drag&Drop";
 import CancelIcon from '@mui/icons-material/Cancel';
 import SuccessfulUploadIcon from "../../images/SuccessUploadIcon.svg";
+import ReactDOM from "react-dom";
 
 const ProfileUpload = ({handleProfileUpload, uploadedImage, open, handleClose, upload, isUploaded, handleIsUploaded}) => {
 
@@ -19,6 +20,7 @@ const ProfileUpload = ({handleProfileUpload, uploadedImage, open, handleClose, u
     }
 
     return (
+        ReactDOM.createPortal(
         <>
             <div className="backdrop" onClick={onHandlePopUp} style={{display: open ? "block" : "none"}}/>
             <div className="upload_container" style={{display: open ? "block" : "none"}}>
@@ -31,7 +33,7 @@ const ProfileUpload = ({handleProfileUpload, uploadedImage, open, handleClose, u
                             onClick={onHandlePopUp}
                 />
                 <h3>Upload your image</h3>
-                <DragDrop apiCall={handleProfileUpload} imagePath={uploadedImage}/>
+                <DragDrop apiCall={handleProfileUpload} imagePath={uploadedImage} isUploaded={isUploaded}/>
                 {isUploaded ? <img src={SuccessfulUploadIcon} alt="success icon" className="image_successful_icon"/> :
                     <div className="upload_btn_wrapper">
                         <button disabled={!uploadedImage} style={disabledStyle}
@@ -39,7 +41,7 @@ const ProfileUpload = ({handleProfileUpload, uploadedImage, open, handleClose, u
                                 onClick={handleUpload}>{"Upload Image"}</button>
                     </div>}
             </div>
-        </>
+        </>, document.getElementById("profile-popup"))
     );
 };
 

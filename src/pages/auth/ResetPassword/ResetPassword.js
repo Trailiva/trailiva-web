@@ -5,61 +5,41 @@ import FormControl from "../../../components/FormControl";
 import {registrationOption} from "../../../utils/formValidation";
 import AuthButton from "../../../components/AuthButton";
 import {useForm} from "react-hook-form";
-import {api} from "../../../api/api";
+import {handleResetPassword} from "../../../api/ApiUtils";
+import {useNavigate} from "react-router-dom";
 
 const ResetPassword = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const [isSuccessFul, setIsSuccessFul] = useState(true);
     const [loading, setLoading] = useState(false);
     const [errorDate, setErrorData] = useState("");
+    const navigate = useNavigate();
 
-    const handleForgetPassword = async (data) => {
-        const userData = {
-            email: data.email,
-            oldPassword: data.oldPassword,
-            password: data.password
-        };
-
-        setLoading(true);
-
-        let response;
-        try {
-            response = await api.post(`auth/password/update`, userData);
-        } catch (error) {
+    const resetPassword = async (data) => {
+        setLoading(true)
+        try{
+            const res = await handleResetPassword(data);
             setLoading(false);
-            if (error.response) {
-                // Request made and server responded
-                console.log(error.response.data);
-                setErrorData(error.response.data.message);
-
-            } else if (error.request) {
-                // The request was made but no response was received
-                console.log(error.request);
-                setErrorData("Server is currently down")
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
-                setErrorData("Internet not connected")
-            }
-            setTimeout(() => {
-                setErrorData("");
-            }, [5000])
+            setIsSuccessFul(res.data.successful);
+        }catch (err) {
+            setLoading(false);
+            setIsSuccessFul(false);
+            setErrorData(err);
+            console.log('err', err);
+            navigate("/login");
         }
-
-        setLoading(false);
-        console.log(response.data);
-
         reset({
             email: "",
             oldPassword: "",
             password: ""
         })
     };
+
     const handleError = (errors) => console.log(errors);
 
     return (
         <>
-            <Navbar path="/" text="Create Account"/>
+            <Navbar path="/register" text="Create Account"/>
             <div className="form-container">
                 {!isSuccessFul &&
                     <Alert variant="filled" severity="error" style={{marginBottom: "1rem"}}>{errorDate}!</Alert>}
@@ -67,7 +47,7 @@ const ResetPassword = () => {
                     <h2>Reset Password</h2>
                 </div>
 
-                <form onSubmit={handleSubmit(handleForgetPassword, handleError)} noValidate>
+                <form onSubmit={handleSubmit(resetPassword, handleError)} noValidate>
 
                     <FormControl
                         label="Enter email address"
@@ -100,8 +80,6 @@ const ResetPassword = () => {
                     <AuthButton disabled={loading} text="Reset Password" loadingText="Loading..."/>
                 </form>
             </div>
-        </>
-    );
-};
+        </>)};
 
 export default ResetPassword;

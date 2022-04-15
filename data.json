@@ -1,0 +1,56 @@
+{
+  "task": [
+    {
+      "taskTab": "pending",
+      "name": "Create a Design System for Enum Workspace.",
+      "referenceName": "T-10"
+    },
+    {
+      "taskTab": "pending",
+      "name": "Create a Design System for Enum Workspace.",
+      "referenceName": "T-10"
+    },
+    {
+      "taskTab": "pending",
+      "name": "Create a Design System for Enum Workspace.",
+      "referenceName": "T-10"
+    }
+  ],
+  "menuBar": [
+    {
+      "id": 1,
+      "active": true,
+      "text": "overview",
+      "icon": "OverviewIcon"
+    },
+    {
+      "id": 1,
+      "active": false,
+      "text": "tasks",
+      "icon": "TaskIcon"
+    },
+    {
+      "id": 1,
+      "active": false,
+      "text": "settings",
+      "icon": "SettingIcon"
+    }
+  ],
+  "setups": [
+    [
+      {
+        "name": "profile",
+        "active": true,
+        "content": " Update your Profile Picture",
+        "icon": "ProfileSetup"
+      },
+      {
+        "name": "task",
+        "active": false,
+        "content": "Create your First Task in your Workspace",
+        "icon": "TaskSetup"
+      }
+    ]
+  ]
+
+}
