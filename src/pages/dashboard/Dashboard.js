@@ -6,7 +6,6 @@ import Notifications from "../../images/notification.svg"
 import {Close, SearchOutlined} from "@material-ui/icons";
 import QuoteBg from "../../images/quoteBg.png"
 import Setup from "../../components/Setup"
-import UserThumb from "../../images/user_thumb.svg";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {Alert, CalendarPicker} from "@mui/lab";
@@ -15,9 +14,14 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ProfileUpload from "./ProfileUpload";
 import {handleImageUpload, handleImageUploadToCloudinary, handleUserProfile} from "../../api/ApiUtils";
 import TaskWrapper from "../tasks/TaskWrapper";
+import store from "../../store/configureStore";
+import * as projectActions from "../../store/projects.js";
+import * as bugActions from "../../store/bugs";
 
 
 const Dashboard = () => {
+
+
 
     const INITIAL_IMAGE_DATA = {url: "", public_id: "", blob: "", file: ""}
 
@@ -42,9 +46,7 @@ const Dashboard = () => {
     };
 
     const setProfilePictureThumb = (user) => {
-        if (!user)
-            return <img src={UserThumb} alt="user icon"/>
-        else if (user.profileImage)
+        if (user.profileImage)
             return (<div className="fill">
                 <img src={userData.profileImage} alt="user icon"/>
                 <div className="middle" onClick={handleClickOpen}>
@@ -147,6 +149,9 @@ const Dashboard = () => {
         setSetups(updatedLinks);
     }
 
+    store.dispatch(projectActions.projectAdded({name: "Project 1"}));
+    store.dispatch(bugActions.bugAdded({desc: "Bug 1"}));
+
     return (
         userData.loading ?
             <div style={{
@@ -244,8 +249,6 @@ const Dashboard = () => {
                         </Grid>
                     </Grid>
                 </Grid>
-
-
             </>
 
     );

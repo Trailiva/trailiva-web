@@ -1,7 +1,7 @@
-import reducer from "./bugs";
+import reducer from "./reducer";
 import {configureStore} from "@reduxjs/toolkit";
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default () => {
+ const store = () => {
     return configureStore({reducer});
 };
+export default store

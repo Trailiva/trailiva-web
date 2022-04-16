@@ -23,9 +23,10 @@ const CreateWorkspace = () => {
         try{
             const res = await  handleWorkspaceCreation(formState);
             console.log(res.data);
+
         }catch (err) {
             console.log('err', err);
-            navigate("/login")
+            navigate("/")
         }
     }
 
