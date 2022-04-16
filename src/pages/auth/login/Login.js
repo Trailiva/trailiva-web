@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import Navbar from "../../../components/Navbar";
-import {Alert} from "@mui/material";
 import {registrationOption} from "../../../utils/formValidation";
 import {useForm} from "react-hook-form";
 import {api} from "../../../api/api";
@@ -8,29 +7,43 @@ import {ACCESS_TOKEN, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../cons
 import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import {Link, useNavigate} from "react-router-dom";
-import {handleUserLogin} from "../../../api/ApiUtils";
+import {handleForgetPasswordToken, handleUserLogin} from "../../../api/ApiUtils";
+import MessageAlert from "../../../components/MessageAlert";
 
 
 const Login = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const [isSuccessFul, setIsSuccessFul] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [errorDate, setErrorData] = useState("");
+    const [errorData, setErrorData] = useState("");
     const navigate = useNavigate();
+    const [messageModal, setMessageModal] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
 
+    const handleClose = () => {
+        setMessageModal(prevState => {
+            return {...prevState, open: false }
+        });
+    };
     const login = async (data) => {
         setLoading(true);
         try {
             const res = await handleUserLogin(data);
             localStorage.setItem(ACCESS_TOKEN, res.data.jwtToken);
+            setLoading(false);
+            setIsSuccessFul(res.data.successful);
             navigate("/")
-            setLoading(res.data.successful);
-            setIsSuccessFul(true);
         }catch (err) {
-            console.log("err", err);
+            console.log("err", err.response);
             setLoading(false);
             setIsSuccessFul(false);
-            setErrorData(err);
+            setErrorData(err.response.data.message);
+            setMessageModal(prevState => {
+                return {...prevState, open: true}
+            })
         }
         reset({
             email: "",
@@ -40,9 +53,15 @@ const Login = () => {
 
     const handleError = (errors) => console.log(errors);
     const forgetPasswordHandler = async () => {
-        let response = await api.get("auth/password/reset/ohida2001@gmail.com");
-        localStorage.setItem(VERIFICATION_TOKEN, response.data.token);
-        localStorage.setItem(TOKEN_EXPIRY_DATE, response.data.expiry);
+       try{
+           let response = await handleForgetPasswordToken();
+           localStorage.setItem(VERIFICATION_TOKEN, response.data.token);
+           localStorage.setItem(TOKEN_EXPIRY_DATE, response.data.expiry);
+           navigate("/forget-password")
+       }catch (err){
+           console.log("error ==> ", err)
+
+       }
     }
 
     return (
@@ -50,8 +69,7 @@ const Login = () => {
             <Navbar text="Create Account" path="/register"/>
 
             <div className="form-container">
-                {!isSuccessFul &&
-                    <Alert variant="filled" severity="error" style={{marginBottom: "1rem"}}>{errorDate}!</Alert>}
+                {!isSuccessFul && <MessageAlert messageModal={messageModal} onClose={handleClose} errorData={errorData}/>}
                 <div className="form-header">
                     <h2>Welcome Back Login</h2>
                 </div>

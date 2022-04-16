@@ -2,13 +2,20 @@ import {ACCESS_TOKEN, USER_EMAIL} from "../constants";
 import {api} from "./api";
 import axios from "axios";
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = () => {
     if (!localStorage.getItem("accessToken")) {
         return Promise.reject("Token not set");
     }
     return api.get("/users/profile", {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     });
+}
+
+export const handleForgetPasswordToken = () => {
+    if (!localStorage.getItem("email")) {
+        return Promise.reject("email not set");
+    }
+    return api.get(`auth/password/token/${localStorage.getItem("email")}`)
 }
 
 
@@ -21,16 +28,16 @@ export const handleForgetPassword =  (data) => {
         password: data.password
     };
     const token = localStorage.getItem("verificationToken");
-    return  api.post(`auth/password/reset/${token}`, userData);
+    return  api.post(`auth/password/forget-password/${token}`, userData);
 }
 
-export const handleResetPassword =  (data) => {
+export const handleResetPassword = (data) => {
     const userData = {
         email: data.email,
         oldPassword: data.oldPassword,
         password: data.password
     };
-    return  api.post(`auth/password/update`, userData);
+    return  api.post(`auth/password/reset`, userData);
 }
 
 export const handleUserRegistration =  (data) => {
@@ -65,7 +72,7 @@ export const handleWorkspaceCreation =  (data) => {
     });
 }
 
-export const handleUserProfile = async () => {
+export const handleUserProfile =  () => {
     const getRandomQuote = api.get("https://api.quotable.io/random");
     const getUserProfile = getCurrentUser();
     return axios.all([getRandomQuote, getUserProfile])

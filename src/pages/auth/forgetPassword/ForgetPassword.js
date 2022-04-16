@@ -22,11 +22,12 @@ const ForgetPassword = () => {
             const res = await handleForgetPassword(data);
             localStorage.removeItem(VERIFICATION_TOKEN);
             localStorage.removeItem(TOKEN_EXPIRY_DATE);
-            setLoading(res.data.successful);
+            setLoading(false);
             setIsSuccessFul(res.data.successful);
+            navigate("/login");
         } catch (err) {
             setErrorData(err);
-            navigate("/login")
+            navigate("/login");
             setLoading(false);
             setIsSuccessFul(false);
         }

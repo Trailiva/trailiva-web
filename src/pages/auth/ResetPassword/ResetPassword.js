@@ -21,6 +21,7 @@ const ResetPassword = () => {
             const res = await handleResetPassword(data);
             setLoading(false);
             setIsSuccessFul(res.data.successful);
+            navigate("/login");
         }catch (err) {
             setLoading(false);
             setIsSuccessFul(false);

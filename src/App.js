@@ -36,11 +36,7 @@ function App() {
             <Route path="register" element={<Register/>}/>
             <Route exact path="to-verify" element={<ToVerify/>}/>
 
-            <Route path="forget-password" element={
-                <ProtectedRoute>
-                    <ForgetPassword/>
-                </ProtectedRoute>
-            }/>
+            <Route path="forget-password" element={<ForgetPassword/>}/>
             <Route path="reset-password" element={
                 <ProtectedRoute>
                     <ResetPassword/>
