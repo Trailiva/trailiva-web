@@ -3,9 +3,7 @@ import Sidebar from "../../components/Sidebar";
 import {CircularProgress, Grid, Snackbar} from "@mui/material";
 import "./dashboard.css"
 import Notifications from "../../images/notification.svg"
-import {Close, SearchOutlined} from "@material-ui/icons";
-import QuoteBg from "../../images/quoteBg.png"
-import Setup from "../../components/Setup"
+import { SearchOutlined} from "@material-ui/icons";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {Alert, CalendarPicker} from "@mui/lab";
@@ -13,16 +11,17 @@ import {SETUP_DATA} from "../../data/dashbaordData";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ProfileUpload from "./ProfileUpload";
 import {handleImageUpload, handleImageUploadToCloudinary, handleUserProfile} from "../../api/ApiUtils";
-import TaskWrapper from "../tasks/TaskWrapper";
-import store from "../../store/configureStore";
-import * as projectActions from "../../store/projects.js";
-import * as bugActions from "../../store/bugs";
+import {useNavigate} from "react-router-dom";
+import SidebarHeader from "../../components/SidebarHeader";
+import WelcomeHeader from "./WelcomeHeader";
+import SetupContainer from "../../components/SetupContainer";
+import TaskHeader from "../tasks/TaskHeader";
+import DailyQuote from "./DailyQuote";
+import TaskContainer from "../tasks/TaskContainer";
+import TaskCreator from "../../components/TaskCreator";
 
 
 const Dashboard = () => {
-
-
-
     const INITIAL_IMAGE_DATA = {url: "", public_id: "", blob: "", file: ""}
 
     const [date, setDate] = React.useState(new Date());
@@ -33,10 +32,13 @@ const Dashboard = () => {
     const [open, setOpen] = useState(false);
     const [imageData, setImageData] = useState(INITIAL_IMAGE_DATA);
     const [isUploaded, setIsUploaded] = useState(false);
+    const [sidebar, setSidebar] = useState({overview: true, tasks: false, settings: false});
+    const [openCreateTaskModal, setOpenCreateTaskModal] = useState(false);
+    const navigate = useNavigate();
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    const handleClickOpen = () => setOpen(true);
+    const handleOpenCreateTaskModal = () => setOpenCreateTaskModal(true);
+    const handleCloseCreateTaskModal = () => setOpenCreateTaskModal(false);
 
     const handleClose = () => {
         URL.revokeObjectURL(imageData.blob);
@@ -83,9 +85,8 @@ const Dashboard = () => {
             setImageData(prevState => {
                 return {...prevState, url: response.data.url, public_id: response.data.public_id}
             });
-
-            const res = await handleImageUpload({url:response.data.url, public_id: response.data.public_id})
-            setIsUploaded(res.data.successful);
+            setIsUploaded(true);
+            await handleImageUpload({url: response.data.url, public_id: response.data.public_id});
         } catch (e) {
             console.log("e", e)
         }
@@ -109,6 +110,7 @@ const Dashboard = () => {
                 profileImage: userProfileResponse.data.imageUrl
             })
         } catch (e) {
+            navigate("login")
             setUserData({loading: false});
             console.log(e)
         }
@@ -124,6 +126,21 @@ const Dashboard = () => {
                 handleCreateTask();
                 removeAction(actionType)
                 break;
+            default:
+        }
+    }
+
+    const handleSidebarLinkSwitch = (actionType) => {
+        switch (actionType){
+            case "tasks":
+                setSidebar({overview: false, settings: false, tasks: true})
+                break
+            case "settings":
+                setSidebar({overview: false, settings: true, tasks: false})
+                break
+            case "overview":
+                setSidebar({overview: true, settings: false, tasks: false})
+                break
             default:
         }
     }
@@ -149,8 +166,6 @@ const Dashboard = () => {
         setSetups(updatedLinks);
     }
 
-    store.dispatch(projectActions.projectAdded({name: "Project 1"}));
-    store.dispatch(bugActions.bugAdded({desc: "Bug 1"}));
 
     return (
         userData.loading ?
@@ -165,14 +180,14 @@ const Dashboard = () => {
             :
             <>
                 <ProfileUpload
-                open={open}
-                handleClose={handleClose}
-                handleProfileUpload={handleUploadProfileImage}
-                uploadedImage={imageData.blob}
-                upload={upload}
-                isUploaded={isUploaded}
-                handleIsUploaded={setIsUploaded}
-            />
+                    open={open}
+                    handleClose={handleClose}
+                    handleProfileUpload={handleUploadProfileImage}
+                    uploadedImage={imageData.blob}
+                    upload={upload}
+                    isUploaded={isUploaded}
+                    handleIsUploaded={setIsUploaded}
+                />
                 {isUploaded && <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success" sx={{width: '100%', fontWeight: "bold"}}>
                         Profile Upload successful
@@ -180,8 +195,9 @@ const Dashboard = () => {
                 </Snackbar>}
                 <Grid container spacing={0}>
                     <Grid item xs={2}>
-                        <Sidebar name={userData.firstName}/>
+                        <Sidebar name={userData.firstName} handleActiveSidebar={handleSidebarLinkSwitch}/>
                     </Grid>
+                    <TaskCreator open={openCreateTaskModal} handleClosePopup={handleCloseCreateTaskModal}/>
                     <Grid container={true} item xs={10} bgcolor="#F6F8FD" justifyContent="end" p={2}>
                         <Grid item xs={8.5}>
                             <div className="search">
@@ -193,42 +209,22 @@ const Dashboard = () => {
                             </div>
 
                             <div className="welcome_container">
-                                <div className="welcome_header">
-                                    <h2>👋 <span className="greeting">Hi {userData.firstName},</span>
-                                        <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span className="welcome_text">Welcome to Semicolon Task Management</span>
-                                    </h2>
-                                </div>
-                                <div className="quote">
-                                    <img src={QuoteBg} alt="quote background"/>
-                                    <p className="top-left">"{quote}"</p>
-                                    <small>-{author}</small>
-                                    <button className="quote_btn">turn on</button>
-                                    <Close style={{
-                                        position: "absolute",
-                                        top: "15px",
-                                        right: "20px",
-                                        color: "#fff",
-                                        cursor: "pointer"
-                                    }}/>
-                                </div>
-                            </div>
+                                <SidebarHeader>
+                                    { sidebar.overview && <WelcomeHeader firstName={userData.firstName}/>}
+                                    {sidebar.tasks && <TaskHeader/>}
+                                </SidebarHeader>
 
-                            <div className="setup">
-                                <h4>{(setups.length !== 0) ? "Let’s get you started" : "Tasks for Today."}</h4>
-                                {setups.map((setup, index) => {
-                                    return (
-                                        <Setup
-                                            key={index}
-                                            icon={setup.icon}
-                                            text={setup.content}
-                                            onChecked={handleSetup}
-                                            active={setup.active}
-                                            name={setup.name}
-                                            firstName={userData.firstName}
-                                            handleSetup={handleAction}
-                                        />)
-                                })}
-                                {(setups.length === 0) && <TaskWrapper/>}
+                                {sidebar.tasks && <TaskContainer onHandleClick={handleOpenCreateTaskModal} />}
+
+                                {sidebar.overview && <DailyQuote quote={quote} author={author}/> }
+                                {sidebar.overview &&  <SetupContainer
+                                    setups={setups}
+                                    firstName={userData.firstName}
+                                    handleAction={handleAction}
+                                    handleSetup={handleSetup}
+                                    />
+                                }
+
                             </div>
                         </Grid>
                         <Grid item xs={3.5} bgcolor="#FFF" borderRadius={5}>

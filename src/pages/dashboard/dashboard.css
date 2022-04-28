@@ -41,17 +41,17 @@
 .welcome_container {
     width: 96%;
     margin: 0 auto;
-    height: 250px;
+    /*height: 250px;*/
 }
 
 
-.welcome_header h2 {
+.greeting{
     line-height: 2rem;
     font-size: 30px;
     text-transform: capitalize;
 }
 
-.welcome_header .welcome_text {
+ .welcome_text {
     color: #636363;
     font-weight: 400;
     font-size: 16px;
@@ -331,6 +331,11 @@
     /*border-radius: 30px;*/
 }
 
+.active_link li{
+    color: #3754DB;
+    font-weight: bold;
+}
+
 /*Profile Upload*/
 
 .upload_wrapper{
@@ -340,9 +345,8 @@
     min-height: 100vh;
 }
 
-.upload_container{
+.popup{
     position: fixed;
-    width: 400px;
     padding: 1rem 1rem 2rem;
     background: #FFFFFF;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -353,6 +357,10 @@
     left: 50%;
     transform: translate(-50%, -60%);
     -ms-transform: translate(-50%, -50%);
+}
+
+.upload_container{
+    width: 400px;
 }
 
 .upload_container h3{

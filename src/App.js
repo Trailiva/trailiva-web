@@ -11,10 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 import Dashboard from "./pages/dashboard/Dashboard";
 
-
 function App() {
-
-
     return (
         <Routes>
             <Route exact path='/' element={

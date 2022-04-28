@@ -1,9 +1,17 @@
 import React from 'react';
 import Box from "@mui/material/Box";
+import {useNavigate} from "react-router-dom";
+import Typography from "@mui/material/Typography";
 
 function CreateWorkspaceButton() {
+    const navigate = useNavigate();
+    const createWorkspace = () => {
+        navigate("create-workspace");
+    }
     
-    return <Box sx={{
+    return <Box
+        onClick={createWorkspace}
+        sx={{
         height: "38px",
         width: "38px",
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -12,7 +20,8 @@ function CreateWorkspaceButton() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        color: "rgba(255, 255, 255, 0.6)"
+        color: "rgba(255, 255, 255, 0.6)",
+        cursor: "pointer"
     }}>
         +
     </Box>;
@@ -38,12 +47,19 @@ const Account = () => {
                 alignItems: "center"
             }}>
 
+
                 <Box sx={{
                     height: "38px",
                     width: "38px",
                     backgroundColor: "white",
-                    borderRadius: "8px"
+                    borderRadius: "8px",
+                    textAlign: "center"
                 }}>
+                    <Typography sx={{
+                        color: "#3754DB",
+                        lineHeight: "2.5rem",
+                        fontWeight: "bolder"
+                    }}>TR</Typography>
                 </Box>
 
             </Box>

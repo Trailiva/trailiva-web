@@ -20,7 +20,7 @@ function SpaceName({name}) {
     </div>;
 }
 
-const Nav = ({name}) => {
+const Nav = ({name, onHandleLink}) => {
 
     const [links, setLinks] = useState(SIDE_BAR_DATA);
 
@@ -36,6 +36,7 @@ const Nav = ({name}) => {
             return {...link, currentLink}
         })
         setLinks(updatedLinks);
+        onHandleLink(updatedLinks.filter(link => link.active)[0].text)
     }
 
     return (

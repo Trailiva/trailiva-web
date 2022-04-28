@@ -38,6 +38,17 @@ export const registrationOption = {
             value: 20,
             message: "Workspace cannot be greater than 20 characters"
         }
+    },
+    task_name: {
+        required: "Task name is required",
+        minLength: {
+            value: 5,
+            message: "Task must have at least 5 characters"
+        },
+        maxLength: {
+            value: 100,
+            message: "Task cannot be greater than 100 characters"
+        }
     }
 
 }

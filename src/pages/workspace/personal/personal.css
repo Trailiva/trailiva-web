@@ -3,12 +3,14 @@
     padding: 0 1rem;
     display: flex;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: hidden;
+    justify-content: space-around;
 }
 
 .container > div {
     width: 50%;
-    height: 95vh;
+    height: 100vh;
 }
 
 /*=====Form Container style======*/
@@ -96,10 +98,13 @@
 
 /*========Image Container style ==========*/
 .img_container{
-    background-size: contain;
-    object-fit: contain;
-    background: url("/src/images/RegisterBackground.svg") no-repeat center center;
-    padding: 15px 25px;
+    padding: 1rem 0;
+}
+
+.img_container img{
+    height: 100%;
+    position: relative;
+    width: 630px;
 }
 
 .img_container a {

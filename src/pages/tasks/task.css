@@ -62,3 +62,138 @@
 .view_task_btn img{
     margin-left: 0.5rem;
 }
+
+/*===== Empty Task Container Style ========*/
+.empty_task{
+    margin: 3rem 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.note{
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.note h3{
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 2rem;
+    letter-spacing: -0.02em;
+    text-transform: capitalize;
+    color: #000000;
+}
+
+.note p{
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.7rem;
+    color: #6D6C6C;
+    margin: 1rem 0;
+}
+/*===== Empty Task Container Style ========*/
+
+
+/*====== Task Button Style ========*/
+.task_btn_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task_btn{
+    background: #3754DB;
+    border-radius: 12px;
+    border: none;
+    display: block;
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
+    color: white;
+    text-transform: capitalize;
+    cursor: pointer;
+    transition: all 0.2s linear;
+}
+
+.task_btn:active{
+    background: #8495e5;
+}
+/*====== Task Button Style ========*/
+
+
+/*======== Task Creator =========*/
+.task_creator{
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+}
+
+
+.form-input *{
+    display: block;
+}
+
+.form-input input, .form-input select{
+    width: 100%;
+    outline: none;
+    display: block;
+    height: 50px;
+    padding: 0 1rem;
+    font-size: 1rem;
+    border: 1px solid #A8ABBD;
+    border-radius: 12px;
+}
+
+.task_creator textarea{
+    outline: none;
+}
+
+.form_select{
+    margin: 1.5rem 0;
+}
+
+.form_select div:first-child{
+    margin-right: 1rem;
+}
+
+.form-input select:valid, .form-input input:valid {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: #4D5163;
+}
+
+.form-input select{
+    text-transform: capitalize;
+}
+
+.form-input label {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1rem;
+    line-height: 2rem;
+    color: #2C2E3A;
+    text-transform: capitalize;
+}
+
+
+.form_select{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.task_creator h3{
+    font-weight: 600;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    color: #000000;
+    text-transform: capitalize;
+    line-height: 3rem;
+}
+
+.task_creator button{
+    margin-top: 1rem;
+}
+/*======== Task Creator =========*/

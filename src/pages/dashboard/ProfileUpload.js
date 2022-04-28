@@ -23,7 +23,7 @@ const ProfileUpload = ({handleProfileUpload, uploadedImage, open, handleClose, u
         ReactDOM.createPortal(
         <>
             <div className="backdrop" onClick={onHandlePopUp} style={{display: open ? "block" : "none"}}/>
-            <div className="upload_container" style={{display: open ? "block" : "none"}}>
+            <div className="popup upload_container " style={{display: open ? "block" : "none"}}>
                 <CancelIcon sx={{
                     position: "absolute",
                     right: "4%",

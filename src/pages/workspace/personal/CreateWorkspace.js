@@ -1,5 +1,4 @@
 import "./personal.css";
-import {Link} from "react-router-dom";
 import React, {useState} from "react";
 import Office from "../../../images/office.svg";
 import Profile from "../../../images/profile.svg";
@@ -7,6 +6,8 @@ import Checked from "../../../images/check.svg";
 import CheckedProfile from "../../../images/checkedProfile.svg";
 import CheckedOffice from "../../../images/checkOffice.svg";
 import {useNavigate} from "react-router-dom";
+import RegisterBackgroundImage from "../../../images/RegisterBackground.png";
+import {handleWorkspaceCreation} from "../../../api/ApiUtils";
 
 
 const CreateWorkspace = () => {
@@ -15,18 +16,22 @@ const CreateWorkspace = () => {
     const [step, setStep] = useState(1);
     const navigate = useNavigate();
 
-    const INITIAL_DATA = {name: "", workSpaceType: "", description: "", referenceName: "TA"}
-    const [formState, setFormState] = useState(INITIAL_DATA);
+    const INITIAL_DATA = {name: "", workSpaceType: "", description: "", referenceName: ""}
+    const [formData, setFormData] = useState(INITIAL_DATA);
 
-    const handleWorkspaceCreation = async (e) => {
+    const createWorkspace = async (e) => {
         e.preventDefault();
         try{
-            const res = await  handleWorkspaceCreation(formState);
+            let referenceName = formData.name.charAt(0).concat(formData.name.charAt(1)).toUpperCase()
+            setFormData({...formData, referenceName})
+            const res = await  handleWorkspaceCreation(formData);
+            setFormData(INITIAL_DATA)
             console.log(res.data);
-
+            localStorage.setItem("HAS_WORKSPACE", true);
+            localStorage.setItem("WORKSPACE_ID", res.data.workspaceId);
+            navigate("/")
         }catch (err) {
             console.log('err', err);
-            navigate("/")
         }
     }
 
@@ -47,7 +52,7 @@ const CreateWorkspace = () => {
 
     const handleOnChange = e => {
         const {name, value} = e.target;
-        setFormState({...formState, [name]: value})
+        setFormData({...formData, [name]: value})
     }
 
 
@@ -66,14 +71,14 @@ const CreateWorkspace = () => {
             e.preventDefault();
             setSelected(!selected);
             setChecked(false);
-            setFormState({...formState, workSpaceType: "OFFICIAL"})
+            setFormData({...formData, workSpaceType: "OFFICIAL"})
         }
 
         const checkedButton = e => {
             e.preventDefault();
             setChecked(!checked);
             setSelected(false);
-            setFormState({...formState, workSpaceType: "PERSONAL"})
+            setFormData({...formData, workSpaceType: "PERSONAL"})
         }
 
 
@@ -84,7 +89,7 @@ const CreateWorkspace = () => {
                         <h3>create a <span>workspace</span></h3>
                         <label htmlFor="title">Title your workspace</label>
                         <input type="text" name="name"
-                               placeholder="Trailiva Project" value={formState.name} onChange={handleOnChange}/>
+                               placeholder="Trailiva Project" value={formData.name} onChange={handleOnChange}/>
 
                         {/*<small className="input_message">{errors.title && errors.title.message}</small>*/}
                         <button className="next_btn" onClick={Continue}>Next</button>
@@ -125,7 +130,7 @@ const CreateWorkspace = () => {
                         <label htmlFor="description">Enter workspace description</label>
                         <textarea className="description" name="description" rows="4"
                                   placeholder="Type your content here..."
-                                  value={formState.description}
+                                  value={formData.description}
                                   onChange={handleOnChange}
                         />
                         {/*<small className="input_message">{errors.description && errors.description.message}</small>*/}
@@ -144,14 +149,12 @@ const CreateWorkspace = () => {
 
     return (<div className="container">
         <div className="img_container">
-            <Link to="/">
-                <h2>Trailiva</h2>
-            </Link>
+            <img src={RegisterBackgroundImage} alt=""/>
         </div>
         <div className="form_container">
             <form className="form_wrapper"
                   noValidate
-                  onSubmit={handleWorkspaceCreation}>
+                  onSubmit={createWorkspace}>
                 {getForm()}
             </form>
         </div>

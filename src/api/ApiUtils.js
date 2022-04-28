@@ -67,7 +67,7 @@ export const handleResetVerificationToken =  () => {
 }
 
 export const handleWorkspaceCreation =  (data) => {
-    return  api.post("workspace/create/1", data, {
+    return  api.post("workspace/create", data, {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     });
 }
@@ -76,6 +76,12 @@ export const handleUserProfile =  () => {
     const getRandomQuote = api.get("https://api.quotable.io/random");
     const getUserProfile = getCurrentUser();
     return axios.all([getRandomQuote, getUserProfile])
+}
+
+export const handleCreateTask = (data) => {
+    return api.post("/tasks/create/"+localStorage.getItem("WORKSPACE_ID"), data, {
+        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
+    })
 }
 
 
@@ -95,12 +101,5 @@ export const handleImageUpload = (imageData) => {
     return api.post("users/profile/upload", imageData, {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     })
-}
-
-export const deleteImageUploadToCloudinary = (publicId) => {
-    return api.post("users/profile/delete?public_id="+publicId, {
-            headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
-        }
-    )
 }
 
