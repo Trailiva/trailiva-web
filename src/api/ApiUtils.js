@@ -72,18 +72,37 @@ export const handleWorkspaceCreation =  (data) => {
     });
 }
 
-export const handleUserProfile =  () => {
-    const getRandomQuote = api.get("https://api.quotable.io/random");
-    const getUserProfile = getCurrentUser();
-    return axios.all([getRandomQuote, getUserProfile])
-}
-
 export const handleCreateTask = (data) => {
     return api.post("/tasks/create/"+localStorage.getItem("WORKSPACE_ID"), data, {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     })
 }
 
+
+export const handleImageUpload = (imageData) => {
+    return api.post("users/profile/upload", imageData, {
+        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
+    })
+}
+
+export const handleFetchWorkspaceTasks = () => {
+    return api.get("/tasks/workspace/"+localStorage.getItem("WORKSPACE_ID"), {
+        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
+    })
+}
+
+export const handleWorkspaceDetails = () => {
+    return api.get("/workspace/my-workspace/"+localStorage.getItem("WORKSPACE_ID"), {
+        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
+    })
+}
+
+export const handleUserProfile =  () => {
+    const getRandomQuote = api.get("https://api.quotable.io/random");
+    const getUserProfile = getCurrentUser();
+    const getWorkspaceDetails = handleWorkspaceDetails();
+    return axios.all([getRandomQuote, getUserProfile, getWorkspaceDetails])
+}
 
 export const handleImageUploadToCloudinary =  (file) => {
     const data = new FormData();
@@ -97,9 +116,5 @@ export const handleImageUploadToCloudinary =  (file) => {
     );
 }
 
-export const handleImageUpload = (imageData) => {
-    return api.post("users/profile/upload", imageData, {
-        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
-    })
-}
+
 

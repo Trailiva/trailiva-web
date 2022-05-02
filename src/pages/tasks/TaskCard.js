@@ -6,8 +6,8 @@ const TaskCard = ({name, taskTab, referencedName}) => {
     return (
         <div className="task_card">
             <div className="task_item">
-                <p>{referencedName}</p>
-                <small>{taskTab}</small>
+                <p>{referencedName ? referencedName : "pending"}</p>
+                <small className={taskTab}>{taskTab}</small>
             </div>
             <h6 className="task_name">{name}</h6>
             <button className="view_task_btn">

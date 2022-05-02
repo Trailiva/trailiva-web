@@ -22,8 +22,12 @@ const CreateWorkspace = () => {
     const createWorkspace = async (e) => {
         e.preventDefault();
         try{
-            let referenceName = formData.name.charAt(0).concat(formData.name.charAt(1)).toUpperCase()
-            setFormData({...formData, referenceName})
+            let tagName = formData.name.charAt(0).concat(formData.name.charAt(1)).toUpperCase()
+            console.log(tagName)
+            setFormData(prevState => {
+                return {...prevState, referenceName: tagName}
+            })
+            console.log(formData)
             const res = await  handleWorkspaceCreation(formData);
             setFormData(INITIAL_DATA)
             console.log(res.data);

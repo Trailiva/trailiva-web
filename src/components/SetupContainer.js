@@ -16,7 +16,8 @@ const SetupContainer = ({setups, handleSetup, firstName, handleAction}) => {
                         active={setup.active}
                         name={setup.name}
                         firstName={firstName}
-                        handleSetup={handleAction}
+                        handleSetup={handleSetup}
+                        handleAction={handleAction}
                     />)
             })}
             {(setups.length === 0) && <TaskWrapper/>}

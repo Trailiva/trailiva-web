@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Register from "./pages/auth/register/Register";
 import {Route, Routes} from "react-router-dom";
 import Login from "./pages/auth/login/Login";
@@ -12,6 +12,7 @@ import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
+
     return (
         <Routes>
             <Route exact path='/' element={

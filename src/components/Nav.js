@@ -13,14 +13,14 @@ function SidebarLink({id, active, icon, text}) {
     );
 }
 
-function SpaceName({name}) {
+function SpaceName({name, workspaceName}) {
     return <div className="space_name">
-        <h4>Me & I</h4>
+        <h4>{workspaceName}</h4>
         <p>{name}’s Space</p>
     </div>;
 }
 
-const Nav = ({name, onHandleLink}) => {
+const Nav = ({name, onHandleLink, workspaceName}) => {
 
     const [links, setLinks] = useState(SIDE_BAR_DATA);
 
@@ -41,7 +41,7 @@ const Nav = ({name, onHandleLink}) => {
 
     return (
         <Box style={{height: "100vh", backgroundColor: "#FFF", width: "100%", padding: "8px 15px"}}>
-            <SpaceName name={name}/>
+            <SpaceName name={name} workspaceName={workspaceName}/>
             <ul onClick={handleLink} className="nav_links">
                 {links.map((link, index) => {
                     return <SidebarLink

@@ -3,7 +3,7 @@ import Sidebar from "../../components/Sidebar";
 import {CircularProgress, Grid, Snackbar} from "@mui/material";
 import "./dashboard.css"
 import Notifications from "../../images/notification.svg"
-import { SearchOutlined} from "@material-ui/icons";
+import {SearchOutlined} from "@material-ui/icons";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {Alert, CalendarPicker} from "@mui/lab";
@@ -34,6 +34,8 @@ const Dashboard = () => {
     const [isUploaded, setIsUploaded] = useState(false);
     const [sidebar, setSidebar] = useState({overview: true, tasks: false, settings: false});
     const [openCreateTaskModal, setOpenCreateTaskModal] = useState(false);
+    const [taskCreated, setTaskCreated] = useState(false);
+    const [workspaceData, setWorkspaceData] = useState({});
     const navigate = useNavigate();
 
     const handleClickOpen = () => setOpen(true);
@@ -75,7 +77,7 @@ const Dashboard = () => {
     }
 
     const handleCreateTask = () => {
-        console.log("Click me");
+        handleOpenCreateTaskModal();
     }
 
 
@@ -98,6 +100,7 @@ const Dashboard = () => {
             const fetchedData = await handleUserProfile();
             const quoteResponse = fetchedData[0]
             const userProfileResponse = fetchedData[1]
+            const workspaceResponse = fetchedData[2];
 
             setAuthor(quoteResponse.data.author);
             setQuote(quoteResponse.data.content);
@@ -109,6 +112,10 @@ const Dashboard = () => {
                 lastName: userProfileResponse.data.lastName,
                 profileImage: userProfileResponse.data.imageUrl
             })
+
+            setWorkspaceData({...workspaceResponse.data})
+            if (userProfileResponse.data.imageUrl)setSetups(setups.filter(setup => setup.name !== 'profile'))
+
         } catch (e) {
             navigate("login")
             setUserData({loading: false});
@@ -118,20 +125,16 @@ const Dashboard = () => {
 
     const handleAction = (actionType) => {
         switch (actionType) {
-            case "profile":
-                handleClickOpen();
-                removeAction(actionType);
+            case "profile": handleClickOpen();
                 break;
-            case "task":
-                handleCreateTask();
-                removeAction(actionType)
+            case "task": handleCreateTask();
                 break;
             default:
         }
     }
 
     const handleSidebarLinkSwitch = (actionType) => {
-        switch (actionType){
+        switch (actionType) {
             case "tasks":
                 setSidebar({overview: false, settings: false, tasks: true})
                 break
@@ -147,23 +150,33 @@ const Dashboard = () => {
 
     const removeAction = (actionType) => {
         const updatedSetup = setups.filter(setup => setup.name !== actionType);
-        console.log(updatedSetup);
+        if (updatedSetup.length > 0) updatedSetup[0].active = true;
         setSetups(updatedSetup);
     }
 
+
     useEffect(() => {
         populateUserProfile();
-    }, [imageData.url])
+        if(isUploaded) removeAction("profile");
+    }, [imageData.url, isUploaded])
+
 
     const handleSetup = (name) => {
         let currentSetup = setups.find(setup => setup.name === name);
         currentSetup.active = true;
 
-        let updatedLinks = setups.map(setup => {
+        let updatedSetups = setups.map(setup => {
             if (setup.name !== name) setup.active = false;
             return {...setup, currentSetup}
         })
-        setSetups(updatedLinks);
+        setSetups(updatedSetups);
+        console.log(updatedSetups)
+    }
+
+    const  handleValidateTaskCreated = (isSuccessful) => {
+        if (isSuccessful) {
+            setTaskCreated(isSuccessful);
+        }
     }
 
 
@@ -195,9 +208,9 @@ const Dashboard = () => {
                 </Snackbar>}
                 <Grid container spacing={0}>
                     <Grid item xs={2}>
-                        <Sidebar name={userData.firstName} handleActiveSidebar={handleSidebarLinkSwitch}/>
+                        <Sidebar workspaceName={workspaceData.name} name={userData.firstName} handleActiveSidebar={handleSidebarLinkSwitch}/>
                     </Grid>
-                    <TaskCreator open={openCreateTaskModal} handleClosePopup={handleCloseCreateTaskModal}/>
+                    <TaskCreator isSuccessful={taskCreated} validateTaskCreated={handleValidateTaskCreated} open={openCreateTaskModal} handleClosePopup={handleCloseCreateTaskModal}/>
                     <Grid container={true} item xs={10} bgcolor="#F6F8FD" justifyContent="end" p={2}>
                         <Grid item xs={8.5}>
                             <div className="search">
@@ -210,19 +223,19 @@ const Dashboard = () => {
 
                             <div className="welcome_container">
                                 <SidebarHeader>
-                                    { sidebar.overview && <WelcomeHeader firstName={userData.firstName}/>}
-                                    {sidebar.tasks && <TaskHeader/>}
+                                    {sidebar.overview && <WelcomeHeader firstName={userData.firstName}/>}
+                                    {sidebar.tasks && <TaskHeader handleCreateTask={handleOpenCreateTaskModal}/>}
                                 </SidebarHeader>
 
-                                {sidebar.tasks && <TaskContainer onHandleClick={handleOpenCreateTaskModal} />}
+                                {sidebar.tasks && <TaskContainer isSuccessful={taskCreated} onHandleClick={handleOpenCreateTaskModal}/>}
 
-                                {sidebar.overview && <DailyQuote quote={quote} author={author}/> }
-                                {sidebar.overview &&  <SetupContainer
+                                {sidebar.overview && <DailyQuote quote={quote} author={author}/>}
+                                {sidebar.overview && <SetupContainer
                                     setups={setups}
                                     firstName={userData.firstName}
                                     handleAction={handleAction}
                                     handleSetup={handleSetup}
-                                    />
+                                />
                                 }
 
                             </div>

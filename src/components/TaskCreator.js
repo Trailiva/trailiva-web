@@ -4,31 +4,24 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import {Snackbar} from "@mui/material";
 import {Alert} from "@mui/lab";
 import {handleCreateTask} from "../api/ApiUtils";
-import {useNavigate} from "react-router-dom";
 
-const TaskCreator = ({handleClosePopup, open}) => {
-    const navigate = useNavigate();
+const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}) => {
     const INITIAL_DATA = {name: "", priority: "", description: "", dueDate: ""}
     const [formData, setFormData] = useState(INITIAL_DATA);
-    const options = ["low", "medium", "high"];
-    const [isSuccessful, setIsSuccessful] = useState(false);
+    const options = ["LOW", "MEDIUM", "HIGH"];
     const [loading, setLoading] = useState(false);
 
     const createTask = async e => {
-        let hasWorkspace = localStorage.getItem("HAS_WORKSPACE");
-        if(!hasWorkspace)
-            navigate("/create-workspace")
         e.preventDefault()
         //Validation
         setLoading(true);
         try {
           const res =   await handleCreateTask(formData)
             console.log(res.data)
-            setIsSuccessful(true);
+            validateTaskCreated(true);
         } catch (e) {
             console.log("err", e)
         }
-
         setLoading(false);
         setFormData(INITIAL_DATA);
         console.log(formData)
@@ -40,7 +33,6 @@ const TaskCreator = ({handleClosePopup, open}) => {
     }
 
     const handleClose = () => {
-        setIsSuccessful(false);
         setLoading(false);
         setFormData(INITIAL_DATA);
         handleClosePopup();
