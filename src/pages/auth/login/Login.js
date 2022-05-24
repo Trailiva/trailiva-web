@@ -1,60 +1,50 @@
-import React, {useState} from 'react';
 import Navbar from "../../../components/Navbar";
 import {registrationOption} from "../../../utils/formValidation";
 import {useForm} from "react-hook-form";
-import {ACCESS_TOKEN, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
+import {TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
 import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import {Link, useNavigate} from "react-router-dom";
-import {handleForgetPasswordToken, handleUserLogin} from "../../../api/ApiUtils";
-import MessageAlert from "../../../components/MessageAlert";
-
+import {handleForgetPasswordToken} from "../../../api/ApiUtils";
+import 'react-toastify/dist/ReactToastify.css';
+import {useDispatch, useSelector} from "react-redux";
+import {handleReset, handleLogin} from "../../../slices/authSlice";
+import {useEffect} from "react";
+import {toast} from "react-toastify";
 
 const Login = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
-    const [isSuccessFul, setIsSuccessFul] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const [errorData, setErrorData] = useState("");
     const navigate = useNavigate();
-    const [messageModal, setMessageModal] = useState({
-        open: false,
-        vertical: 'top',
-        horizontal: 'center',
-    });
-    const handleClose = () => {
-        setMessageModal(prevState => {
-            return {...prevState, open: false}
-        });
-    };
-    const login = async (data) => {
-        setLoading(true);
-        try {
-            const res = await handleUserLogin(data);
-            localStorage.setItem(ACCESS_TOKEN, res.data.jwtToken);
-            setLoading(false);
-            setIsSuccessFul(res.data.successful);
+    const dispatch = useDispatch();
+    const {isLoading, isError, isSuccess, message, authToken} = useSelector((state) => state.auth);
 
-            if(localStorage.getItem("HAS_WORKSPACE"))
-                navigate("/")
-            else navigate("/create-workspace");
 
-        } catch (err) {
-            console.log("err", err)
-            setLoading(false);
-            setIsSuccessFul(false);
-            setErrorData(err.response.data.message);
-            setMessageModal(prevState => {
-                return {...prevState, open: true}
+    const login = data => {
+        const userData = {
+            email: data.email,
+            password: data.password
+        };
+        dispatch(handleLogin(userData))
+        if (isSuccess){
+            reset({
+                email: "",
+                password: ""
             })
-            navigate("/register")
         }
-        reset({
-            email: "",
-            password: ""
-        })
     };
+
+    useEffect(()=> {
+        if (isError)
+            toast.error(message);
+
+        if (isSuccess || authToken)
+            navigate("/")
+
+        dispatch(handleReset())
+    }, [authToken, isSuccess, navigate, dispatch, message, isError])
 
     const handleError = (errors) => console.log(errors);
+
     const forgetPasswordHandler = async () => {
         try {
             let response = await handleForgetPasswordToken();
@@ -63,17 +53,13 @@ const Login = () => {
             navigate("/forget-password")
         } catch (err) {
             console.log("error ==> ", err)
-
         }
     }
 
     return (
         <>
             <Navbar text="Create Account" path="/register"/>
-
             <div className="form-container">
-                {!isSuccessFul &&
-                    <MessageAlert messageModal={messageModal} onClose={handleClose} errorData={errorData}/>}
                 <div className="form-header">
                     <h2>Welcome Back Login</h2>
                 </div>
@@ -98,7 +84,7 @@ const Login = () => {
                         errors={errors}
                     />
 
-                    <AuthButton disabled={loading} text="Login" loadingText="Logging..."/>
+                    <AuthButton disabled={isLoading} text="Login" loadingText="Logging..."/>
                     <Link to="/forget-password" onClick={forgetPasswordHandler}>Forget password ?</Link>
                 </form>
             </div>

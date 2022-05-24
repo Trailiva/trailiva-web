@@ -21,13 +21,13 @@ const ResetPassword = () => {
             const res = await handleResetPassword(data);
             setLoading(false);
             setIsSuccessFul(res.data.successful);
-            navigate("/login");
+            navigate("/loginHandler");
         }catch (err) {
             setLoading(false);
             setIsSuccessFul(false);
             setErrorData(err);
             console.log('err', err);
-            navigate("/login");
+            navigate("/loginHandler");
         }
         reset({
             email: "",

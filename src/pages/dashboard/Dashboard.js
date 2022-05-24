@@ -1,5 +1,3 @@
-import React, {useEffect, useState} from 'react';
-import Sidebar from "../../components/Sidebar";
 import {CircularProgress, Grid, Snackbar} from "@mui/material";
 import "./dashboard.css"
 import Notifications from "../../images/notification.svg"
@@ -10,7 +8,7 @@ import {Alert, CalendarPicker} from "@mui/lab";
 import {SETUP_DATA} from "../../data/dashbaordData";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ProfileUpload from "./ProfileUpload";
-import {handleImageUpload, handleImageUploadToCloudinary, handleUserProfile} from "../../api/ApiUtils";
+import {handleImageUpload, handleImageUploadToCloudinary} from "../../api/ApiUtils";
 import {useNavigate} from "react-router-dom";
 import SidebarHeader from "../../components/SidebarHeader";
 import WelcomeHeader from "./WelcomeHeader";
@@ -19,14 +17,21 @@ import TaskHeader from "../tasks/TaskHeader";
 import DailyQuote from "./DailyQuote";
 import TaskContainer from "../tasks/TaskContainer";
 import TaskCreator from "../../components/TaskCreator";
+import {useDispatch, useSelector} from "react-redux";
+import {randomQuoteHandler, userProfileHandler, userWorkspaceHandler} from "../../slices/dashboardSlice";
+import {toast} from "react-toastify";
+import {handleReset} from "../../slices/authSlice";
+import {useEffect, useState} from "react";
+import Sidebar from "../../components/Sidebar";
+
 
 
 const Dashboard = () => {
     const INITIAL_IMAGE_DATA = {url: "", public_id: "", blob: "", file: ""}
 
-    const [date, setDate] = React.useState(new Date());
-    const [quote, setQuote] = useState("When you dance, your purpose is not to get to a certain place on the floor. It's to enjoy each step along the way.");
-    const [author, setAuthor] = useState("Dontey Wilder");
+    const [date, setDate] = useState(new Date());
+    // const [quote, setQuote] = useState("When you dance, your purpose is not to get to a certain place on the floor. It's to enjoy each step along the way.");
+    // const [author, setAuthor] = useState("Dontey Wilder");
     const [setups, setSetups] = useState(SETUP_DATA)
     const [userData, setUserData] = useState({loading: true});
     const [open, setOpen] = useState(false);
@@ -37,10 +42,15 @@ const Dashboard = () => {
     const [taskCreated, setTaskCreated] = useState(false);
     const [workspaceData, setWorkspaceData] = useState({});
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const {isLoading, isError, isSuccess, message, profile, workspace, quote} = useSelector((state) => state.profile);
+
+
 
     const handleClickOpen = () => setOpen(true);
     const handleOpenCreateTaskModal = () => setOpenCreateTaskModal(true);
     const handleCloseCreateTaskModal = () => setOpenCreateTaskModal(false);
+
 
     const handleClose = () => {
         URL.revokeObjectURL(imageData.blob);
@@ -48,6 +58,8 @@ const Dashboard = () => {
         setImageData(INITIAL_IMAGE_DATA);
         setOpen(false);
     };
+
+
 
     const setProfilePictureThumb = (user) => {
         if (user.profileImage)
@@ -58,7 +70,8 @@ const Dashboard = () => {
                 </div>
             </div>)
         else {
-            const userThumb = (user.firstName.charAt(0) + " " + user.lastName.charAt(0)).toUpperCase();
+            //Todo: Change this later
+            const userThumb = ("Hello".charAt(0) + " " + "World".charAt(0)).toUpperCase();
             return (
                 <div className="fill">
                     <h2 className="user_profile">{userThumb}</h2>
@@ -95,33 +108,47 @@ const Dashboard = () => {
     }
 
 
-    const populateUserProfile = async () => {
-        try {
-            const fetchedData = await handleUserProfile();
-            const quoteResponse = fetchedData[0]
-            const userProfileResponse = fetchedData[1]
-            const workspaceResponse = fetchedData[2];
 
-            setAuthor(quoteResponse.data.author);
-            setQuote(quoteResponse.data.content);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const populateUserProfile =  () => {
+        // dispatch(randomQuoteHandler());
+        // dispatch(userWorkspaceHandler());
+
+            // const quoteResponse = profile.quote;
+            // const userProfileResponse = profile.profile;
+            // const workspaceResponse = profile.workspace;
+
+            // setAuthor(quoteResponse.data.author);
+            // setQuote(quoteResponse.data.content);
 
             setUserData({
-                isLoading: false,
-                email: userProfileResponse.data.email,
-                firstName: userProfileResponse.data.firstName,
-                lastName: userProfileResponse.data.lastName,
-                profileImage: userProfileResponse.data.imageUrl
+                // isLoading: false,
+                // email: userProfileResponse.email,
+                // firstName: userProfileResponse.firstName,
+                // lastName: userProfileResponse.lastName,
+                // profileImage: userProfileResponse.imageUrl
             })
 
-            setWorkspaceData({...workspaceResponse.data})
-            if (userProfileResponse.data.imageUrl)setSetups(setups.filter(setup => setup.name !== 'profile'))
+            setWorkspaceData({})
 
-        } catch (e) {
-            navigate("login")
-            setUserData({loading: false});
-            console.log(e)
-        }
+
     }
+
+    useEffect(() => {
+        dispatch(userProfileHandler());
+
+        if (isError)
+            navigate("/login");
+
+        if (isSuccess){
+            toast.success("Successful fetch user data!")
+        }
+        dispatch(handleReset())
+
+    }, [isLoading, isError, message, dispatch, isSuccess, profile, workspace, quote, navigate])
+
+
 
     const handleAction = (actionType) => {
         switch (actionType) {
@@ -155,10 +182,7 @@ const Dashboard = () => {
     }
 
 
-    useEffect(() => {
-        populateUserProfile();
-        if(isUploaded) removeAction("profile");
-    }, [imageData.url, isUploaded])
+
 
 
     const handleSetup = (name) => {
@@ -218,7 +242,7 @@ const Dashboard = () => {
                                     <input type="text" name="search" placeholder="Search your Space here..."/>
                                     <SearchOutlined/>
                                 </div>
-                                <img src={Notifications} alt="Notification icon"/>
+                                <img src={Notifications} alt="Notification icon" />
                             </div>
 
                             <div className="welcome_container">
@@ -229,7 +253,7 @@ const Dashboard = () => {
 
                                 {sidebar.tasks && <TaskContainer isSuccessful={taskCreated} onHandleClick={handleOpenCreateTaskModal}/>}
 
-                                {sidebar.overview && <DailyQuote quote={quote} author={author}/>}
+                                {sidebar.overview && <DailyQuote quote="" author=""/>}
                                 {sidebar.overview && <SetupContainer
                                     setups={setups}
                                     firstName={userData.firstName}
@@ -251,7 +275,7 @@ const Dashboard = () => {
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <div className="calendar">
                                     <Grid item xs={12} md={6} mt={5}>
-                                        <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)}/>
+                                        <CalendarPicker  date={date} onChange={(newDate) => setDate(newDate)}/>
                                     </Grid>
                                 </div>
                             </LocalizationProvider>

@@ -24,10 +24,10 @@ const ForgetPassword = () => {
             localStorage.removeItem(TOKEN_EXPIRY_DATE);
             setLoading(false);
             setIsSuccessFul(res.data.successful);
-            navigate("/login");
+            navigate("/loginHandler");
         } catch (err) {
             setErrorData(err);
-            navigate("/login");
+            navigate("/loginHandler");
             setLoading(false);
             setIsSuccessFul(false);
         }
@@ -42,7 +42,7 @@ const ForgetPassword = () => {
 
     return (
         <>
-            <Navbar path="/register" text="Create Account"/>
+            <Navbar path="/quoteHandler" text="Create Account"/>
             <div className="form-container">
                 {!isSuccessFul &&
                     <Alert variant="filled" severity="error" style={{marginBottom: "1rem"}}>{errorDate}!</Alert>}

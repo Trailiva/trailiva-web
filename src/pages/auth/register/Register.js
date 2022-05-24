@@ -1,54 +1,52 @@
-import React, {useState} from "react";
 import "./register.css";
-import {useForm} from "react-hook-form";
 import Navbar from "../../../components/Navbar";
 import {registrationOption} from "../../../utils/formValidation";
 import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import {useNavigate} from "react-router-dom";
-import {handleUserRegistration} from "../../../api/ApiUtils";
-import MessageAlert from "../../../components/MessageAlert";
+import {useDispatch, useSelector} from "react-redux";
+import {useForm} from "react-hook-form";
+import 'react-toastify/dist/ReactToastify.css';
+import {registerHandler, handleReset} from "../../../slices/authSlice";
+import {useEffect} from "react";
+import {toast} from "react-toastify";
+
 
 const Register = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
-    const [loading, setLoading] = useState(false);
-    const [errorData, setErrorData] = useState("");
     const navigate = useNavigate();
-    const [messageModal, setMessageModal] = useState({
-        open: false,
-        vertical: 'top',
-        horizontal: 'center',
-    });
+    const dispatch = useDispatch();
+    const {isLoading, isError, isSuccess, message, user} = useSelector((state) => state.auth);
 
-    const handleClose = () => {
-        setMessageModal(prevState => {
-            return {...prevState, open: false }
-        });
+
+    const registerUser = (data) => {
+        const userData = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password
+        };
+        dispatch(registerHandler(userData))
+       if (isSuccess){
+           reset({
+               firstName: "",
+               lastName: "",
+               email: "",
+               password: ""
+           })
+       }
     };
 
+    useEffect(()=> {
+        if (isError)
+            toast.error(message);
 
-    const registerUser = async (data) => {
-        setLoading(true);
-        try {
-            const res = await handleUserRegistration(data);
-            localStorage.setItem('email', res.data.email);
-            navigate("/to-verify");
-        } catch (err) {
-            setLoading(false);
-            console.log('err', err.response.data)
-            setErrorData(err.response.data.message);
-            setMessageModal(prevState => {
-                return {...prevState, open: true}
-            })
-        }
+        if (isSuccess || user)
+            navigate("/to-verify")
 
-        reset({
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: ""
-        })
-    };
+        dispatch(handleReset())
+    }, [user, isSuccess, navigate, dispatch, message, isError])
+
 
     const handleError = (errors) => console.log(errors);
 
@@ -60,7 +58,6 @@ const Register = () => {
                     <h2>Create an Account</h2>
                     <p>It's Simple and Easy !!</p>
                 </div>
-                {errorData && <MessageAlert messageModal={messageModal} onClose={handleClose} errorData={errorData}/>}
                 <form onSubmit={handleSubmit(registerUser, handleError)} noValidate>
                     <FormControl
                         label="Enter your first name"
@@ -98,7 +95,7 @@ const Register = () => {
                         errors={errors}
                     />
 
-                    <AuthButton disabled={loading} text="Create Account" loadingText="Loading..."/>
+                    <AuthButton disabled={isLoading} text="Create Account" loadingText="Loading..."/>
                 </form>
             </div>
 

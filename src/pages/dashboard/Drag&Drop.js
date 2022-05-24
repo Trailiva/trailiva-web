@@ -21,7 +21,7 @@ const DragDrop = ({apiCall, imagePath, isUploaded}) => {
         const file = acceptedFiles[0];
         console.log(file)
         apiCall(file)
-    }, [])
+    }, [apiCall])
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
     return uploadImage(getRootProps, isDragActive, getInputProps, imagePath, isUploaded);

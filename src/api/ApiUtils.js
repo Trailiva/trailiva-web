@@ -19,7 +19,7 @@ export const handleForgetPasswordToken = () => {
 }
 
 
-export const handleForgetPassword =  (data) => {
+export const handleForgetPassword = (data) => {
     if (!localStorage.getItem("verificationToken")) {
         return Promise.reject("Token not set");
     }
@@ -28,7 +28,7 @@ export const handleForgetPassword =  (data) => {
         password: data.password
     };
     const token = localStorage.getItem("verificationToken");
-    return  api.post(`auth/password/forget-password/${token}`, userData);
+    return api.post(`auth/password/forget-password/${token}`, userData);
 }
 
 export const handleResetPassword = (data) => {
@@ -37,43 +37,43 @@ export const handleResetPassword = (data) => {
         oldPassword: data.oldPassword,
         password: data.password
     };
-    return  api.post(`auth/password/reset`, userData);
+    return api.post(`auth/password/reset`, userData);
 }
 
-export const handleUserRegistration =  (data) => {
+export const handleUserRegistration = (data) => {
     const userData = {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
         password: data.password
     };
-    return  api.post("/auth/register", userData);
+    return api.post("/auth/register", userData);
 }
 
-export const handleUserLogin =  (data) => {
+export const handleUserLogin = (data) => {
     const userData = {
         email: data.email,
         password: data.password
     };
-    return  api.post("/auth/login", userData)
+    return api.post("/auth/login", userData)
 }
 
-export const handleTokenVerification =  (token) => {
-    return  api.get(`/auth/registrationConfirm?token=${token}`)
+export const handleTokenVerification = (token) => {
+    return api.get(`/auth/registrationConfirm?token=${token}`)
 }
 
-export const handleResetVerificationToken =  () => {
-     return api.get(`/auth/resend-token?email=${USER_EMAIL}`);
+export const handleResetVerificationToken = () => {
+    return api.get(`/auth/resend-token?email=${USER_EMAIL}`);
 }
 
-export const handleWorkspaceCreation =  (data) => {
-    return  api.post("workspace/create", data, {
+export const handleWorkspaceCreation = (data) => {
+    return api.post("workspace/create", data, {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     });
 }
 
 export const handleCreateTask = (data) => {
-    return api.post("/tasks/create/"+localStorage.getItem("WORKSPACE_ID"), data, {
+    return api.post("/tasks/create/" + localStorage.getItem("WORKSPACE_ID"), data, {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     })
 }
@@ -86,32 +86,38 @@ export const handleImageUpload = (imageData) => {
 }
 
 export const handleFetchWorkspaceTasks = () => {
-    return api.get("/tasks/workspace/"+localStorage.getItem("WORKSPACE_ID"), {
+    //Todo: Will change this later
+    return api.get("/tasks/workspace/1", {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     })
 }
 
 export const handleWorkspaceDetails = () => {
-    return api.get("/workspace/my-workspace/"+localStorage.getItem("WORKSPACE_ID"), {
+    return api.get("/workspace/my-workspace/1",  {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     })
 }
 
-export const handleUserProfile =  () => {
+export const handleUserProfile = async () => {
     const getRandomQuote = api.get("https://api.quotable.io/random");
     const getUserProfile = getCurrentUser();
     const getWorkspaceDetails = handleWorkspaceDetails();
-    return axios.all([getRandomQuote, getUserProfile, getWorkspaceDetails])
+    const response = await axios.all([getRandomQuote, getUserProfile, getWorkspaceDetails])
+
+    if (response.data)
+        localStorage.setItem("profile", JSON.stringify(response.data));
+
+    return response;
 }
 
-export const handleImageUploadToCloudinary =  (file) => {
+export const handleImageUploadToCloudinary = (file) => {
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", process.env.REACT_APP_PRESET_NAME);
     data.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
     data.append("folder", "/trailiva");
 
-    return  axios.post(
+    return axios.post(
         `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`, data
     );
 }

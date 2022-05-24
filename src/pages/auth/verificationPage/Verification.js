@@ -20,7 +20,7 @@ const Verification = () => {
         } catch (err) {
             console.log('err', err);
             setSuccessful(false);
-            navigate("/login")
+            navigate("/loginHandler")
         }
     }
 

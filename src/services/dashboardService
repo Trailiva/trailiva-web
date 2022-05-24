@@ -1,0 +1,37 @@
+import {api} from "../api/api";
+import axios from "axios";
+import {ACCESS_TOKEN} from "../constants";
+const authToken = JSON.parse(localStorage.getItem(ACCESS_TOKEN));
+
+const getUserProfile = async () => {
+    const response = await api.get("/users/profile", {
+        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
+    });
+
+    if (response.data) {
+        localStorage.setItem("profile", {"profile": JSON.stringify(response.data)});
+    }
+}
+
+const getRandomQuote = async () => {
+    const response =  await axios.get("https://api.quotable.io/random");
+    return response;
+}
+
+const getWorkspaceDetail = async () => {
+    const response =  await api.get("/workspace/my-workspace/1", {
+        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
+    })
+    if (response.data){
+        localStorage.setItem("workspace", JSON.stringify(response.data));
+    }
+    return response;
+}
+
+const dashboardService = {
+    getRandomQuote,
+    getWorkspaceDetail,
+    getUserProfile
+}
+
+export default dashboardService

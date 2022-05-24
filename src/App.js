@@ -1,25 +1,27 @@
-import React, {useEffect} from 'react';
-import Register from "./pages/auth/register/Register";
+import React from 'react';
+import {ToastContainer} from "react-toastify";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "../src/pages/dashboard/Dashboard";
 import {Route, Routes} from "react-router-dom";
-import Login from "./pages/auth/login/Login";
+import Verification from "./pages/auth/verificationPage/Verification";
+import Register from "./pages/auth/register/Register";
+import ToVerify from "./pages/auth/verificationPage/ToVerify";
 import ForgetPassword from "./pages/auth/forgetPassword/ForgetPassword";
 import ResetPassword from "./pages/auth/ResetPassword/ResetPassword";
-import Verification from "./pages/auth/verificationPage/Verification";
-import ToVerify from "./pages/auth/verificationPage/ToVerify";
 import PageNotFound from "./components/PageNotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/auth/login/Login";
 import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
-import Dashboard from "./pages/dashboard/Dashboard";
+
 
 function App() {
-
     return (
-        <Routes>
+        <>
+            <Routes>
             <Route exact path='/' element={
-                <ProtectedRoute>
-                    <Dashboard/>
-                </ProtectedRoute>
-            }/>
+            <ProtectedRoute>
+                <Dashboard/>
+            </ProtectedRoute>
+        }/>
             <Route exact path="login" element={<Login/>}/>
 
             <Route path="create-workspace" element={
@@ -42,11 +44,10 @@ function App() {
                     <ResetPassword/>
                 </ProtectedRoute>
             }/>
-
             <Route exact path="*" element={<PageNotFound/>}/>
-        </Routes>
-
-    );
+            </Routes>
+            <ToastContainer/>
+        </>);
 }
 
 export default App;
