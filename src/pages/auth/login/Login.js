@@ -1,47 +1,43 @@
 import Navbar from "../../../components/Navbar";
 import {registrationOption} from "../../../utils/formValidation";
 import {useForm} from "react-hook-form";
-import {TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
+import {ACCESS_TOKEN, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
 import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import {Link, useNavigate} from "react-router-dom";
 import {handleForgetPasswordToken} from "../../../api/ApiUtils";
 import 'react-toastify/dist/ReactToastify.css';
-import {useDispatch, useSelector} from "react-redux";
-import {handleReset, handleLogin} from "../../../slices/authSlice";
-import {useEffect} from "react";
+import {useOnLoginMutation} from "../../../services/authService";
+import {isErrorWithMessage, isFetchBaseQueryError} from "../../../helpers";
 import {toast} from "react-toastify";
 
 const Login = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const {isLoading, isError, isSuccess, message, authToken} = useSelector((state) => state.auth);
+    const [onLogin, response] = useOnLoginMutation();
 
-
-    const login = data => {
+    const onHandleLogin = async data => {
         const userData = {
             email: data.email,
             password: data.password
         };
-        dispatch(handleLogin(userData))
-        if (isSuccess){
+        try {
+            const response = await onLogin(userData).unwrap();
+            localStorage.setItem(ACCESS_TOKEN, response.jwtToken);
             reset({
                 email: "",
                 password: ""
             })
+            navigate("/create-workspace")
+        } catch (error) {
+            if (isFetchBaseQueryError(error)) {
+                    toast.error(error.error);
+            } else if (isErrorWithMessage(error)){
+                toast.error(error.data.message);
+            }
+            else toast.error(error);
         }
-    };
-
-    useEffect(()=> {
-        if (isError)
-            toast.error(message);
-
-        if (isSuccess || authToken)
-            navigate("/")
-
-        dispatch(handleReset())
-    }, [authToken, isSuccess, navigate, dispatch, message, isError])
+    }
 
     const handleError = (errors) => console.log(errors);
 
@@ -64,8 +60,7 @@ const Login = () => {
                     <h2>Welcome Back Login</h2>
                 </div>
 
-                <form onSubmit={handleSubmit(login, handleError)} noValidate>
-
+                <form onSubmit={handleSubmit(onHandleLogin, handleError)} noValidate>
                     <FormControl
                         label="Enter email address"
                         name="email"
@@ -84,12 +79,13 @@ const Login = () => {
                         errors={errors}
                     />
 
-                    <AuthButton disabled={isLoading} text="Login" loadingText="Logging..."/>
+                    <AuthButton disabled={response.isLoading} text="Login" loadingText="Logging..."/>
                     <Link to="/forget-password" onClick={forgetPasswordHandler}>Forget password ?</Link>
                 </form>
             </div>
         </>
     );
+
 };
 
 export default Login;

@@ -2,6 +2,7 @@ import {ACCESS_TOKEN, USER_EMAIL} from "../constants";
 import {api} from "./api";
 import axios from "axios";
 
+
 export const getCurrentUser = () => {
     if (!localStorage.getItem("accessToken")) {
         return Promise.reject("Token not set");
@@ -116,10 +117,13 @@ export const handleImageUploadToCloudinary = (file) => {
     data.append("upload_preset", process.env.REACT_APP_PRESET_NAME);
     data.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
     data.append("folder", "/trailiva");
-
     return axios.post(
         `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`, data
     );
+}
+
+export const getRandomQuote =  () => {
+    return  axios.get("https://api.quotable.io/random");
 }
 
 

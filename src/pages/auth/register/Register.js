@@ -4,48 +4,46 @@ import {registrationOption} from "../../../utils/formValidation";
 import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
 import 'react-toastify/dist/ReactToastify.css';
-import {registerHandler, handleReset} from "../../../slices/authSlice";
-import {useEffect} from "react";
 import {toast} from "react-toastify";
+import {useOnRegisterMutation} from "../../../services/authService";
+import {isErrorWithMessage, isFetchBaseQueryError} from "../../../helpers";
+import {ACCESS_TOKEN} from "../../../constants";
 
 
 const Register = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const {isLoading, isError, isSuccess, message, user} = useSelector((state) => state.auth);
+    const [onRegister, response] = useOnRegisterMutation();
 
-
-    const registerUser = (data) => {
+    const registerUser = async (data) => {
         const userData = {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
             password: data.password
         };
-        dispatch(registerHandler(userData))
-       if (isSuccess){
-           reset({
-               firstName: "",
-               lastName: "",
-               email: "",
-               password: ""
-           })
-       }
+        try {
+            const response = await onRegister(userData).unwrap();
+            localStorage.setItem("user", JSON.stringify(response))
+            reset({
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: ""
+            })
+            navigate("/to-verify");
+        }catch (error){
+            console.log(error)
+            if (isFetchBaseQueryError(error)) {
+                toast.error(error.error);
+            } else if (isErrorWithMessage(error)){
+                toast.error(error.data.message);
+            }
+            else toast.error(error);
+        }
     };
-
-    useEffect(()=> {
-        if (isError)
-            toast.error(message);
-
-        if (isSuccess || user)
-            navigate("/to-verify")
-
-        dispatch(handleReset())
-    }, [user, isSuccess, navigate, dispatch, message, isError])
 
 
     const handleError = (errors) => console.log(errors);
@@ -95,7 +93,7 @@ const Register = () => {
                         errors={errors}
                     />
 
-                    <AuthButton disabled={isLoading} text="Create Account" loadingText="Loading..."/>
+                    <AuthButton disabled={response.isLoading} text="Create Account" loadingText="Loading..."/>
                 </form>
             </div>
 

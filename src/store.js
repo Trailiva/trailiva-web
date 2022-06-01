@@ -1,9 +1,17 @@
 import {configureStore} from '@reduxjs/toolkit'
-import authReducer from "./slices/authSlice";
-import dashboardReducer from "./slices/dashboardSlice";
+import {authApi} from "./services/authService";
+import { dashboardApi } from "./services/dashboardService";
+
 
 const store = configureStore({
-    reducer: {auth: authReducer, profile: dashboardReducer},
-    devTools: true,
+    reducer: {
+        [authApi.reducerPath]: authApi.reducer,
+        [dashboardApi.reducerPath]: dashboardApi.reducer,
+    },
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware().concat(
+            [authApi.middleware],
+            [dashboardApi.middleware]
+        )
 })
 export default store
