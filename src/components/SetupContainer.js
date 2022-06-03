@@ -10,6 +10,7 @@ const SetupContainer = ({setups, handleSetup, firstName, handleAction}) => {
                 return (
                     <Setup
                         key={index}
+                        id={index}
                         icon={setup.icon}
                         text={setup.content}
                         onChecked={handleSetup}

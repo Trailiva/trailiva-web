@@ -19,7 +19,7 @@ import TaskCreator from "../../components/TaskCreator";
 import {useEffect, useState} from "react";
 import Sidebar from "../../components/Sidebar";
 import {useProfileQuery} from "../../services/dashboardService.js";
-
+import {useNavigate} from "react-router-dom";
 
 const Dashboard = () => {
     const INITIAL_IMAGE_DATA = {url: "", public_id: "", blob: "", file: ""}
@@ -37,6 +37,7 @@ const Dashboard = () => {
     const [quote, setQuote] = useState("");
     const [author, setAuthor] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
 
     const handleClickOpen = () => setOpen(true);
@@ -177,7 +178,6 @@ const Dashboard = () => {
 const generateRandomQuote = async ()=> {
     try {
         const response = await getRandomQuote();
-        console.log(response.data);
         const {author, content} = response.data;
         setQuote(content);
         setAuthor(author);
@@ -237,9 +237,7 @@ const generateRandomQuote = async ()=> {
                                     {sidebar.overview && <WelcomeHeader firstName={profileData?.firstName}/>}
                                     {sidebar.tasks && <TaskHeader handleCreateTask={handleOpenCreateTaskModal}/>}
                                 </SidebarHeader>
-
-                                {sidebar.tasks &&
-                                    <TaskContainer isSuccessful={taskCreated}
+                                {sidebar.tasks && <TaskContainer isSuccessful={taskCreated}
                                                    onHandleClick={handleOpenCreateTaskModal}/>}
 
                                 {sidebar.overview && <DailyQuote quote={quote} author={author}/>}

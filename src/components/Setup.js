@@ -3,14 +3,14 @@ import React from "react";
 import Arrow from "../images/Arrow.svg";
 import "../pages/dashboard/dashboard.css"
 
-const Setup = ({active, icon, key, text, name, firstName, handleSetup, handleAction}) => {
+const Setup = ({active, icon, id, text, name, firstName, handleSetup, handleAction}) => {
 
     const onClickHandler = () => {
         handleSetup(name);
         handleAction(name);
     }
 
-    return <div className={active ? "onboard_setup active" : "onboard_setup"} key={key}
+    return <div className={active ? "onboard_setup active" : "onboard_setup"} key={id}
                 onClick={onClickHandler}>
         <img src={icon} alt="setup action icon"/>
         <p className="setup_action">Hey {firstName}, {text}</p>
