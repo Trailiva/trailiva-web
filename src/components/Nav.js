@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import Box from "@mui/material/Box";
 import {SIDE_BAR_DATA} from "../data/dashbaordData";
 
-function SidebarLink({id, active, icon, text}) {
+function SidebarLink({id, active, icon, text, onHandleClick}) {
     return (
-        <div className={active ? "active_link" : null} key={id}>
+        <div className={active ? "active_link" : null} onClick={()=> onHandleClick(text)} key={id} >
             <li key={id}>
                 <img src={icon} alt="nav icon"/>
                 {text}
@@ -24,8 +24,7 @@ const Nav = ({name, onHandleLink, workspaceName}) => {
 
     const [links, setLinks] = useState(SIDE_BAR_DATA);
 
-    const handleLink = (e) => {
-        let linkText = e.target.textContent.toLowerCase();
+    const handleLink = (linkText: string) => {
         let currentLink = links.find(link => link.text === linkText);
         currentLink.active = true;
 
@@ -35,6 +34,7 @@ const Nav = ({name, onHandleLink, workspaceName}) => {
             }
             return {...link, currentLink}
         })
+
         setLinks(updatedLinks);
         onHandleLink(updatedLinks.filter(link => link.active)[0].text)
     }
@@ -42,10 +42,11 @@ const Nav = ({name, onHandleLink, workspaceName}) => {
     return (
         <Box style={{height: "100vh", backgroundColor: "#FFF", width: "100%", padding: "8px 15px"}}>
             <SpaceName name={name} workspaceName={workspaceName}/>
-            <ul onClick={handleLink} className="nav_links">
+            <ul className="nav_links">
                 {links.map((link, index) => {
                     return <SidebarLink
                         key={index}
+                        onHandleClick={handleLink}
                         id={index}
                         icon={link.icon}
                         text={link.text}
