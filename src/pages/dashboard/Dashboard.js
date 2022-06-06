@@ -160,21 +160,6 @@ const Dashboard = () => {
         console.log(profileError);
     }
 
-    // setProfilePictureThumb(profileData);
-
-
-    // console.log(profileData)
-    //
-    // const {
-    //     data,
-    //     isLoading: loadingWorkSpace,
-    //     isError,
-    //     error,
-    //     isSuccess
-    // } = useWorkspaceQuery();
-    //
-    // console.log(data)
-
 const generateRandomQuote = async ()=> {
     try {
         const response = await getRandomQuote();
