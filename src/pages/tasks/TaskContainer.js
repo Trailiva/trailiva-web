@@ -46,7 +46,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 );
 
 
-const TaskContainer = ({onHandleClick, isSuccessful}) => {
+const TaskContainer = ({onHandleClick, isSuccessful, handleViewTask}) => {
     const [tasks, setTask] = useState([]);
     const [value, setValue] = useState(0);
     const [badgeStyle, setBadgeStyle] = useState({color: "#3754DB", backgroundColor: "#F0F0F0"})
@@ -59,6 +59,7 @@ const TaskContainer = ({onHandleClick, isSuccessful}) => {
     const getTask = async () => {
         try {
             const res = await handleFetchWorkspaceTasks();
+            console.log(res.data)
             setTask(res.data);
         } catch (err) {
             console.log("err", err)
@@ -100,13 +101,13 @@ const TaskContainer = ({onHandleClick, isSuccessful}) => {
         return formattedTab.toLowerCase();
     }
 
-    const displayTask = tasks => {
+    const displayTask = (tasks, onViewTask) => {
         return (
             <Box sx={{flexGrow: 0}}>
-                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}
-                      rowSpacing={1}>                    {tasks.map((task, index) => (
+                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}} rowSpacing={1}>
+                    {tasks.map((task, index) => (
                     <Grid item xs={2} sm={4} md={4} key={index}>
-                        <TaskCard name={task.name} referencedName="TR-01" taskTab={formatTaskTab(task.tab)}/>
+                        <TaskCard name={task.name} referencedName="TR-01" taskTab={formatTaskTab(task.tab)} viewTask={onViewTask}/>
                     </Grid>
                 ))}
                 </Grid>
@@ -168,16 +169,16 @@ const TaskContainer = ({onHandleClick, isSuccessful}) => {
                         </StyledTabs>
                     </AppBar>
                     <TabPanel value={value} index={0}>
-                        {displayTask(tasks)}
+                        {displayTask(tasks, handleViewTask)}
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        {displayTask(getPendingTask())}
+                        {displayTask(getPendingTask(), handleViewTask)}
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        {displayTask(getInProgressTask())}
+                        {displayTask(getInProgressTask(), handleViewTask)}
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        {displayTask(getCompletedTask())}
+                        {displayTask(getCompletedTask(), handleViewTask)}
                     </TabPanel>
                 </>
             }

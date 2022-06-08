@@ -28,14 +28,15 @@ const Login = () => {
                 email: "",
                 password: ""
             })
-            navigate("/create-workspace")
+            if (!localStorage.getItem("HAS_WORKSPACE"))
+                navigate("/create-workspace")
+            else navigate("/")
         } catch (error) {
             if (isFetchBaseQueryError(error)) {
-                    toast.error(error.error);
-            } else if (isErrorWithMessage(error)){
+                toast.error(error.error);
+            } else if (isErrorWithMessage(error)) {
                 toast.error(error.data.message);
-            }
-            else toast.error(error);
+            } else toast.error(error);
         }
     }
 
