@@ -18,31 +18,32 @@ import TaskContainer from "../tasks/TaskContainer";
 import TaskCreator from "../../components/TaskCreator";
 import {useEffect, useState} from "react";
 import Sidebar from "../../components/Sidebar";
-import {useProfileQuery} from "../../services/dashboardService.js";
+import {useProfileQuery, useWorkspaceQuery} from "../../services/dashboardService.js";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import ViewTask from "../tasks/ViewTask";
 
 const Dashboard = () => {
     const INITIAL_IMAGE_DATA = {url: "", public_id: "", blob: "", file: ""}
 
     const [date, setDate] = useState(new Date());
     const [setups, setSetups] = useState(SETUP_DATA)
-    const [userData, setUserData] = useState({loading: true});
     const [open, setOpen] = useState(false);
     const [imageData, setImageData] = useState(INITIAL_IMAGE_DATA);
     const [isUploaded, setIsUploaded] = useState(false);
     const [sidebar, setSidebar] = useState({overview: true, tasks: false, settings: false});
     const [openCreateTaskModal, setOpenCreateTaskModal] = useState(false);
     const [taskCreated, setTaskCreated] = useState(false);
-    const [workspaceData, setWorkspaceData] = useState({});
     const [quote, setQuote] = useState("");
     const [author, setAuthor] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [viewTask, setViewTask] = useState(false);
     const navigate = useNavigate();
 
 
     const handleClickOpen = () => setOpen(true);
     const handleOpenCreateTaskModal = () => setOpenCreateTaskModal(true);
     const handleCloseCreateTaskModal = () => setOpenCreateTaskModal(false);
+    const handleViewTask = () => setViewTask(true);
 
 
     const handleClose = () => {
@@ -54,6 +55,7 @@ const Dashboard = () => {
 
 
     const setProfilePictureThumb = (user) => {
+        console.log(user)
         if (user.imageUrl)
             return (<div className="fill">
                 <img src={user.imageUrl} alt="user icon"/>
@@ -62,10 +64,10 @@ const Dashboard = () => {
                 </div>
             </div>)
         else {
-            const userThumb = (user.firstName.charAt(0) + " " + user.lastName.charAt(0)).toUpperCase();
+            const userThumb = (user.firstName.charAt(0) + user.lastName.charAt(0)).toUpperCase();
             return (
                 <div className="fill">
-                    <h2 className="user_profile">{userThumb}</h2>
+                    <h2 className="user_profile_thumb">{userThumb}</h2>
                     <div className="middle" onClick={handleClickOpen}>
                         <div className="text">Upload image<FileUploadIcon/></div>
                     </div>
@@ -115,12 +117,15 @@ const Dashboard = () => {
         switch (actionType) {
             case "tasks":
                 setSidebar({overview: false, settings: false, tasks: true})
+                setViewTask(false)
                 break
             case "settings":
                 setSidebar({overview: false, settings: true, tasks: false})
+                setViewTask(false)
                 break
             case "overview":
                 setSidebar({overview: true, settings: false, tasks: false})
+                setViewTask(false)
                 break
             default:
         }
@@ -154,44 +159,43 @@ const Dashboard = () => {
         data: profileData,
         isLoading: loadingProfile,
         isError: isProfileError,
-        error: profileError} = useProfileQuery();
+        error: profileError
+    } = useProfileQuery();
 
-    if (isProfileError){
+    if (isProfileError) {
         console.log(profileError);
     }
 
-    // setProfilePictureThumb(profileData);
+    const {
+        data,
+        isLoading: loadingWorkSpace,
+        isError,
+        error
+    } = useWorkspaceQuery();
 
 
-    // console.log(profileData)
-    //
-    // const {
-    //     data,
-    //     isLoading: loadingWorkSpace,
-    //     isError,
-    //     error,
-    //     isSuccess
-    // } = useWorkspaceQuery();
-    //
-    // console.log(data)
-
-const generateRandomQuote = async ()=> {
-    try {
-        const response = await getRandomQuote();
-        const {author, content} = response.data;
-        setQuote(content);
-        setAuthor(author);
-    } catch (err) {
-        console.log(err)
+    if (isError) {
+        toast.error(error.data.message);
+        navigate("/create-workspace");
     }
-}
+
+    const generateRandomQuote = async () => {
+        try {
+            const response = await getRandomQuote();
+            const {author, content} = response.data;
+            setQuote(content);
+            setAuthor(author);
+        } catch (err) {
+            console.log(err)
+        }
+    }
     useEffect(() => {
         generateRandomQuote()
     }, [])
 
 
     return (
-        loadingProfile ? <div style={{
+        loadingWorkSpace ? <div style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -217,7 +221,7 @@ const generateRandomQuote = async ()=> {
                 </Snackbar>}
                 <Grid container spacing={0}>
                     <Grid item xs={2}>
-                        <Sidebar workspaceName={workspaceData.name} name={profileData?.firstName}
+                        <Sidebar workspaceName={data?.name} name={profileData?.firstName}
                                  handleActiveSidebar={handleSidebarLinkSwitch}/>
                     </Grid>
                     <TaskCreator isSuccessful={taskCreated} validateTaskCreated={handleValidateTaskCreated}
@@ -233,20 +237,23 @@ const generateRandomQuote = async ()=> {
                             </div>
 
                             <div className="welcome_container">
-                                <SidebarHeader>
-                                    {sidebar.overview && <WelcomeHeader firstName={profileData?.firstName}/>}
-                                    {sidebar.tasks && <TaskHeader handleCreateTask={handleOpenCreateTaskModal}/>}
-                                </SidebarHeader>
-                                {sidebar.tasks && <TaskContainer isSuccessful={taskCreated}
-                                                   onHandleClick={handleOpenCreateTaskModal}/>}
+                                {viewTask ? <ViewTask/> : <>
+                                    <SidebarHeader>
+                                        {sidebar.overview && <WelcomeHeader firstName={profileData?.firstName}/>}
+                                        {sidebar.tasks && <TaskHeader handleCreateTask={handleOpenCreateTaskModal}/>}
+                                    </SidebarHeader>
+                                    {sidebar.tasks &&
+                                        <TaskContainer handleViewTask={handleViewTask} isSuccessful={taskCreated}
+                                                       onHandleClick={handleOpenCreateTaskModal}/>}
 
-                                {sidebar.overview && <DailyQuote quote={quote} author={author}/>}
-                                {sidebar.overview && <SetupContainer
-                                    setups={setups}
-                                    firstName={profileData?.firstName}
-                                    handleAction={handleAction}
-                                    handleSetup={handleSetup}
-                                />
+                                    {sidebar.overview && <DailyQuote quote={quote} author={author}/>}
+                                    {sidebar.overview && <SetupContainer
+                                        setups={setups}
+                                        firstName={profileData?.firstName}
+                                        handleAction={handleAction}
+                                        handleSetup={handleSetup}
+                                    />}
+                                </>
                                 }
 
                             </div>

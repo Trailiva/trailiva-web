@@ -46,7 +46,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 );
 
 
-const TaskContainer = ({onHandleClick, isSuccessful}) => {
+const TaskContainer = ({onHandleClick, isSuccessful, handleViewTask}) => {
     const [tasks, setTask] = useState([]);
     const [value, setValue] = useState(0);
     const [badgeStyle, setBadgeStyle] = useState({color: "#3754DB", backgroundColor: "#F0F0F0"})
@@ -63,126 +63,131 @@ const TaskContainer = ({onHandleClick, isSuccessful}) => {
         } catch (err) {
             console.log("err", err)
         }
+}
+
+
+useEffect(() => {
+    getTask();
+}, [isSuccessful])
+
+
+const TabPanel = (props) => {
+    const {children, value, index, ...other} = props;
+    return (
+        <Typography
+            component="div"
+            role="tabpanel"
+            hidden={value !== index}
+            id={`scrollable-auto-tabpanel-${index}`}
+            aria-labelledby={`scrollable-auto-tab-${index}`}
+            {...other}
+        >
+            <Box p={3}>{children}</Box>
+        </Typography>
+    );
+}
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired
+};
+
+const formatTaskTab = (tab) => {
+    let formattedTab = tab;
+    if (tab === "IN_PROGRESS") {
+        formattedTab = tab.replace("_", " ");
     }
+    return formattedTab.toLowerCase();
+}
 
-
-    useEffect(() => {
-        getTask();
-    }, [isSuccessful])
-
-
-    const TabPanel = (props) => {
-        const {children, value, index, ...other} = props;
-        return (
-            <Typography
-                component="div"
-                role="tabpanel"
-                hidden={value !== index}
-                id={`scrollable-auto-tabpanel-${index}`}
-                aria-labelledby={`scrollable-auto-tab-${index}`}
-                {...other}
-            >
-                <Box p={3}>{children}</Box>
-            </Typography>
-        );
-    }
-    TabPanel.propTypes = {
-        children: PropTypes.node,
-        index: PropTypes.any.isRequired,
-        value: PropTypes.any.isRequired
-    };
-
-    const formatTaskTab = (tab) => {
-        let formattedTab = tab;
-        if (tab === "IN_PROGRESS") {
-            formattedTab = tab.replace("_", " ");
-        }
-        return formattedTab.toLowerCase();
-    }
-
-    const displayTask = tasks => {
-        return (
-            <Box sx={{flexGrow: 0}}>
-                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}
-                      rowSpacing={1}>                    {tasks.map((task, index) => (
-                    <Grid item xs={2} sm={4} md={4} key={index}>
-                        <TaskCard name={task.name} referencedName="TR-01" taskTab={formatTaskTab(task.tab)}/>
+const displayTask = (tasks, onViewTask) => {
+    return (
+        <Box sx={{flexGrow: 0}}>
+            <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
+                {tasks.map((task, index) => (
+                    <Grid item xs={2} sm={4} md={4} key={index} sx={{paddingLeft: "0 !important"}}>
+                        <TaskCard name={task.name} referencedName="TR-01" taskTab={formatTaskTab(task.tab)}
+                                  viewTask={onViewTask}/>
                     </Grid>
                 ))}
-                </Grid>
-            </Box>
-        )
+            </Grid>
+        </Box>
+    )
+}
+
+const a11yProps = (index) => {
+    return {
+        id: `scrollable-auto-tab-${index}`,
+        "aria-controls": `scrollable-auto-tabpanel-${index}`
+    };
+}
+
+
+const getPendingTask = () => tasks.filter(task => task.tab === "PENDING")
+const getInProgressTask = () => tasks.filter(task => task.tab === "IN_PROGRESS")
+const getCompletedTask = () => tasks.filter(task => task.tab === "COMPLETED")
+
+
+const tabs = [
+    {
+        name: "All",
+        getTasks: tasks
+    },
+    {
+        name: "Pending",
+        getTasks: getPendingTask(),
+    },
+    {
+        name: "In progress",
+        getTasks: getInProgressTask()
+    },
+    {
+        name: "Completed",
+        getTasks: getCompletedTask(),
     }
+];
 
-    const a11yProps = (index) => {
-        return {
-            id: `scrollable-auto-tab-${index}`,
-            "aria-controls": `scrollable-auto-tabpanel-${index}`
-        };
-    }
+return (
+    <>
+        {tasks.length < 1 ? <EmptyTask handleClick={onHandleClick}/> :
+            <>
+                <AppBar position="static" color="default" elevation={0} sx={{mt: 4}}
+                        style={{backgroundColor: 'transparent'}}>
+                    <StyledTabs
+                        value={value}
+                        onChange={handleChange}
+                        scrollButtons="auto"
+                        aria-label="scrollable auto tabs example"
+                    >
+                        {tabs.map((tab, index) => {
+                            return (
+                                <StyledTab key={index} disableRipple
+                                           icon={<Chip label={tab.getTasks.length} size="small"
+                                                       style={badgeStyle}/>} iconPosition="end"
+                                           label={tab.name} {...a11yProps(index)}
+                                           style={{textTransform: "capitalize", letterSpacing: "0.05em"}}/>
+                            )
+                        })}
 
-
-    const getPendingTask = () => tasks.filter(task => task.tab === "PENDING")
-    const getInProgressTask = () => tasks.filter(task => task.tab === "IN_PROGRESS")
-    const getCompletedTask = () => tasks.filter(task => task.tab === "COMPLETED")
-
-
-    const tabs = [
-        {
-            name: "All",
-            getTasks: tasks
-        },
-        {
-            name: "Pending",
-            getTasks: getPendingTask(),
-        },
-        {
-            name: "In progress",
-            getTasks:  getInProgressTask()
-        },
-        {
-            name: "Completed",
-            getTasks:  getCompletedTask(),
+                    </StyledTabs>
+                </AppBar>
+                <TabPanel value={value} index={0}>
+                    {displayTask(tasks, handleViewTask)}
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    {displayTask(getPendingTask(), handleViewTask)}
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    {displayTask(getInProgressTask(), handleViewTask)}
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                    {displayTask(getCompletedTask(), handleViewTask)}
+                </TabPanel>
+            </>
         }
-    ];
-
-    return (
-        <>
-            {tasks.length < 1 ? <EmptyTask handleClick={onHandleClick}/> :
-                <>
-                    <AppBar position="static" color="default" elevation={0} sx={{mt: 4}}
-                            style={{backgroundColor: 'transparent'}}>
-                        <StyledTabs
-                            value={value}
-                            onChange={handleChange}
-                            scrollButtons="auto"
-                            aria-label="scrollable auto tabs example"
-                        >
-                            {tabs.map( (tab,index) => {
-                                return (
-                                    <StyledTab key={index} disableRipple icon={<Chip label={tab.getTasks.length} size="small" style={badgeStyle}/>} iconPosition="end"  label={tab.name} {...a11yProps(index)}
-                                               style={{textTransform: "capitalize", letterSpacing: "0.05em"}}/>
-                                )
-                            })}
-
-                        </StyledTabs>
-                    </AppBar>
-                    <TabPanel value={value} index={0}>
-                        {displayTask(tasks)}
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        {displayTask(getPendingTask())}
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
-                        {displayTask(getInProgressTask())}
-                    </TabPanel>
-                    <TabPanel value={value} index={3}>
-                        {displayTask(getCompletedTask())}
-                    </TabPanel>
-                </>
-            }
-        </>
-    );
-};
+    </>
+);
+}
+;
 
 export default TaskContainer;

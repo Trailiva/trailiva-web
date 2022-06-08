@@ -2,8 +2,10 @@ import React from 'react';
 import Box from "@mui/material/Box";
 import {useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import {extractTwoCharacter} from "../utils/helper";
 
 function CreateWorkspaceButton() {
+
     const navigate = useNavigate();
     const createWorkspace = () => {
         navigate("create-workspace");
@@ -27,7 +29,8 @@ function CreateWorkspaceButton() {
     </Box>;
 }
 
-const Account = () => {
+
+const Account = ({workspaceName}) => {
     return (
         <div style={{
             height: "100%",
@@ -59,7 +62,7 @@ const Account = () => {
                         color: "#3754DB",
                         lineHeight: "2.5rem",
                         fontWeight: "bolder"
-                    }}>TR</Typography>
+                    }}>{extractTwoCharacter(workspaceName).toUpperCase()}</Typography>
                 </Box>
 
             </Box>
