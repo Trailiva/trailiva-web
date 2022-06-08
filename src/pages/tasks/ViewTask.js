@@ -1,22 +1,27 @@
 import React from 'react';
 import Typography from "@mui/material/Typography";
-import {Button, Card, CardActions, CardContent, Chip} from "@mui/material";
+import {Button, Card, CardActions, CardContent} from "@mui/material";
 import editIcon from "../../images/editIcon.svg";
 import deleteIcon from "../../images/deleteIcon.svg";
 
 const ViewTask = (props) => {
+
     return (
+
         <Card elevation={0} sx={{
             borderRadius: '16px',
             padding: '1rem',
         }}>
+
             <CardContent >
                 <Typography variant="h5" component="h5"  mb={1} sx={{
                     fontWeight: "bold"
                 }}>
                     Work on a personal landing page project.
                 </Typography>
-                <small className="pending" >pending</small>
+                <div className="task_item">
+                    <small className="pending">Pending</small>
+                </div>
                 <Typography variant="body2" component="p" my={2} sx={{
                     width: 522,
                     lineHeight: "1.3rem",

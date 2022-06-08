@@ -36,7 +36,7 @@ const Dashboard = () => {
     const [taskCreated, setTaskCreated] = useState(false);
     const [quote, setQuote] = useState("");
     const [author, setAuthor] = useState("");
-    const [viewTask, setViewTask] = useState(true);
+    const [viewTask, setViewTask] = useState(false);
     const navigate = useNavigate();
 
 
@@ -117,12 +117,15 @@ const Dashboard = () => {
         switch (actionType) {
             case "tasks":
                 setSidebar({overview: false, settings: false, tasks: true})
+                setViewTask(false)
                 break
             case "settings":
                 setSidebar({overview: false, settings: true, tasks: false})
+                setViewTask(false)
                 break
             case "overview":
                 setSidebar({overview: true, settings: false, tasks: false})
+                setViewTask(false)
                 break
             default:
         }
@@ -239,7 +242,9 @@ const Dashboard = () => {
                                         {sidebar.overview && <WelcomeHeader firstName={profileData?.firstName}/>}
                                         {sidebar.tasks && <TaskHeader handleCreateTask={handleOpenCreateTaskModal}/>}
                                     </SidebarHeader>
-                                    {sidebar.tasks && <TaskContainer isSuccessful={taskCreated} onHandleClick={handleOpenCreateTaskModal}/>}
+                                    {sidebar.tasks &&
+                                        <TaskContainer handleViewTask={handleViewTask} isSuccessful={taskCreated}
+                                                       onHandleClick={handleOpenCreateTaskModal}/>}
 
                                     {sidebar.overview && <DailyQuote quote={quote} author={author}/>}
                                     {sidebar.overview && <SetupContainer
