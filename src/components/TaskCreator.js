@@ -4,6 +4,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import {Snackbar} from "@mui/material";
 import {Alert} from "@mui/lab";
 import {handleCreateTask} from "../api/ApiUtils";
+import {HAS_CREATED_TASK} from "../constants";
 
 const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}) => {
     const INITIAL_DATA = {name: "", priority: "", description: "", dueDate: ""}
@@ -13,12 +14,13 @@ const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}
 
     const createTask = async e => {
         e.preventDefault()
-        //Validation
+        //Todo: validate user input
         setLoading(true);
         try {
-          const res =   await handleCreateTask(formData)
+            const res = await handleCreateTask(formData)
             console.log(res.data)
             validateTaskCreated(true);
+            localStorage.setItem(HAS_CREATED_TASK, true);
         } catch (e) {
             console.log("err", e)
         }
@@ -93,7 +95,8 @@ const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}
                         />
                         <button type="submit" className="task_btn"> {loading && (
                             <i className="fa fa-refresh fa-spin" style={{marginRight: "5px"}}/>
-                        )}create task</button>
+                        )}create task
+                        </button>
                     </form>
                 </div>
             }

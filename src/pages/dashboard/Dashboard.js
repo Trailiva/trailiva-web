@@ -8,7 +8,7 @@ import {Alert, CalendarPicker} from "@mui/lab";
 import {SETUP_DATA} from "../../data/dashbaordData";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ProfileUpload from "./ProfileUpload";
-import {getRandomQuote, handleImageUpload, handleImageUploadToCloudinary} from "../../api/ApiUtils";
+import {handleImageUpload, handleImageUploadToCloudinary, handleUserProfile} from "../../api/ApiUtils";
 import SidebarHeader from "../../components/SidebarHeader";
 import WelcomeHeader from "./WelcomeHeader";
 import SetupContainer from "../../components/SetupContainer";
@@ -18,10 +18,10 @@ import TaskContainer from "../tasks/TaskContainer";
 import TaskCreator from "../../components/TaskCreator";
 import {useEffect, useState} from "react";
 import Sidebar from "../../components/Sidebar";
-import {useProfileQuery, useWorkspaceQuery} from "../../services/dashboardService.js";
 import {useNavigate} from "react-router-dom";
-import {toast} from "react-toastify";
 import ViewTask from "../tasks/ViewTask";
+import {HAS_CREATED_TASK, HAS_UPLOAD_IMAGE} from "../../constants";
+
 
 const Dashboard = () => {
     const INITIAL_IMAGE_DATA = {url: "", public_id: "", blob: "", file: ""}
@@ -34,10 +34,12 @@ const Dashboard = () => {
     const [sidebar, setSidebar] = useState({overview: true, tasks: false, settings: false});
     const [openCreateTaskModal, setOpenCreateTaskModal] = useState(false);
     const [taskCreated, setTaskCreated] = useState(false);
-    const [quote, setQuote] = useState("");
-    const [author, setAuthor] = useState("");
+    const [quote, setQuote] = useState({content: "Action takers are life makers", author: "unknown"});
     const [viewTask, setViewTask] = useState(false);
+    const [userProfile, setUserProfile] = useState({});
+    const [workspace, setWorkspace] = useState({});
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
 
 
     const handleClickOpen = () => setOpen(true);
@@ -54,17 +56,16 @@ const Dashboard = () => {
     };
 
 
-    const setProfilePictureThumb = (user) => {
-        console.log(user)
-        if (user.imageUrl)
+    const setProfilePictureThumb = (userData) => {
+        if (userData.imageUrl)
             return (<div className="fill">
-                <img src={user.imageUrl} alt="user icon"/>
+                <img src={userData.imageUrl} alt="user icon"/>
                 <div className="middle" onClick={handleClickOpen}>
                     <div className="text">Upload image<FileUploadIcon/></div>
                 </div>
             </div>)
         else {
-            const userThumb = (user.firstName.charAt(0) + user.lastName.charAt(0)).toUpperCase();
+            const userThumb = (userData.firstName.charAt(0) + userData.lastName.charAt(0)).toUpperCase();
             return (
                 <div className="fill">
                     <h2 className="user_profile_thumb">{userThumb}</h2>
@@ -95,6 +96,7 @@ const Dashboard = () => {
                 return {...prevState, url: response.data.url, public_id: response.data.public_id}
             });
             setIsUploaded(true);
+            localStorage.setItem(HAS_UPLOAD_IMAGE, true);
             await handleImageUpload({url: response.data.url, public_id: response.data.public_id});
         } catch (e) {
             console.log("e", e)
@@ -133,6 +135,7 @@ const Dashboard = () => {
 
     const removeAction = (actionType) => {
         const updatedSetup = setups.filter(setup => setup.name !== actionType);
+        console.log(updatedSetup);
         if (updatedSetup.length > 0) updatedSetup[0].active = true;
         setSetups(updatedSetup);
     }
@@ -155,47 +158,47 @@ const Dashboard = () => {
         }
     }
 
-    const {
-        data: profileData,
-        isLoading: loadingProfile,
-        isError: isProfileError,
-        error: profileError
-    } = useProfileQuery();
-
-    if (isProfileError) {
-        console.log(profileError);
-    }
-
-    const {
-        data,
-        isLoading: loadingWorkSpace,
-        isError,
-        error
-    } = useWorkspaceQuery();
-
-
-    if (isError) {
-        toast.error(error.data.message);
-        navigate("/create-workspace");
-    }
-
-    const generateRandomQuote = async () => {
+    const populateDashboard = async () => {
         try {
-            const response = await getRandomQuote();
-            const {author, content} = response.data;
-            setQuote(content);
-            setAuthor(author);
+            const [quote, profile, workspace] = await handleUserProfile();
+            setQuote({content: quote.data.content, author: quote.data.author});
+
+            const {firstName, lastName, email, phoneNumber, imageUrl} = profile.data;
+            setUserProfile({
+                firstName, lastName, email, phoneNumber, imageUrl
+            });
+
+            const {
+                name, description,
+                referenceName, workSpaceType, datePublished
+            } = workspace.data;
+
+            setWorkspace({
+                name, description, referenceName,
+                workSpaceType, datePublished
+            });
+            if (localStorage.getItem(HAS_UPLOAD_IMAGE))
+                removeAction("profile");
+            if (localStorage.getItem(HAS_CREATED_TASK))
+                removeAction("task");
+            setIsLoading(false);
         } catch (err) {
-            console.log(err)
+            setIsLoading(false);
+            console.log("Error", err)
+            if (err.response.status)
+                navigate("/login");
         }
     }
+
     useEffect(() => {
-        generateRandomQuote()
-    }, [])
+        populateDashboard();
+    }, [imageData.url])
+
+
 
 
     return (
-        loadingWorkSpace ? <div style={{
+        isLoading ? <div style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -221,7 +224,7 @@ const Dashboard = () => {
                 </Snackbar>}
                 <Grid container spacing={0}>
                     <Grid item xs={2}>
-                        <Sidebar workspaceName={data?.name} name={profileData?.firstName}
+                        <Sidebar workspaceName={workspace?.name} name={userProfile?.firstName}
                                  handleActiveSidebar={handleSidebarLinkSwitch}/>
                     </Grid>
                     <TaskCreator isSuccessful={taskCreated} validateTaskCreated={handleValidateTaskCreated}
@@ -239,17 +242,17 @@ const Dashboard = () => {
                             <div className="welcome_container">
                                 {viewTask ? <ViewTask/> : <>
                                     <SidebarHeader>
-                                        {sidebar.overview && <WelcomeHeader firstName={profileData?.firstName}/>}
+                                        {sidebar.overview && <WelcomeHeader firstName={userProfile?.firstName}/>}
                                         {sidebar.tasks && <TaskHeader handleCreateTask={handleOpenCreateTaskModal}/>}
                                     </SidebarHeader>
                                     {sidebar.tasks &&
                                         <TaskContainer handleViewTask={handleViewTask} isSuccessful={taskCreated}
                                                        onHandleClick={handleOpenCreateTaskModal}/>}
 
-                                    {sidebar.overview && <DailyQuote quote={quote} author={author}/>}
+                                    {sidebar.overview && <DailyQuote quote={quote?.content} author={quote?.author}/>}
                                     {sidebar.overview && <SetupContainer
                                         setups={setups}
-                                        firstName={profileData?.firstName}
+                                        firstName={userProfile?.firstName}
                                         handleAction={handleAction}
                                         handleSetup={handleSetup}
                                     />}
@@ -260,9 +263,9 @@ const Dashboard = () => {
                         </Grid>
                         <Grid item xs={3.5} bgcolor="#FFF" borderRadius={5}>
                             <div className="user_thumb">
-                                {setProfilePictureThumb(profileData)}
-                                <h4 className="name">{profileData?.firstName + " " + profileData?.lastName}</h4>
-                                <p className="email">{profileData?.email}</p>
+                                {setProfilePictureThumb(userProfile)}
+                                <h4 className="name">{userProfile?.firstName + " " + userProfile?.lastName}</h4>
+                                <p className="email">{userProfile?.email}</p>
                                 <button>my profile</button>
                             </div>
 

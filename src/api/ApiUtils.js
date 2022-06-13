@@ -4,8 +4,8 @@ import axios from "axios";
 
 
 export const getCurrentUser = () => {
-    if (!localStorage.getItem("accessToken")) {
-        return Promise.reject("Token not set");
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject(new Error("Token is not set"));
     }
     return api.get("/users/profile", {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
@@ -99,16 +99,11 @@ export const handleWorkspaceDetails = () => {
     })
 }
 
-export const handleUserProfile = async () => {
+export const handleUserProfile =  () => {
     const getRandomQuote = api.get("https://api.quotable.io/random");
     const getUserProfile = getCurrentUser();
     const getWorkspaceDetails = handleWorkspaceDetails();
-    const response = await axios.all([getRandomQuote, getUserProfile, getWorkspaceDetails])
-
-    if (response.data)
-        localStorage.setItem("profile", JSON.stringify(response.data));
-
-    return response;
+    return axios.all([getRandomQuote, getUserProfile, getWorkspaceDetails]);
 }
 
 export const handleImageUploadToCloudinary = (file) => {

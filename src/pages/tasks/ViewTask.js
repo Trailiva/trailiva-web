@@ -1,17 +1,34 @@
 import React from 'react';
 import Typography from "@mui/material/Typography";
-import {Button, Card, CardActions, CardContent} from "@mui/material";
+import {Button, Card, CardActions, CardContent, Step, StepButton, StepLabel, Stepper} from "@mui/material";
 import editIcon from "../../images/editIcon.svg";
 import deleteIcon from "../../images/deleteIcon.svg";
+import Box from "@mui/material/Box";
 
 const ViewTask = (props) => {
-
+    const steps = [
+        'Select master blaster campaign settings',
+        'Create an ad group',
+        'Create an ad',
+    ];
     return (
 
         <Card elevation={0} sx={{
             borderRadius: '16px',
             padding: '1rem',
         }}>
+
+            {/*<Stepper orientation="vertical" activeStep={2}>*/}
+            {/*    <Step>*/}
+            {/*        <StepLabel>Register your name</StepLabel>*/}
+            {/*    </Step>*/}
+            {/*    <Step>*/}
+            {/*        <StepLabel>Register your email</StepLabel>*/}
+            {/*    </Step>*/}
+            {/*    <Step>*/}
+            {/*        <StepLabel>Click on Finish</StepLabel>*/}
+            {/*    </Step>*/}
+            {/*</Stepper>*/}
 
             <CardContent >
                 <Typography variant="h5" component="h5"  mb={1} sx={{

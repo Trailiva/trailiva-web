@@ -23,7 +23,6 @@ function App() {
             </ProtectedRoute>
         }/>
             <Route exact path="login" element={<Login/>}/>
-
             <Route path="create-workspace" element={
                 <ProtectedRoute>
                     <CreateWorkspace/>

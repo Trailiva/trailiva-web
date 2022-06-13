@@ -10,7 +10,7 @@ const Sidebar = ({name, handleActiveSidebar,workspaceName}) => {
                 <Account workspaceName={workspaceName}/>
             </Grid>
             <Grid item md={8.5}>
-                <Nav  name={name} onHandleLink={handleActiveSidebar}/>
+                <Nav workspaceName={workspaceName} name={name} onHandleLink={handleActiveSidebar}/>
             </Grid>
         </Grid>
 
