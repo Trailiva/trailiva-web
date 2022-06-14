@@ -1,4 +1,4 @@
-import {ACCESS_TOKEN, USER_EMAIL} from "../constants";
+import {ACCESS_TOKEN, USER_EMAIL, WORKSPACE_ID} from "../constants";
 import {api} from "./api";
 import axios from "axios";
 
@@ -79,6 +79,13 @@ export const handleCreateTask = (data) => {
     })
 }
 
+export const getTask = id => {
+    const workspaceId = localStorage.getItem("WORKSPACE_ID");
+    return api.get(`/tasks/${workspaceId}/${id}`, {
+        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
+    })
+}
+
 
 export const handleImageUpload = (imageData) => {
     return api.post("users/profile/upload", imageData, {
@@ -87,23 +94,17 @@ export const handleImageUpload = (imageData) => {
 }
 
 export const handleFetchWorkspaceTasks = () => {
-    //Todo: Will change this later
-    return api.get("/tasks/workspace/1", {
+    const workspaceId = localStorage.getItem(WORKSPACE_ID)
+    return api.get(`/tasks/workspace/${workspaceId}`, {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     })
 }
 
 export const handleWorkspaceDetails = () => {
-    return api.get("/workspace/my-workspace/1",  {
+    const workspaceId = localStorage.getItem(WORKSPACE_ID)
+    return api.get(`/workspace/my-workspace/${workspaceId}`, {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     })
-}
-
-export const handleUserProfile =  () => {
-    const getRandomQuote = api.get("https://api.quotable.io/random");
-    const getUserProfile = getCurrentUser();
-    const getWorkspaceDetails = handleWorkspaceDetails();
-    return axios.all([getRandomQuote, getUserProfile, getWorkspaceDetails]);
 }
 
 export const handleImageUploadToCloudinary = (file) => {
@@ -117,8 +118,14 @@ export const handleImageUploadToCloudinary = (file) => {
     );
 }
 
-export const getRandomQuote =  () => {
-    return  axios.get("https://api.quotable.io/random");
+export const getRandomQuote = () => {
+    return axios.get("https://api.quotable.io/random");
+}
+
+export const getUserWorkspaces = () => {
+    return api.get("/workspace", {
+        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
+    })
 }
 
 

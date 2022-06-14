@@ -8,7 +8,7 @@ import CheckedOffice from "../../../images/checkOffice.svg";
 import {useNavigate} from "react-router-dom";
 import RegisterBackgroundImage from "../../../images/RegisterBackground.png";
 import {handleWorkspaceCreation} from "../../../api/ApiUtils";
-import {HAS_WORKSPACE} from "../../../constants";
+import {HAS_WORKSPACE, WORKSPACE_ID} from "../../../constants";
 
 
 const CreateWorkspace = () => {
@@ -27,7 +27,7 @@ const CreateWorkspace = () => {
             setFormData(INITIAL_DATA)
             console.log(res.data);
             localStorage.setItem(HAS_WORKSPACE, true);
-            localStorage.setItem("WORKSPACE_ID", res.data.workspaceId);
+            localStorage.setItem(WORKSPACE_ID, res.data.workspaceId);
             navigate("/")
         }catch (err) {
             console.log('err', err);

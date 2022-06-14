@@ -5,7 +5,7 @@ import editIcon from "../../images/editIcon.svg";
 import deleteIcon from "../../images/deleteIcon.svg";
 import Box from "@mui/material/Box";
 
-const ViewTask = (props) => {
+const ViewTask = ({task}) => {
     const steps = [
         'Select master blaster campaign settings',
         'Create an ad group',
@@ -34,10 +34,10 @@ const ViewTask = (props) => {
                 <Typography variant="h5" component="h5"  mb={1} sx={{
                     fontWeight: "bold"
                 }}>
-                    Work on a personal landing page project.
+                    {task.name}
                 </Typography>
                 <div className="task_item">
-                    <small className="pending">Pending</small>
+                    <small className="pending">{task.tab}</small>
                 </div>
                 <Typography variant="body2" component="p" my={2} sx={{
                     width: 522,
@@ -45,8 +45,7 @@ const ViewTask = (props) => {
                     fontWeight: "200",
                     color: "#808080",
                 }}>
-                    I am to create a simpe design system to use to teach aspiring UI / UX Designers in my
-                    forth-coming cass on the 2nd of october 20201
+                    {task.description}
                 </Typography>
             </CardContent>
             <CardActions >

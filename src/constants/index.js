@@ -7,3 +7,4 @@ export const USER_EMAIL = 'email'
 export const HAS_WORKSPACE = "HAS_WORKSPACE";
 export const HAS_UPLOAD_IMAGE = "HAS_UPLOAD_IMAGE";
 export const HAS_CREATED_TASK = "HAS_CREATED_TASK";
+export const  WORKSPACE_ID = "WORKSPACE_ID";
