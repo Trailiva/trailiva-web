@@ -8,12 +8,6 @@ import {Alert, CalendarPicker} from "@mui/lab";
 import {SETUP_DATA} from "../../data/dashbaordData";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ProfileUpload from "./ProfileUpload";
-import {
-    getCurrentUser, getTask,
-    handleImageUpload,
-    handleImageUploadToCloudinary,
-    handleWorkspaceDetails
-} from "../../api/ApiUtils";
 import SidebarHeader from "../../components/SidebarHeader";
 import WelcomeHeader from "./WelcomeHeader";
 import SetupContainer from "../../components/SetupContainer";
@@ -29,6 +23,10 @@ import {HAS_UPLOAD_IMAGE} from "../../constants";
 import {api} from "../../api/api";
 import {toast} from "react-toastify";
 import {extractErrorMessage} from "../../utils/helper";
+import {getTask} from "../../services/taskService";
+import {handleImageUpload, handleImageUploadToCloudinary} from "../../services/userService";
+import {getCurrentUser} from "../../services/authService";
+import {handleWorkspaceDetails} from "../../services/workspaceService";
 
 
 const Dashboard = () => {
@@ -61,7 +59,7 @@ const Dashboard = () => {
                 const {name, priority, description, createdAt, dueDate, tab} = task.data;
                 setTask({name, priority, description, createdAt, dueDate, task});
                 setViewTask(true)
-            }catch (e){
+            } catch (e) {
                 console.log("Error", e)
             }
         };
@@ -259,10 +257,11 @@ const Dashboard = () => {
                     </Snackbar>}
                     <Grid container spacing={0}>
                         <Grid item xs={2}>
-                            <Sidebar referenceName={workspace.referenceName} workspaceName={workspace.name} name={userProfile.firstName}
+                            <Sidebar referenceName={workspace.referenceName} workspaceName={workspace.name}
+                                     name={userProfile.firstName}
                                      handleActiveSidebar={handleSidebarLinkSwitch}/>
                         </Grid>
-                        <TaskCreator isSuccessful={taskCreated} validateTaskCreated={handleValidateTaskCreated}
+                        <TaskCreator validateTaskCreated={handleValidateTaskCreated}
                                      open={openCreateTaskModal} handleClosePopup={handleCloseCreateTaskModal}/>
                         <Grid container={true} item xs={10} bgcolor="#F6F8FD" justifyContent="end" p={2}>
                             <Grid item xs={8.5}>

@@ -7,8 +7,8 @@ import CheckedProfile from "../../../images/checkedProfile.svg";
 import CheckedOffice from "../../../images/checkOffice.svg";
 import {useNavigate} from "react-router-dom";
 import RegisterBackgroundImage from "../../../images/RegisterBackground.png";
-import {handleWorkspaceCreation} from "../../../api/ApiUtils";
 import {HAS_WORKSPACE, WORKSPACE_ID} from "../../../constants";
+import {handleWorkspaceCreation} from "../../../services/workspaceService";
 
 
 const CreateWorkspace = () => {

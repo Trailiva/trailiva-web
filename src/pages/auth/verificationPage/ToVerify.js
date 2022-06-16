@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import Navbar from "../../../components/Navbar";
 import VerificationIcon from "../../../images/verify.svg";
 import ResendIcon from "../../../images/App.test.svg"
-import {handleResetVerificationToken} from "../../../api/ApiUtils";
 import {useNavigate} from "react-router-dom";
+import {handleResetVerificationToken} from "../../../services/authService";
 
 
 const ToVerify = () => {

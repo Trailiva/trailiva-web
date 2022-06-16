@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import {useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import {getUserWorkspaces} from "../api/ApiUtils";
 import {CircularProgress} from "@mui/material";
 import {WORKSPACE_ID} from "../constants";
+import {getUserWorkspaces} from "../services/workspaceService";
 
 function CreateWorkspaceButton() {
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ function CreateWorkspaceButton() {
 }
 
 
-const Account = ({referenceName}) => {
+const Account = () => {
     const [workspaces, setWorkspaces] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 

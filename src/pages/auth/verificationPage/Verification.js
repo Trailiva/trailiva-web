@@ -4,7 +4,7 @@ import "./verification.css";
 import VerificationIcon from "../../../images/verify.svg";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import ErrorIcon from "../../../images/error.svg"
-import {handleTokenVerification} from "../../../api/ApiUtils";
+import {handleTokenVerification} from "../../../services/authService";
 
 const Verification = () => {
     const {token} = useParams();

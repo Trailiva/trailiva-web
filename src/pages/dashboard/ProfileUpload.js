@@ -44,7 +44,7 @@ const ProfileUpload = ({
                     }}
                                 onClick={onHandlePopUp}
                     />
-                    {!isUploaded && <h3>Upload your image</h3>}
+                    {isUploaded ? <h3>Profile picture taken</h3> : <h3>Upload your image</h3>}
                     <DragDrop apiCall={handleProfileUpload} imagePath={uploadedImage} isUploaded={isUploaded}/>
                     {isUploaded ?
                         <img src={SuccessfulUploadIcon} alt="success icon" className="image_successful_icon"/> :

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import EmptyTask from "./EmptyTask";
-import {handleFetchWorkspaceTasks} from "../../api/ApiUtils";
 import {styled} from '@mui/material/styles';
 import Box from "@mui/material/Box";
 import {Chip, Grid, Tab, Tabs} from "@mui/material";
@@ -8,6 +7,7 @@ import TaskCard from "./TaskCard";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
+import {handleFetchWorkspaceTasks} from "../../services/workspaceService";
 
 
 const StyledTabs = styled((props) => (

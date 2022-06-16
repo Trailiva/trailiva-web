@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import CustomTextArea from "./CustomTextArea";
 import CancelIcon from "@mui/icons-material/Cancel";
-import {handleCreateTask} from "../api/ApiUtils";
 import {HAS_CREATED_TASK} from "../constants";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {extractErrorMessage} from "../utils/helper";
+import {handleCreateTask} from "../services/taskService";
 
 
-const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}) => {
+const TaskCreator = ({handleClosePopup, open, validateTaskCreated}) => {
     const INITIAL_DATA = {name: "", priority: "", description: "", dueDate: ""}
     const [task, setTask] = useState(INITIAL_DATA);
     const options = ["LOW", "MEDIUM", "HIGH"];
@@ -21,12 +21,13 @@ const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}
             try {
                 await handleCreateTask(task)
                 setLoading(false);
-                if (validateTaskCreated(true)) {
+                if (validateTask(task)) {
                     localStorage.setItem(HAS_CREATED_TASK, true);
+                    validateTaskCreated(true)
+                    setTask(INITIAL_DATA);
                     toast.success("Task created successful");
                 }
             } catch (e) {
-                console.log("err", e)
                 toast.error(extractErrorMessage(e));
                 setLoading(false);
             }
@@ -42,12 +43,10 @@ const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}
     const validateTask = task => {
         let today = new Date();
         let dueDate = new Date(task.dueDate);
-        console.log(task.name)
         if (!task.name.trim().length > 0) {
             toast.error("Task name is required")
             return false;
         }
-
         if (!validateTaskDueDate(dueDate, today)) {
             toast.error("Due date must be at least today")
             return false;

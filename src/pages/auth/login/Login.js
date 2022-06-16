@@ -5,11 +5,11 @@ import {ACCESS_TOKEN, HAS_WORKSPACE, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from
 import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import {Link, useNavigate} from "react-router-dom";
-import {handleForgetPasswordToken, handleUserLogin} from "../../../api/ApiUtils";
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
 import {useState} from "react";
 import {extractErrorMessage} from "../../../utils/helper";
+import {handleForgetPasswordToken, handleUserLogin} from "../../../services/authService";
 
 const Login = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
