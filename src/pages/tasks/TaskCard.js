@@ -12,7 +12,7 @@ const TaskCard = ({name, taskTab, referencedName, viewTask, id}) => {
     return (
         <div className="task_card" id={id} onClick={taskHandler}>
             <div className="task_item">
-                <p>{referencedName ? referencedName : "pending"}</p>
+                <p>{referencedName ? referencedName : ""}</p>
                 <small className={taskTab}>{taskTab}</small>
             </div>
             <h6 className="task_name">{name}</h6>

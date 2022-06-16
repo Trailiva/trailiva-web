@@ -106,7 +106,7 @@ const displayTask = (tasks, onViewTask) => {
             <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
                 {tasks.map((task, index) => (
                  <Grid item xs={2} sm={4} md={4} key={index} sx={{paddingLeft: "0 !important"}}>
-                        <TaskCard id={task.id} name={task.name} referencedName="TR-01" taskTab={formatTaskTab(task.tab)}
+                        <TaskCard id={task.id} name={task.name} referencedName={task.taskReference} taskTab={formatTaskTab(task.tab)}
                                   viewTask={onViewTask}/>
                     </Grid>
                 ))}
