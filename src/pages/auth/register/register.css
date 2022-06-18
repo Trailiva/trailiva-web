@@ -161,4 +161,5 @@ form a {
     color: #3754DB;
     margin-top: 0.5rem;
     display: flex;
+    justify-content: flex-end;
 }
