@@ -156,3 +156,10 @@ form {
     top: 51%;
     left: 92%;
 }
+
+form a {
+    color: #3754DB;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
