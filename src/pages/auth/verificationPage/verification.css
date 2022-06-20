@@ -20,7 +20,17 @@ header > div{
     width: 90%;
     margin: 0 auto;
 }
+@media (min-width: 520px){
+    header > div {
+        width: 50%
+    }
+}
 
+@media (min-width: 1023px){
+    header > div {
+        width: 30%
+    }
+}
 header p{
     font-family: 'Poppins', sans-serif;
     font-style: normal;
