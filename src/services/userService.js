@@ -1,24 +1,24 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {api} from "../api/api";
 import {ACCESS_TOKEN} from "../constants";
+import axios from "axios";
 
-const {REACT_APP_LOCAL_BASE_URL} = process.env
-
-export const userApi = createApi({
-    reducerPath: "userApi",
-    baseQuery: fetchBaseQuery(
-        {
-            baseUrl: REACT_APP_LOCAL_BASE_URL,
-            prepareHeaders: (headers) =>
-                headers.set("Authorization", `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`)
-        }
-    ),
-
-    endpoints: (builder) => ({
-        getCurrentLoggedInUser: builder.query({
-            query: () => "/users/profile",
-        })
+export const handleImageUpload = (imageData) => {
+    return api.post("users/profile/upload", imageData, {
+        headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     })
+}
 
-})
+export const handleImageUploadToCloudinary = (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", process.env.REACT_APP_PRESET_NAME);
+    data.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
+    data.append("folder", "/trailiva");
+    return axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`, data
+    );
+}
 
-export const {useGetCurrentLoggedInUserQuery} = userApi;
+export const getRandomQuote = () => {
+    return axios.get("https://api.quotable.io/random");
+}

@@ -2,11 +2,17 @@ import React from 'react';
 import ClickedArrow from "../../images/ClickedArrow.svg";
 import "./task.css";
 
-const TaskCard = ({name, taskTab, referencedName}) => {
+const TaskCard = ({name, taskTab, referencedName, viewTask, id}) => {
+
+    const taskHandler = (e) => {
+        const id = e.currentTarget.id;
+        console.log(id);
+        viewTask(id);
+    }
     return (
-        <div className="task_card">
+        <div className="task_card" id={id} onClick={taskHandler}>
             <div className="task_item">
-                <p>{referencedName ? referencedName : "pending"}</p>
+                <p>{referencedName ? referencedName : ""}</p>
                 <small className={taskTab}>{taskTab}</small>
             </div>
             <h6 className="task_name">{name}</h6>

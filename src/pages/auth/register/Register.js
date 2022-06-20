@@ -6,27 +6,24 @@ import AuthButton from "../../../components/AuthButton";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import 'react-toastify/dist/ReactToastify.css';
+import {useState} from "react";
+// import {handleUserRegistration} from "../../../api/ApiUtils";
+import {extractErrorMessage} from "../../../utils/helper";
 import {toast} from "react-toastify";
-import {useOnRegisterMutation} from "../../../services/authService";
-import {isErrorWithMessage, isFetchBaseQueryError} from "../../../helpers";
-import {ACCESS_TOKEN} from "../../../constants";
+import {handleUserRegistration} from "../../../services/authService";
 
 
 const Register = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const navigate = useNavigate();
-    const [onRegister, response] = useOnRegisterMutation();
+    const [loading, setLoading] = useState(false);
+
 
     const registerUser = async (data) => {
-        const userData = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            password: data.password
-        };
+        setLoading(true);
         try {
-            const response = await onRegister(userData).unwrap();
-            localStorage.setItem("user", JSON.stringify(response))
+            const res = await handleUserRegistration(data);
+            localStorage.setItem('email', res.data.email);
             reset({
                 firstName: "",
                 lastName: "",
@@ -34,17 +31,13 @@ const Register = () => {
                 password: ""
             })
             navigate("/to-verify");
-        }catch (error){
-            console.log(error)
-            if (isFetchBaseQueryError(error)) {
-                toast.error(error.error);
-            } else if (isErrorWithMessage(error)){
-                toast.error(error.data.message);
-            }
-            else toast.error(error);
+        } catch (err) {
+            setLoading(false);
+            const message = extractErrorMessage(err);
+            toast.error(message);
+            console.log('err', err)
         }
     };
-
 
     const handleError = (errors) => console.log(errors);
 
@@ -93,7 +86,7 @@ const Register = () => {
                         errors={errors}
                     />
 
-                    <AuthButton disabled={response.isLoading} text="Create Account" loadingText="Loading..."/>
+                    <AuthButton disabled={loading} text="Create Account" loadingText="Loading..."/>
                 </form>
             </div>
 

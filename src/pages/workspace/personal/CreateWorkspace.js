@@ -7,7 +7,8 @@ import CheckedProfile from "../../../images/checkedProfile.svg";
 import CheckedOffice from "../../../images/checkOffice.svg";
 import {useNavigate} from "react-router-dom";
 import RegisterBackgroundImage from "../../../images/RegisterBackground.png";
-import {handleWorkspaceCreation} from "../../../api/ApiUtils";
+import {HAS_WORKSPACE, WORKSPACE_ID} from "../../../constants";
+import {handleWorkspaceCreation} from "../../../services/workspaceService";
 
 
 const CreateWorkspace = () => {
@@ -16,23 +17,17 @@ const CreateWorkspace = () => {
     const [step, setStep] = useState(1);
     const navigate = useNavigate();
 
-    const INITIAL_DATA = {name: "", workSpaceType: "", description: "", referenceName: ""}
+    const INITIAL_DATA = {name: "", workSpaceType: "", description: ""}
     const [formData, setFormData] = useState(INITIAL_DATA);
 
     const createWorkspace = async (e) => {
         e.preventDefault();
         try{
-            let tagName = formData.name.charAt(0).concat(formData.name.charAt(1)).toUpperCase()
-            console.log(tagName)
-            setFormData(prevState => {
-                return {...prevState, referenceName: tagName}
-            })
-            console.log(formData)
             const res = await  handleWorkspaceCreation(formData);
             setFormData(INITIAL_DATA)
             console.log(res.data);
-            localStorage.setItem("HAS_WORKSPACE", true);
-            localStorage.setItem("WORKSPACE_ID", res.data.workspaceId);
+            localStorage.setItem(HAS_WORKSPACE, true);
+            localStorage.setItem(WORKSPACE_ID, res.data.workspaceId);
             navigate("/")
         }catch (err) {
             console.log('err', err);
