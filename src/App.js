@@ -45,7 +45,6 @@ function App() {
                 </ProtectedRoute>
             }/>
             <Route exact path="*" element={<PageNotFound/>}/>
-                <Route exact path="/toverify" element={<ToVerify/>}/>
             </Routes>
             <ToastContainer/>
         </>);

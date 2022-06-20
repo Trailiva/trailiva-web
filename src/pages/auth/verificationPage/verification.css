@@ -4,7 +4,7 @@
     align-items: center;
     min-height: 85vh;
     flex-direction: column;
-    text-align: center;
+    text-align: left;
 }
 
 header div h3{
