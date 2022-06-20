@@ -36,7 +36,7 @@ const ToVerify = () => {
 	const [username, setUsername] = useState(localStorage.getItem('username'))
 	const [message, setMessage] = useState("Your account has been created successfully.  A verification\n" +
 		"link has been sent to your registered email address.");
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	// const handleResendToken = async () => {
 	//     try {
