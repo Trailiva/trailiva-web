@@ -9,8 +9,8 @@ const ToVerify = () => {
 	const snackbar = makeStyles({
 		snackbar:{
 			"&.MuiSnackbar-root":{
-				position: "static",
-				transform: "translateX(0)"
+				position: "absolute",
+				// transform: "translateX(0)"
 			}
 		}
 	})
@@ -18,20 +18,26 @@ const ToVerify = () => {
 		cookieAlert: {
 			"&.MuiPaper-root":{
 				justifyContent: "space-between",
+				width: '90%',
+				height: "auto",
+				fontSize:"12px",
 				alignItems: 'flex-start',
-				padding: '1rem',
+				padding: '.5rem',
 				background: '#FAFFFD',
 				borderRadius: '12px',
-				border: '1.6px solid #00C271'
+				border: '1.6px solid #00C271',
 			},
 			"&.MuiAlert-message":{
 				width:"60%",
 				margin:'2rem'
 			},
 			"& .MuiAlert-icon": {
-				fontSize: 40,
+				fontSize: 20,
 				width: 'max-content',
+				height: "100%",
+				margin: "auto 5px",
 				padding: '20px',
+				marginRight: "15px",
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'flex-start',
@@ -63,7 +69,7 @@ const ToVerify = () => {
 				<Snackbar
 					className={snackClasses.snackbar}
 					open={open}
-					// autoHideDuration={6000}
+					autoHideDuration={6000}
 					anchorOrigin={{horizontal: "center", vertical: "bottom"}}
 					onClose={handleClose}
 				>
