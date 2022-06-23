@@ -21,6 +21,57 @@ const CustomButton = (
 
 	const backgroundColor = props.color
 	const textColor = props.text.color ? props.text.color : "white"
+	const loading = makeStyles({
+		loadingButton: {
+			borderRadius: "8px",
+			"&.MuiButton-contained": {
+				backgroundColor: backgroundColor,
+				color: textColor,
+				fontWeight: 'initial',
+				border: "none",
+			},
+			"&.MuiButton-sizeSmall": {
+				width: "188px",
+				height: "40px"
+			},
+			"&.MuiButton-sizeMedium": {
+				width: "188px",
+				height: "48px"
+			},
+			"&.MuiButton-sizeLarge": {
+				width: "188px",
+				height: "56px"
+			},
+			"&.MuiButton-outlined": {
+				borderColor: backgroundColor,
+				color: backgroundColor,
+				fontWeight: 'initial',
+			},
+			"&.MuiButton-text": {
+				color: props.color,
+				fontWeight: 'initial',
+				border: "none",
+			},
+			"&.MuiButton-contained:hover": {
+				backgroundColor: backgroundColor,
+
+			},
+			"&:hover": {
+				transform: "scale(1.04, 1.08)",
+			},
+			"&.Mui-disabled": {
+				opacity: .4,
+				// backgroundColor: "initial",
+				color: "white",
+			}
+		},
+		loadingIcon: {
+			transform: "rotate(360)",
+			transition: "transform 150ms ease",
+		}
+	})
+
+	const classes = loading()
 	const variant = props.variant === "primary" ? "contained" : props.variant === "secondary" ? "outlined" : props.variant === "tertiary" && "text"
 	const startIcon = props.icon[0] === 'start' && props.icon[1];
 	const endIcon = props.icon[0] === 'end' && props.icon[1];
@@ -28,6 +79,7 @@ const CustomButton = (
 		<>
 			{props.text && props.icon &&
 				<LoadingButton
+					className={`${classes.loadingButton} ${classes.loadingIcon}`}
 					disableElevation
 					loading={props.loading.status}
 					loadingPosition={(props.icon[0] && props.loading.position) ? props.icon[0] : (props.loading.position && !props.icon) && props.loading.position}
@@ -44,6 +96,7 @@ const CustomButton = (
 				</LoadingButton>}
 			{props.text && !props.icon &&
 				<LoadingButton
+					className={`${classes.loadingButton} ${classes.loadingIcon}`}
 					disableElevation
 					loading={props.loading.status}
 					variant={variant}
