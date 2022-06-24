@@ -101,6 +101,15 @@ function App() {
 										  text={{value: "Button"}}
 										  size={"small"}/>
 						</Stack>
+						<Stack sx={{margin: "20px"}} direction={"row"} spacing={"10px"}>
+							<CustomButton handleClick={() => console.log('clicked')} variant={"primary"} size={"large"}
+										  icon={['start', <ScreenRotationRounded/>]} color={accent.whine}/>
+							<CustomButton handleClick={() => console.log('clicked')} variant={"primary"} size={"large"}
+										  color={primary.yellow}
+										  icon={['start', <ScreenRotationRounded/>]}/>
+							<CustomButton handleClick={() => console.log('clicked')} variant={"primary"} size={"large"}
+										  icon={['start', <ScreenRotationRounded/>]} color={semantic.info}/>
+						</Stack>
 					</>
 				}></Route>
 				<Route exact path='/' element={

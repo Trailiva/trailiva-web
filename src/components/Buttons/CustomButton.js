@@ -76,7 +76,19 @@ const CustomButton = (
 		}
 	})
 
+
+	const icon = makeStyles({
+		iconButton: {
+			color: backgroundColor,
+			borderRadius: "12px",
+			backgroundColor: `${backgroundColor}13`,
+			"&:hover": {
+				backgroundColor: `${backgroundColor}43`,
+			}
+		}
+	})
 	const classes = loading()
+	const iconClasses = icon()
 	const variant = props.variant === "primary" ? "contained" : props.variant === "secondary" ? "outlined" : props.variant === "tertiary" && "text"
 	const startIcon = props.icon[0] === 'start' && props.icon[1];
 	const endIcon = props.icon[0] === 'end' && props.icon[1];
@@ -118,15 +130,17 @@ const CustomButton = (
 				</LoadingButton>}
 			{!props.text && props.icon &&
 				<IconButton
+					className={iconClasses.iconButton}
 					variant={props.variant}
 					onClick={props.handleClick}
 					size={props.size}
-					color={props.color}
 				>
 					{props.icon[1]}
 				</IconButton>}
 		</>);
 }
+
+
 CustomButton.defaultProps = {
 	text: "",
 	color: "primary",
