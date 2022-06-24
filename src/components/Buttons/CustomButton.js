@@ -31,21 +31,24 @@ const CustomButton = (
 				border: "none",
 			},
 			"&.MuiButton-sizeSmall": {
-				width: "188px",
+				minWidth: "188px",
 				height: "40px"
 			},
 			"&.MuiButton-sizeMedium": {
-				width: "188px",
+				minWidth: "188px",
 				height: "48px"
 			},
 			"&.MuiButton-sizeLarge": {
-				width: "188px",
+				minWidth: "188px",
 				height: "56px"
 			},
 			"&.MuiButton-outlined": {
 				borderColor: backgroundColor,
 				color: backgroundColor,
 				fontWeight: 'initial',
+				"&:hover": {
+					backgroundColor: "initial"
+				}
 			},
 			"&.MuiButton-text": {
 				color: props.color,
@@ -60,14 +63,16 @@ const CustomButton = (
 				transform: "scale(1.04, 1.08)",
 			},
 			"&.Mui-disabled": {
-				opacity: .4,
-				// backgroundColor: "initial",
-				color: "white",
+				opacity: .4
+			},
+			".MuiLoadingButton-root": {
+				"div.MuiLoadingButton-loadingIndicator": {
+					left: "45px",
+				}
 			}
 		},
 		loadingIcon: {
-			transform: "rotate(360)",
-			transition: "transform 150ms ease",
+			transform: "rotate(60)"
 		}
 	})
 
@@ -82,7 +87,7 @@ const CustomButton = (
 					className={`${classes.loadingButton} ${classes.loadingIcon}`}
 					disableElevation
 					loading={props.loading.status}
-					loadingPosition={(props.icon[0] && props.loading.position) ? props.icon[0] : (props.loading.position && !props.icon) && props.loading.position}
+					loadingPosition={props.icon[0]}
 					loadingIndicator={props.loading.indicator}
 					variant={variant}
 					size={props.size}
@@ -99,6 +104,8 @@ const CustomButton = (
 					className={`${classes.loadingButton} ${classes.loadingIcon}`}
 					disableElevation
 					loading={props.loading.status}
+					loadingPosition={props.loading.position}
+					loadingIndicator={props.loading.indicator}
 					variant={variant}
 					size={props.size}
 					onClick={props.handleClick}

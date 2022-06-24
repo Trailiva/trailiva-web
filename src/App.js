@@ -23,39 +23,85 @@ function App() {
 		<>
 			<Routes>
 				<Route exact path="buttons" element={
-					<Stack direction={'row'} spacing={'10px'}>
-						<CustomButton
-							handleClick={() => console.log('clicked')}
-							color={primary.yellow}
-							loading={
-								{
+					<>
+						<Stack sx={{margin: "20px"}} direction={'row'} spacing={'10px'}>
+							<CustomButton
+								handleClick={() => console.log('clicked')} color={primary.yellow} variant={"secondary"}
+								size={"large"} icon={['start', <ScreenRotationRounded/>]}
+								loading={{
 									status: false,
-									indicator: <Cached/>
-								}
-							}
-							variant={"secondary"}
-							text={
-								{
+									indicator: <Cached className="fa fa-spin"/>
+								}}
+								text={{
+									value: "Add New Task",
+									color: primary.blue
+								}}
+							/>
+							<CustomButton
+								handleClick={() => console.log('clicked')} color={primary.yellow} variant={"secondary"}
+								disabled={false} size={"large"} icon={['start', <ScreenRotationRounded/>]}
+								loading={{
+									status: true,
+									position: "start",
+									indicator: <Cached className={"fa fa-spin"}/>
+								}}
+								text={{
 									value: "Button",
 									color: primary.blue
-								}
-							} size={"large"}
-							icon={['start', <ScreenRotationRounded/>]}/>
-						<CustomButton handleClick={() => console.log('clicked')} variant={"primary"}
-									  color={primary.yellow}
-									  text={{value: "Button", color: semantic.error}}
-									  size={"medium"}/>
-						<CustomButton handleClick={() => console.log('clicked')} variant={"secondary"}
-									  color={primary.blue}
-							// disabled={true}
-									  text={{value: "Button", color: semantic.error}}
-									  size={"small"}/>
-						<CustomButton handleClick={() => console.log('clicked')} variant={"primary"} size={"large"}
-									  icon={['start', <ScreenRotationRounded/>]}/>
-
-						<CustomButton handleClick={() => console.log('clicked')}
-									  icon={['start', <ScreenRotationRounded/>]}/>
-					</Stack>
+								}}
+							/>
+							<CustomButton
+								handleClick={() => console.log('clicked')} color={primary.yellow} variant={"secondary"}
+								disabled={true} size={"large"} icon={['start', <ScreenRotationRounded/>]}
+								loading={{
+									status: false,
+									indicator: <Cached/>
+								}}
+								text={{
+									value: "Button",
+									color: primary.blue
+								}}
+							/>
+						</Stack>
+						<Stack sx={{margin: "20px"}} direction={'row'} spacing={'10px'}>
+							<CustomButton handleClick={() => console.log('clicked')} variant={"primary"}
+										  color={primary.blue}
+										  text={{value: "Button"}}
+										  size={"medium"}/>
+							<CustomButton handleClick={() => console.log('clicked')} variant={"primary"}
+										  color={primary.blue}
+										  disabled={true}
+										  text={{value: "Button"}}
+										  size={"medium"}/>
+							<CustomButton handleClick={() => console.log('clicked')} variant={"primary"}
+										  color={primary.blue}
+										  disabled={true}
+										  loading={{
+											  status: true
+										  }}
+										  text={{value: "Button"}}
+										  size={"small"}/>
+						</Stack>
+						<Stack sx={{margin: "20px"}} direction={'row'} spacing={'10px'}>
+							<CustomButton handleClick={() => console.log('clicked')} variant={"tertiary"}
+										  color={primary.blue}
+										  text={{value: "Button"}}
+										  size={"medium"}/>
+							<CustomButton handleClick={() => console.log('clicked')} variant={"tertiary"}
+										  color={primary.blue}
+										  disabled={true}
+										  text={{value: "Button"}}
+										  size={"medium"}/>
+							<CustomButton handleClick={() => console.log('clicked')} variant={"tertiary"}
+										  color={primary.blue}
+										  disabled={true}
+										  loading={{
+											  status: true
+										  }}
+										  text={{value: "Button"}}
+										  size={"small"}/>
+						</Stack>
+					</>
 				}></Route>
 				<Route exact path='/' element={
 					<ProtectedRoute>
