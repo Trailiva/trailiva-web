@@ -1,8 +1,8 @@
-import React from 'react';
-import {ToastContainer} from "react-toastify";
+import React from "react";
+import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "../src/pages/dashboard/Dashboard";
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Verification from "./pages/auth/verificationPage/Verification";
 import Register from "./pages/auth/register/Register";
 import ToVerify from "./pages/auth/verificationPage/ToVerify";
@@ -12,6 +12,7 @@ import PageNotFound from "./components/PageNotFound";
 import Login from "./pages/auth/login/Login";
 import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 
+import { useForm, FormProvider } from "react-hook-form";
 
 function App() {
 	return (
