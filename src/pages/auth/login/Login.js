@@ -2,7 +2,7 @@ import Navbar from "../../../components/Navbar";
 import {registrationOption} from "../../../utils/formValidation";
 import {useForm} from "react-hook-form";
 import {ACCESS_TOKEN, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
-import FormControl from "../../../components/FormControl";
+import IsInputComponent from "../../../components/IsInputComponent";
 import AuthButton from "../../../components/AuthButton";
 import {Link, useNavigate} from "react-router-dom";
 import {handleForgetPasswordToken} from "../../../api/ApiUtils";
@@ -61,7 +61,7 @@ const Login = () => {
                 </div>
 
                 <form onSubmit={handleSubmit(onHandleLogin, handleError)} noValidate>
-                    <FormControl
+                    <IsInputComponent
                         label="Enter email address"
                         name="email"
                         placeholder="example@gmail.com"
@@ -70,7 +70,7 @@ const Login = () => {
                         errors={errors}
                     />
 
-                    <FormControl
+                    <IsInputComponent
                         label="Enter a password"
                         name="password"
                         placeholder="Enter your password"
