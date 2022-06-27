@@ -51,6 +51,7 @@ const Register = () => {
     }
   };
 
+
   const handleError = (errors) => console.log(errors);
 
   return (
@@ -97,6 +98,7 @@ const Register = () => {
             control={control}
             validation={registrationOption.password}
           />
+
 
           <AuthButton
             disabled={response.isLoading}

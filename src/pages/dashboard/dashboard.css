@@ -254,7 +254,7 @@
     cursor: pointer;
 }
 
-.user_profile{
+.user_profile_thumb{
     width: 90px;
     height: 90px;
     color: White;
@@ -265,6 +265,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 0.8rem;
+    font-size: 2rem;
 }
 
 .calendar {

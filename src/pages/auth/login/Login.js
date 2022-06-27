@@ -1,43 +1,42 @@
 import Navbar from "../../../components/Navbar";
 import {registrationOption} from "../../../utils/formValidation";
 import {useForm} from "react-hook-form";
-import {ACCESS_TOKEN, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
 import IsInputComponent from "../../../components/IsInputComponent";
+
+import {ACCESS_TOKEN, HAS_WORKSPACE, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
+import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import {Link, useNavigate} from "react-router-dom";
-import {handleForgetPasswordToken} from "../../../api/ApiUtils";
 import 'react-toastify/dist/ReactToastify.css';
-import {useOnLoginMutation} from "../../../services/authService";
-import {isErrorWithMessage, isFetchBaseQueryError} from "../../../helpers";
 import {toast} from "react-toastify";
+import {useState} from "react";
+import {extractErrorMessage} from "../../../utils/helper";
+import {handleForgetPasswordToken, handleUserLogin} from "../../../services/authService";
 
 const Login = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const navigate = useNavigate();
-    const [onLogin, response] = useOnLoginMutation();
+    const [loading, setLoading] = useState(false);
 
-    const onHandleLogin = async data => {
-        const userData = {
-            email: data.email,
-            password: data.password
-        };
+    const login = async (data) => {
+        setLoading(true);
         try {
-            const response = await onLogin(userData).unwrap();
-            localStorage.setItem(ACCESS_TOKEN, response.jwtToken);
-            reset({
-                email: "",
-                password: ""
-            })
-            navigate("/create-workspace")
+            const res = await handleUserLogin(data);
+            localStorage.setItem(ACCESS_TOKEN, res.data.jwtToken);
+            setLoading(false);
+            if (!localStorage.getItem(HAS_WORKSPACE))
+                navigate("/create-workspace")
+            else navigate("/")
         } catch (error) {
-            if (isFetchBaseQueryError(error)) {
-                    toast.error(error.error);
-            } else if (isErrorWithMessage(error)){
-                toast.error(error.data.message);
-            }
-            else toast.error(error);
+            setLoading(false);
+            const message = extractErrorMessage(error);
+            toast.error(message);
         }
-    }
+        reset({
+            email: "",
+            password: ""
+        })
+    };
 
     const handleError = (errors) => console.log(errors);
 
@@ -62,6 +61,7 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit(onHandleLogin, handleError)} noValidate>
                     <IsInputComponent
+      
                         label="Enter email address"
                         name="email"
                         placeholder="example@gmail.com"
@@ -79,7 +79,7 @@ const Login = () => {
                         errors={errors}
                     />
 
-                    <AuthButton disabled={response.isLoading} text="Login" loadingText="Logging..."/>
+                    <AuthButton disabled={loading} text="Login" loadingText="Logging..."/>
                     <Link to="/forget-password" onClick={forgetPasswordHandler}>Forget password ?</Link>
                 </form>
             </div>
