@@ -18,7 +18,6 @@ const IsInputComponent = (props) => {
     "& .MuiOutlinedInput-root": {
       padding: "0rem",
       borderRadius: ".8rem",
-
       overflow: "hidden",
 
       "& fieldset": {
