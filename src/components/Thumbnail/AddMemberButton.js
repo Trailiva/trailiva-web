@@ -11,6 +11,7 @@ const AddMemberButton = ({handler}) => {
                 src={AddUserIcon}
                 variant="square"
         />
+
     );
 };
 
