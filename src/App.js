@@ -13,7 +13,7 @@ import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 
 function App() {
     return (
-        <div style={{backgroundColor: "black", width: "100vw", height: "100vh"}}>
+        <>
             <Routes>
                 <Route exact path='/' element={
                     <ProtectedRoute>
@@ -44,7 +44,7 @@ function App() {
                 <Route exact path="*" element={<PageNotFound/>}/>
             </Routes>
             <ToastContainer/>
-        </div>
+        </>
     );
 
 }
