@@ -9,6 +9,7 @@ import ForgetPassword from "./pages/auth/forgetPassword/ForgetPassword";
 import PageNotFound from "./components/PageNotFound";
 import {ToastContainer} from "react-toastify";
 import {Login} from "@mui/icons-material";
+import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 
 function App() {
     return (
@@ -22,7 +23,6 @@ function App() {
                 <Route exact path="login" element={<Login/>}/>
                 <Route path="create-workspace" element={
                     <ProtectedRoute>
-                        {/* eslint-disable-next-line react/jsx-no-undef */}
                         <CreateWorkspace/>
                     </ProtectedRoute>
                 }/>
