@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
 import Badge from "@mui/material/Badge";
 import {Avatar} from "@mui/material";
 import {styled} from "@mui/material/styles";
-import UploadIcon from "../images/upload.svg";
+import UploadIcon from "../../images/upload.svg";
 
 /**
  * Structure of how to use this component

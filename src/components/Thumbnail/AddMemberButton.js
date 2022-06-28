@@ -1,6 +1,6 @@
 import React from 'react';
 import {Avatar} from "@mui/material";
-import AddUserIcon from "../images/Add User.svg";
+import AddUserIcon from "../../images/Add User.svg";
 
 const AddMemberButton = ({handler}) => {
     return (
