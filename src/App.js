@@ -12,42 +12,56 @@ import PageNotFound from "./components/PageNotFound";
 import Login from "./pages/auth/login/Login";
 import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 
-import { useForm, FormProvider } from "react-hook-form";
+// import { useForm, FormProvider } from "react-hook-form";
 
 function App() {
-	return (
-		<>
-			<Routes>
-				<Route exact path='/' element={
-					<ProtectedRoute>
-						<Dashboard/>
-					</ProtectedRoute>
-				}/>
-				<Route exact path="login" element={<Login/>}/>
-				<Route path="create-workspace" element={
-					<ProtectedRoute>
-						<CreateWorkspace/>
-					</ProtectedRoute>
-				}/>
-				<Route path="user-verification/:token" element={
-					<ProtectedRoute>
-						<Verification/>
-					</ProtectedRoute>
-				}/>
+  return (
+    <>
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route exact path="login" element={<Login />} />
+        <Route
+          path="create-workspace"
+          element={
+            <ProtectedRoute>
+              <CreateWorkspace />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="user-verification/:token"
+          element={
+            <ProtectedRoute>
+              <Verification />
+            </ProtectedRoute>
+          }
+        />
 
-				<Route path="register" element={<Register/>}/>
-				<Route exact path="to-verify" element={<ToVerify/>}/>
+        <Route path="register" element={<Register />} />
+        <Route exact path="to-verify" element={<ToVerify />} />
 
-				<Route path="forget-password" element={<ForgetPassword/>}/>
-				<Route path="reset-password" element={
-					<ProtectedRoute>
-						<ResetPassword/>
-					</ProtectedRoute>
-				}/>
-				<Route exact path="*" element={<PageNotFound/>}/>
-			</Routes>
-			<ToastContainer/>
-		</>);
+        <Route path="forget-password" element={<ForgetPassword />} />
+        <Route
+          path="reset-password"
+          element={
+            <ProtectedRoute>
+              <ResetPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route exact path="*" element={<PageNotFound />} />
+      </Routes>
+      <ToastContainer />
+    </>
+  );
 }
 
 export default App;
