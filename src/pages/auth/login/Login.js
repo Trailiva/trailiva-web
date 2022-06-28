@@ -1,8 +1,9 @@
 import Navbar from "../../../components/Navbar";
 import {registrationOption} from "../../../utils/formValidation";
 import {useForm} from "react-hook-form";
+import IsInputComponent from "../../../components/IsInputComponent";
+
 import {ACCESS_TOKEN, HAS_WORKSPACE, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
-import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import {Link, useNavigate} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
@@ -58,7 +59,8 @@ const Login = () => {
                 </div>
 
                 <form onSubmit={handleSubmit(login, handleError)} noValidate>
-                    <FormControl
+                    <IsInputComponent
+      
                         label="Enter email address"
                         name="email"
                         placeholder="example@gmail.com"
@@ -67,7 +69,7 @@ const Login = () => {
                         errors={errors}
                     />
 
-                    <FormControl
+                    <IsInputComponent
                         label="Enter a password"
                         name="password"
                         placeholder="Enter your password"

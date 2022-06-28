@@ -2,6 +2,7 @@ import React from 'react';
 import {Routes, Route} from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import {Dashboard} from "@material-ui/icons";
+
 import Verification from "./pages/auth/verificationPage/Verification";
 import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 import ToVerify from "./pages/auth/verificationPage/ToVerify";
@@ -12,6 +13,7 @@ import PageNotFound from "./components/PageNotFound";
 import {ToastContainer} from "react-toastify";
 import {Login} from "@mui/icons-material";
 
+import { useForm, FormProvider } from "react-hook-form";
 
 function App() {
     return (
@@ -49,6 +51,7 @@ function App() {
 
 
         </>);
+
 }
 
 export default App;
