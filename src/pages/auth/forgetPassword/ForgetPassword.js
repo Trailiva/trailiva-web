@@ -6,8 +6,8 @@ import { registrationOption } from "../../../utils/formValidation";
 import AuthButton from "../../../components/AuthButton";
 import { useForm } from "react-hook-form";
 import { TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN } from "../../../constants";
-import { handleForgetPassword } from "../../../api/ApiUtils";
 import { useNavigate } from "react-router-dom";
+import { handleForgetPassword } from "../../../services/authService";
 
 const ForgetPassword = () => {
   const {

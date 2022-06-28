@@ -17,11 +17,6 @@ const IsTextareaComponent = (props) => {
       borderRadius: ".8rem",
       overflow: "hidden",
 
-      "&:hover": {
-        "& fieldset": {
-          border: "1px solid #2746D8",
-        },
-      },
       "& fieldset": {
         zIndex: "-1",
       },

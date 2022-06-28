@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import { Alert } from "@mui/material";
-import FormControl from "../../../components/Input Fields/IsInputComponent";
+import FormControl from "../../../components/InputFields/IsInputComponent";
 import { registrationOption } from "../../../utils/formValidation";
 import AuthButton from "../../../components/AuthButton";
 import { useForm } from "react-hook-form";
-import { handleResetPassword } from "../../../api/ApiUtils";
+import { handleResetPassword } from "../../../services/authService";
 import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {

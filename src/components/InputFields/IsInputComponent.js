@@ -20,11 +20,6 @@ const IsInputComponent = (props) => {
       borderRadius: ".8rem",
       overflow: "hidden",
 
-      "&:hover": {
-        "& fieldset": {
-          border: "1px solid #2746D8",
-        },
-      },
       "& fieldset": {
         width: "auto",
         zIndex: "-1",

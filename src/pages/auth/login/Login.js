@@ -1,7 +1,7 @@
 import Navbar from "../../../components/Navbar";
 import { registrationOption } from "../../../utils/formValidation";
 import { useForm } from "react-hook-form";
-import IsInputComponent from "../../../components/Input Fields/IsInputComponent";
+import IsInputComponent from "../../../components/InputFields/IsInputComponent";
 
 import {
   ACCESS_TOKEN,
@@ -71,7 +71,7 @@ const Login = () => {
           <h2>Welcome Back Login</h2>
         </div>
 
-        <form onSubmit={handleSubmit(onHandleLogin, handleError)} noValidate>
+        <form onSubmit={handleSubmit(login, handleError)} noValidate>
           <IsInputComponent
             label="Enter email address"
             name="email"
