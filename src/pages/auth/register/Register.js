@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
-// import {handleUserRegistration} from "../../../api/ApiUtils";
 import { extractErrorMessage } from "../../../utils/helper";
 import { toast } from "react-toastify";
 import { handleUserRegistration } from "../../../services/authService";

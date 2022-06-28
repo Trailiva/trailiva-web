@@ -1,18 +1,15 @@
-import React from "react";
-import { ToastContainer } from "react-toastify";
+import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Dashboard from "../src/pages/dashboard/Dashboard";
-import { Route, Routes } from "react-router-dom";
+import { Dashboard } from "@material-ui/icons";
 import Verification from "./pages/auth/verificationPage/Verification";
 import Register from "./pages/auth/register/Register";
 import ToVerify from "./pages/auth/verificationPage/ToVerify";
-import ForgetPassword from "./pages/auth/forgetPassword/ForgetPassword";
 import ResetPassword from "./pages/auth/ResetPassword/ResetPassword";
+import ForgetPassword from "./pages/auth/forgetPassword/ForgetPassword";
 import PageNotFound from "./components/PageNotFound";
-import Login from "./pages/auth/login/Login";
+import { ToastContainer } from "react-toastify";
+import { Login } from "@mui/icons-material";
 import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
-
-// import { useForm, FormProvider } from "react-hook-form";
 
 function App() {
   return (

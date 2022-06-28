@@ -9,6 +9,7 @@ import CheckedOffice from "../../../images/checkOffice.svg";
 import { useNavigate } from "react-router-dom";
 import RegisterBackgroundImage from "../../../images/RegisterBackground.png";
 import { handleWorkspaceCreation } from "../../../services/workspaceService";
+
 const CreateWorkspace = () => {
   const [checked, setChecked] = useState(false);
   const [selected, setSelected] = useState(false);
