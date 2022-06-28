@@ -1,14 +1,14 @@
 import {Alert, Snackbar} from "@mui/material";
 import React from "react";
 
-const MessageAlert = (props: { messageModal: { horizontal: string; vertical: string; open: boolean }, onClose: () => void, errorData: string }) => {
+const MessageAlert = (props: { messageModal: { horizontal: string; vertical: string; open: boolean }, onClose: () => void, errorData: string, severity: string }) => {
     return <Snackbar
         autoHideDuration={6000}
         open={props.messageModal.open}
         onClose={props.onClose}
         anchorOrigin={{vertical: props.messageModal.vertical, horizontal: props.messageModal.horizontal}}
     >
-        <Alert sx={{width: "400px", textAlign: "center"}} variant="filled" severity="error">
+        <Alert sx={{width: "400px", textAlign: "center"}} variant="filled" severity={props.severity}>
             {props.errorData}
         </Alert>
     </Snackbar>;

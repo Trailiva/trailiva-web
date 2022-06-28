@@ -20,7 +20,7 @@ function SpaceName({name, workspaceName}) {
     </div>;
 }
 
-const Nav = ({name, onHandleLink, workspaceName}) => {
+const Nav = ({workspaceName, name, onHandleLink}) => {
 
     const [links, setLinks] = useState(SIDE_BAR_DATA);
 
