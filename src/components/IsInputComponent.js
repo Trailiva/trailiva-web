@@ -20,6 +20,11 @@ const IsInputComponent = (props) => {
       borderRadius: ".8rem",
       overflow: "hidden",
 
+      "&:hover": {
+        "& fieldset": {
+          border: "1px solid #2746D8",
+        },
+      },
       "& fieldset": {
         width: "auto",
         zIndex: "-1",
@@ -28,6 +33,7 @@ const IsInputComponent = (props) => {
         padding: ".8rem .6rem",
         display: "block",
         outline: "none",
+        border: "none",
       },
 
       "&.Mui-focused:not(.Mui-error) fieldset": {
@@ -87,7 +93,7 @@ const IsInputComponent = (props) => {
               isDirty ? classes.filledInput : null
             }`}
           >
-            <label className={props.disabled && classes.disabled}>
+            <label className={props.disabled ? classes.disabled : undefined}>
               {props.label}
             </label>
             <CssTextField
