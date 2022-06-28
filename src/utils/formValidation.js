@@ -50,4 +50,15 @@ export const registrationOption = {
       message: "Task cannot be greater than 100 characters",
     },
   },
+  text_field: {
+    required: "Text is required",
+    minLength: {
+      value: 10,
+      message: "Text must have at least 10 characters",
+    },
+    maxLength: {
+      value: 100,
+      message: "Text cannot be greater than 100 characters",
+    },
+  },
 };
