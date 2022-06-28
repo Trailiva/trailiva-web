@@ -7,9 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { useOnRegisterMutation } from "../../../services/authService";
-import { isErrorWithMessage, isFetchBaseQueryError } from "../../../helpers";
-import { ACCESS_TOKEN } from "../../../constants";
+
 
 const Register = () => {
   const { handleSubmit, reset, control } = useForm({

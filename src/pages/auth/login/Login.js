@@ -4,7 +4,6 @@ import {useForm} from "react-hook-form";
 import IsInputComponent from "../../../components/IsInputComponent";
 
 import {ACCESS_TOKEN, HAS_WORKSPACE, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
-import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import {Link, useNavigate} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
@@ -59,7 +58,7 @@ const Login = () => {
                     <h2>Welcome Back Login</h2>
                 </div>
 
-                <form onSubmit={handleSubmit(onHandleLogin, handleError)} noValidate>
+                <form onSubmit={handleSubmit(login, handleError)} noValidate>
                     <IsInputComponent
       
                         label="Enter email address"

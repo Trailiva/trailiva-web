@@ -5,8 +5,8 @@ import FormControl from "../../../components/IsInputComponent";
 import { registrationOption } from "../../../utils/formValidation";
 import AuthButton from "../../../components/AuthButton";
 import { useForm } from "react-hook-form";
-import { handleResetPassword } from "../../../api/ApiUtils";
 import { useNavigate } from "react-router-dom";
+import {handleResetPassword} from "../../../services/authService";
 
 const ResetPassword = () => {
   const {
