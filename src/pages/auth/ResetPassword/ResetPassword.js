@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import { Alert } from "@mui/material";
-import FormControl from "../../../components/IsInputComponent";
+import FormControl from "../../../components/Input Fields/IsInputComponent";
 import { registrationOption } from "../../../utils/formValidation";
 import AuthButton from "../../../components/AuthButton";
 import { useForm } from "react-hook-form";
