@@ -1,37 +1,31 @@
 import "./register.css";
 import Navbar from "../../../components/Navbar";
 import { registrationOption } from "../../../utils/formValidation";
-import IsInputComponent from "../../../components/IsInputComponent";
+import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import { extractErrorMessage } from "../../../utils/helper";
 import { toast } from "react-toastify";
-
+import { handleUserRegistration } from "../../../services/authService";
 
 const Register = () => {
-  const { handleSubmit, reset, control } = useForm({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-    },
-  });
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
-  const [onRegister, response] = useOnRegisterMutation();
+  const [loading, setLoading] = useState(false);
 
   const registerUser = async (data) => {
-    const userData = {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      password: data.password,
-    };
+    setLoading(true);
     try {
-      const response = await onRegister(userData).unwrap();
-      localStorage.setItem("user", JSON.stringify(response));
+      const res = await handleUserRegistration(data);
+      localStorage.setItem("email", res.data.email);
       reset({
         firstName: "",
         lastName: "",
@@ -39,16 +33,13 @@ const Register = () => {
         password: "",
       });
       navigate("/to-verify");
-    } catch (error) {
-      console.log(error);
-      if (isFetchBaseQueryError(error)) {
-        toast.error(error.error);
-      } else if (isErrorWithMessage(error)) {
-        toast.error(error.data.message);
-      } else toast.error(error);
+    } catch (err) {
+      setLoading(false);
+      const message = extractErrorMessage(err);
+      toast.error(message);
+      console.log("err", err);
     }
   };
-
 
   const handleError = (errors) => console.log(errors);
 
@@ -61,45 +52,56 @@ const Register = () => {
           <p>It's Simple and Easy !!</p>
         </div>
         <form onSubmit={handleSubmit(registerUser, handleError)} noValidate>
-          <IsInputComponent
-            label={"Enter your first name"}
-            name={"firstName"}
-            placeholder={"John"}
-            type={"text"}
-            control={control}
-            validation={registrationOption.fullName}
+          <FormControl
+            label="Enter your first name"
+            name="firstName"
+            placeholder="John"
+            visibility={false}
+            useForm_register_return={register(
+              "firstName",
+              registrationOption.fullName
+            )}
+            errors={errors}
           />
 
-          <IsInputComponent
-            label={"Enter your last name"}
-            name={"lastName"}
-            placeholder={"Doe"}
-            control={control}
-            type={"text"}
-            validation={registrationOption.fullName}
+          <FormControl
+            label="Enter your last name"
+            name="lastName"
+            placeholder="Doe"
+            visibility={false}
+            useForm_register_return={register(
+              "lastName",
+              registrationOption.fullName
+            )}
+            errors={errors}
           />
 
-          <IsInputComponent
-            label={"Enter email address"}
-            name={"email"}
-            placeholder={"example@gmail.com"}
-            type={"text"}
-            control={control}
-            validation={registrationOption.email}
+          <FormControl
+            label="Enter email address"
+            name="email"
+            placeholder="example@gmail.com"
+            visibility={false}
+            useForm_register_return={register(
+              "email",
+              registrationOption.email
+            )}
+            errors={errors}
           />
 
-          <IsInputComponent
-            label={"Enter a password"}
-            name={"password"}
-            placeholder={"Enter your password"}
-            type={"password"}
-            control={control}
-            validation={registrationOption.password}
+          <FormControl
+            label="Enter a password"
+            name="password"
+            placeholder="Enter your password"
+            visibility={true}
+            useForm_register_return={register(
+              "password",
+              registrationOption.password
+            )}
+            errors={errors}
           />
-
 
           <AuthButton
-            disabled={response.isLoading}
+            disabled={loading}
             text="Create Account"
             loadingText="Loading..."
           />

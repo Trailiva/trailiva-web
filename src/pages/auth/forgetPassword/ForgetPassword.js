@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import { Alert } from "@mui/material";
-import FormControl from "../../../components/IsInputComponent";
+import FormControl from "../../../components/FormControl";
 import { registrationOption } from "../../../utils/formValidation";
 import AuthButton from "../../../components/AuthButton";
 import { useForm } from "react-hook-form";
 import { TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN } from "../../../constants";
 import { useNavigate } from "react-router-dom";
-import {handleForgetPassword} from "../../../services/authService";
+import { handleForgetPassword } from "../../../services/authService";
 
 const ForgetPassword = () => {
   const {
