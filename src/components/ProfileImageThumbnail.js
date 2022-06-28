@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Badge from "@mui/material/Badge";
 import {Avatar} from "@mui/material";
 import {styled} from "@mui/material/styles";
+import UploadIcon from "../images/upload.svg";
 
 /**
  * Structure of how to use this component
@@ -13,11 +14,19 @@ import {styled} from "@mui/material/styles";
  *                 right: -10,
  *             }}/>}/>
  *             <ProfileImageThumbnail invisible={false} image={thumb} />
+ *
+ *               <ProfileImageThumbnail show={show} handleShow={handleShow} handleClose={handleClose} invisible={false} image={thumb} avatar={<Avatar alt="Remy Sharp" src={cancel} sx={{
+ *                 width: 30,
+ *                 height: 30,
+ *                 position: 'absolute',
+ *                 top: -78,
+ *                 right: -10,
+ *             }}/>}/>
  * @type {{width: number, height: number}}
  */
 
-const defaultAvatarStyle = {width: 80, height: 80};
-const ProfileImageThumbnail = ({image, avatar, invisible, avatarStyle = defaultAvatarStyle}) => {
+const defaultAvatarStyle = {width: 80, height: 80, position: "relative", cursor: "pointer"};
+const ProfileImageThumbnail = ({image, avatar, invisible, avatarStyle = defaultAvatarStyle, show , handleShow, handleClose}) => {
 
     const StyledBadge = styled(Badge)(({theme}) => ({
         '& .MuiBadge-badge': {
@@ -32,7 +41,9 @@ const ProfileImageThumbnail = ({image, avatar, invisible, avatarStyle = defaultA
             borderRadius: !avatar && '100%',
         }
     }));
-
+    if (show) {
+        invisible = true;
+    }
     return (
         <StyledBadge
             overlap="circular"
@@ -41,11 +52,16 @@ const ProfileImageThumbnail = ({image, avatar, invisible, avatarStyle = defaultA
             badgeContent={avatar ? avatar : null}
             variant={!avatar ? "dot" : null}
         >
+            {show && <Avatar src={UploadIcon}
+                             onMouseOver={handleShow}
+                             sx={{position: "absolute", top: "20%", left: "25%", zIndex: "100", cursor: "pointer"}}/>}
             {image &&
                 <Avatar alt="Travis Howard"
                         variant="rounded"
                         sx={avatarStyle}
                         src={image}
+                        onMouseOver={handleShow}
+                        onMouseOut={handleClose}
                 />
             }
         </StyledBadge>
