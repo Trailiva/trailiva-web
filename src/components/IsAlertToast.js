@@ -36,7 +36,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 
-function CopyAlertToast({severity, variant, alertTitle, alertMessage, vertical, horizontal}) {
+function IsAlertToast({severity, variant, alertTitle, alertMessage, vertical, horizontal}) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
 
@@ -143,4 +143,4 @@ function CopyAlertToast({severity, variant, alertTitle, alertMessage, vertical, 
   }
 }
 
-export default CopyAlertToast
+export default IsAlertToast
