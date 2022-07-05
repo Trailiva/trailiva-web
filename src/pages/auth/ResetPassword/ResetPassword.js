@@ -7,6 +7,7 @@ import AuthButton from "../../../components/AuthButton";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { handleResetPassword } from "../../../services/authService";
+import Box from "@mui/material/Box";
 
 const ResetPassword = () => {
   const {
@@ -47,14 +48,15 @@ const ResetPassword = () => {
     <>
       <Navbar path="/register" text="Create Account" />
       <div className="form-container">
+      <Box variant="bod1">
         {!isSuccessFul && (
-          <Alert
-            variant="filled"
-            severity="error"
-            style={{ marginBottom: "1rem" }}
-          >
-            {errorDate}!
-          </Alert>
+            <Alert
+                variant="filled"
+                severity="error"
+                style={{ marginBottom: "1rem" }}
+            >
+              {errorDate}!
+            </Alert>
         )}
         <div className="form-header">
           <h2>Reset Password</h2>
@@ -62,47 +64,48 @@ const ResetPassword = () => {
 
         <form onSubmit={handleSubmit(resetPassword, handleError)} noValidate>
           <FormControl
-            label="Enter email address"
-            name="email"
-            placeholder="example@gmail.com"
-            visibility={false}
-            useForm_register_return={register(
-              "email",
-              registrationOption.email
-            )}
-            errors={errors}
+              label="Enter email address"
+              name="email"
+              placeholder="example@gmail.com"
+              visibility={false}
+              useForm_register_return={register(
+                  "email",
+                  registrationOption.email
+              )}
+              errors={errors}
           />
 
           <FormControl
-            label="Enter your old password"
-            name="password"
-            placeholder="Enter your password"
-            visibility={true}
-            useForm_register_return={register(
-              "oldPassword",
-              registrationOption.password
-            )}
-            errors={errors}
+              label="Enter your old password"
+              name="password"
+              placeholder="Enter your password"
+              visibility={true}
+              useForm_register_return={register(
+                  "oldPassword",
+                  registrationOption.password
+              )}
+              errors={errors}
           />
 
           <FormControl
-            label="Enter a your new password"
-            name="password"
-            placeholder="Enter your password"
-            visibility={true}
-            useForm_register_return={register(
-              "password",
-              registrationOption.password
-            )}
-            errors={errors}
+              label="Enter a your new password"
+              name="password"
+              placeholder="Enter your password"
+              visibility={true}
+              useForm_register_return={register(
+                  "password",
+                  registrationOption.password
+              )}
+              errors={errors}
           />
 
           <AuthButton
-            disabled={loading}
-            text="Reset Password"
-            loadingText="Loading..."
+              disabled={loading}
+              text="Reset Password"
+              loadingText="Loading..."
           />
         </form>
+      </Box>
       </div>
     </>
   );

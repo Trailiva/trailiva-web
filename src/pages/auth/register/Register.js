@@ -10,6 +10,7 @@ import { useState } from "react";
 import { extractErrorMessage } from "../../../utils/helper";
 import { toast } from "react-toastify";
 import { handleUserRegistration } from "../../../services/authService";
+import Box from "@mui/material/Box";
 
 const Register = () => {
   const {
@@ -47,65 +48,67 @@ const Register = () => {
     <>
       <Navbar text="Login" path="/login" />
       <div className="form-container">
-        <div className="form-header">
-          <h2>Create an Account</h2>
-          <p>It's Simple and Easy !!</p>
-        </div>
-        <form onSubmit={handleSubmit(registerUser, handleError)} noValidate>
-          <FormControl
-            label="Enter your first name"
-            name="firstName"
-            placeholder="John"
-            visibility={false}
-            useForm_register_return={register(
-              "firstName",
-              registrationOption.fullName
-            )}
-            errors={errors}
-          />
+       <Box variant="body1">
+         <div className="form-header">
+           <h2>Create an Account</h2>
+           <p>It's Simple and Easy !!</p>
+         </div>
+         <form onSubmit={handleSubmit(registerUser, handleError)} noValidate>
+           <FormControl
+               label="Enter your first name"
+               name="firstName"
+               placeholder="John"
+               visibility={false}
+               useForm_register_return={register(
+                   "firstName",
+                   registrationOption.fullName
+               )}
+               errors={errors}
+           />
 
-          <FormControl
-            label="Enter your last name"
-            name="lastName"
-            placeholder="Doe"
-            visibility={false}
-            useForm_register_return={register(
-              "lastName",
-              registrationOption.fullName
-            )}
-            errors={errors}
-          />
+           <FormControl
+               label="Enter your last name"
+               name="lastName"
+               placeholder="Doe"
+               visibility={false}
+               useForm_register_return={register(
+                   "lastName",
+                   registrationOption.fullName
+               )}
+               errors={errors}
+           />
 
-          <FormControl
-            label="Enter email address"
-            name="email"
-            placeholder="example@gmail.com"
-            visibility={false}
-            useForm_register_return={register(
-              "email",
-              registrationOption.email
-            )}
-            errors={errors}
-          />
+           <FormControl
+               label="Enter email address"
+               name="email"
+               placeholder="example@gmail.com"
+               visibility={false}
+               useForm_register_return={register(
+                   "email",
+                   registrationOption.email
+               )}
+               errors={errors}
+           />
 
-          <FormControl
-            label="Enter a password"
-            name="password"
-            placeholder="Enter your password"
-            visibility={true}
-            useForm_register_return={register(
-              "password",
-              registrationOption.password
-            )}
-            errors={errors}
-          />
+           <FormControl
+               label="Enter a password"
+               name="password"
+               placeholder="Enter your password"
+               visibility={true}
+               useForm_register_return={register(
+                   "password",
+                   registrationOption.password
+               )}
+               errors={errors}
+           />
 
-          <AuthButton
-            disabled={loading}
-            text="Create Account"
-            loadingText="Loading..."
-          />
-        </form>
+           <AuthButton
+               disabled={loading}
+               text="Create Account"
+               loadingText="Loading..."
+           />
+         </form>
+       </Box>
       </div>
     </>
   );

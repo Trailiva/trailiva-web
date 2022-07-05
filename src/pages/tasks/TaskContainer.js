@@ -53,12 +53,14 @@ const TaskContainer = ({onHandleClick, isSuccessful, handleViewTask}) => {
 
 
     const handleChange = (event, newValue) => {
+        console.log(event)
         setValue(newValue);
         setBadgeStyle({color: "#3754DB", backgroundColor: "#F2F4FD"})
     }
     const getTask = async () => {
         try {
             const res = await handleFetchWorkspaceTasks();
+            console.log(res.data)
             setTask(res.data);
         } catch (err) {
             console.log("err", err)
@@ -157,9 +159,9 @@ return (
                         value={value}
                         onChange={handleChange}
                         scrollButtons="auto"
-                        aria-label="scrollable auto tabs example"
                     >
                         {tabs.map((tab, index) => {
+                            console.log(tab)
                             return (
                                 <StyledTab key={index} disableRipple
                                            icon={<Chip label={tab.getTasks.length} size="small"
@@ -168,7 +170,6 @@ return (
                                            style={{textTransform: "capitalize", letterSpacing: "0.05em"}}/>
                             )
                         })}
-
                     </StyledTabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
@@ -191,3 +192,4 @@ return (
 ;
 
 export default TaskContainer;
+

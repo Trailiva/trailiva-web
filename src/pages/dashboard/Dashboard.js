@@ -231,6 +231,7 @@ const Dashboard = () => {
         datePublished,
       });
     } catch (e) {
+      console.log("Error ==> ", e);
       if (e.response.status === 401) navigate("/login");
       setIsLoading(false);
     }

@@ -8,6 +8,10 @@ import { useForm } from "react-hook-form";
 import { TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN } from "../../../constants";
 import { useNavigate } from "react-router-dom";
 import { handleForgetPassword } from "../../../services/authService";
+import {extractErrorMessage} from "../../../utils/helper";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Box from "@mui/material/Box";
 
 const ForgetPassword = () => {
   const {
@@ -28,11 +32,12 @@ const ForgetPassword = () => {
       localStorage.removeItem(VERIFICATION_TOKEN);
       localStorage.removeItem(TOKEN_EXPIRY_DATE);
       setLoading(false);
-      setIsSuccessFul(res.data.successful);
-      navigate("/loginHandler");
+      toast.success(res.data.successful);
+      navigate("/login");
     } catch (err) {
       setErrorData(err);
-      navigate("/loginHandler");
+      const message = extractErrorMessage(err);
+      toast.error(message);
       setLoading(false);
       setIsSuccessFul(false);
     }
@@ -48,50 +53,52 @@ const ForgetPassword = () => {
     <>
       <Navbar path="/quoteHandler" text="Create Account" />
       <div className="form-container">
-        {!isSuccessFul && (
-          <Alert
-            variant="filled"
-            severity="error"
-            style={{ marginBottom: "1rem" }}
-          >
-            {errorDate}!
-          </Alert>
-        )}
-        <div className="form-header">
-          <h2>Forget Password</h2>
-        </div>
+        <Box variant="body1">
+          {!isSuccessFul && (
+              <Alert
+                  variant="filled"
+                  severity="error"
+                  style={{ marginBottom: "1rem" }}
+              >
+                {errorDate}!
+              </Alert>
+          )}
+          <div className="form-header">
+            <h2>Forget Password</h2>
+          </div>
 
-        <form onSubmit={handleSubmit(forgetPassword, handleError)} noValidate>
-          <FormControl
-            label="Enter email address"
-            name="email"
-            placeholder="example@gmail.com"
-            visibility={false}
-            useForm_register_return={register(
-              "email",
-              registrationOption.email
-            )}
-            errors={errors}
-          />
+          <form onSubmit={handleSubmit(forgetPassword, handleError)} noValidate>
+            <FormControl
+                label="Enter email address"
+                name="email"
+                placeholder="example@gmail.com"
+                visibility={false}
+                useForm_register_return={register(
+                    "email",
+                    registrationOption.email
+                )}
+                errors={errors}
+            />
 
-          <FormControl
-            label="Enter a your new password"
-            name="password"
-            placeholder="Enter your password"
-            visibility={true}
-            useForm_register_return={register(
-              "password",
-              registrationOption.password
-            )}
-            errors={errors}
-          />
+            <FormControl
+                label="Enter a your new password"
+                name="password"
+                placeholder="Enter your password"
+                visibility={true}
+                useForm_register_return={register(
+                    "password",
+                    registrationOption.password
+                )}
+                errors={errors}
+            />
 
-          <AuthButton
-            disabled={loading}
-            text="Recover Account"
-            loadingText="Loading..."
-          />
-        </form>
+            <AuthButton
+                disabled={loading}
+                text="Recover Account"
+                loadingText="Loading..."
+            />
+          </form>
+        </Box>
       </div>
     </>
   );
