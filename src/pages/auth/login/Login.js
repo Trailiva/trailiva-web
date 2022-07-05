@@ -1,8 +1,6 @@
 import Navbar from "../../../components/Navbar";
 import { registrationOption } from "../../../utils/formValidation";
 import { useForm } from "react-hook-form";
-import IsInputComponent from "../../../components/IsInputComponent";
-
 import {
   ACCESS_TOKEN,
   HAS_WORKSPACE,
