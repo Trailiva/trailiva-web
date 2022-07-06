@@ -53,7 +53,6 @@ const TaskContainer = ({onHandleClick, isSuccessful, handleViewTask}) => {
 
 
     const handleChange = (event, newValue) => {
-        console.log(event)
         setValue(newValue);
         setBadgeStyle({color: "#3754DB", backgroundColor: "#F2F4FD"})
     }
@@ -161,7 +160,6 @@ return (
                         scrollButtons="auto"
                     >
                         {tabs.map((tab, index) => {
-                            console.log(tab)
                             return (
                                 <StyledTab key={index} disableRipple
                                            icon={<Chip label={tab.getTasks.length} size="small"

@@ -1,6 +1,7 @@
 import React from 'react';
 import ClickedArrow from "../../images/ClickedArrow.svg";
 import "./task.css";
+import Badge from "../../components/Badge/Badge";
 
 const TaskCard = ({name, taskTab, referencedName, viewTask, id}) => {
 
@@ -13,7 +14,7 @@ const TaskCard = ({name, taskTab, referencedName, viewTask, id}) => {
         <div className="task_card" id={id} onClick={taskHandler}>
             <div className="task_item">
                 <p>{referencedName ? referencedName : ""}</p>
-                <small className={taskTab}>{taskTab}</small>
+                <Badge badgeContent={taskTab}/>
             </div>
             <h6 className="task_name">{name}</h6>
             <button className="view_task_btn">
