@@ -26,7 +26,7 @@ const IsInputComponent = (props) => {
         zIndex: "-1",
       },
       "& input": {
-        padding: ".6rem .6rem",
+        padding: ".8rem .6rem",
         display: "block",
         outline: "none",
         border: "none",
