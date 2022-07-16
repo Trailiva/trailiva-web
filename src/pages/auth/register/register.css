@@ -1,5 +1,6 @@
 .create-acc-container {
   display: flex;
+  align-items: center;
   width: 65%;
   margin: 0 auto;
 }
@@ -24,16 +25,19 @@
   background-position-y: center;
   margin: 1rem 2rem;
   border-radius: 2rem;
-  height: 42rem;
+  /* height: 42rem; */
+  min-height: 95vh;
+
   padding: 2rem 4rem 2rem;
   width: 50%;
   color: #fff;
 }
 
 .bx-1 .title {
-  height: 85%;
+  height: 70vh;
   display: flex;
   align-items: center;
+
   font-size: 3rem;
   font-weight: bolder;
 }
@@ -50,7 +54,7 @@
 
 @media only screen and (max-width: 1440px) {
   .bx-1 {
-    height: 37rem;
+    /* height: 37rem; */
     width: 45%;
   }
   .bx-1 .title {
