@@ -12,6 +12,9 @@ import CustomButton from "../../../components/Buttons/CustomButton";
 import "react-toastify/dist/ReactToastify.css";
 import {toast} from "react-toastify";
 import {extractErrorMessage} from "../../../utils/helper";
+import {useDispatch, useSelector} from "react-redux";
+import {authAction} from "../../../store/auth-slice";
+import {createWorkspaceHandler} from "../../../store/workspace-action";
 
 const isActionType = (action, actionType) => {
     return action.type === actionType;
@@ -34,12 +37,15 @@ const CreateWorkspace = () => {
     const [checked, setChecked] = useState(false);
     const [selected, setSelected] = useState(false);
     const [step, setStep] = useState(1);
-    const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
     const [workspaceNameState, dispatchWorkspaceName] = useReducer(workspaceNameReducer, {value: '', isValid: null});
     const [workspaceDescriptionState, dispatchWorkspaceDescription] = useReducer(workspaceDescriptionReducer, {value: '', isValid: null});
     const [formIsValid, setFormIsValid] = useState(false);
     const [workspaceType, setWorkspaceType] = useState("");
+    const dispatchFn = useDispatch();
+    const loading = useSelector((state) => state.workspace.isLoading);
+    const errorMessage = useSelector((state) => state.workspace.errorMsg);
+    const isSuccessful = useSelector((state => state.workspace.isSuccessful))
+    const navigate = useNavigate();
 
     const { isValid: workspaceNameIsValid } = workspaceNameState;
     const { isValid: workspaceDescription } = workspaceDescriptionState;
@@ -52,25 +58,25 @@ const CreateWorkspace = () => {
         return () => clearTimeout(identifier);
     }, [workspaceDescription, workspaceNameIsValid, workspaceType]);
 
+    useEffect(() => {
+        if (errorMessage) toast.error(errorMessage);
+        if (isSuccessful) navigate("/")
+
+        const identifier = setTimeout(()=>{
+            dispatchFn(authAction.setErrorMsg(""));
+        }, 500)
+
+        return () => clearTimeout(identifier);
+    }, [errorMessage, isSuccessful, dispatchFn]);
+
     const createWorkspace = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        try {
             const formData = {
                 name: workspaceNameState.value,
                 description: workspaceDescriptionState.value,
                 workSpaceType: workspaceType,
             }
-            const res = await handleWorkspaceCreation(formData);
-            setIsLoading(false);
-            localStorage.setItem("HAS_WORKSPACE", true);
-            localStorage.setItem("WORKSPACE_ID", res.data.workspaceId);
-            toast.success(res.data.message);
-            navigate("/");
-        } catch (err) {
-            toast.error(extractErrorMessage(err))
-            setIsLoading(false);
-        }
+            dispatchFn(createWorkspaceHandler(formData))
     };
 
     const prevStep = () => setStep((prevStep) => prevStep - 1);
@@ -240,7 +246,7 @@ const CreateWorkspace = () => {
                                 color={"rgba(55, 84, 219, 1)"}
                                 size={"sm"}
                                 sx={{marginTop: "2rem", textTransform: "capitalize"}}
-                                disabled={isLoading || !formIsValid}
+                                disabled={loading || !formIsValid}
                             />
                         </div>
                     </div>

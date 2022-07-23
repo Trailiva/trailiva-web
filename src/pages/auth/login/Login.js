@@ -25,11 +25,11 @@ const Login = () => {
       toast.error(errorMessage);
     }
 
-    return () => {
-      setTimeout(()=>{
-        dispatchFn(authAction.setErrorMsg(""));
-      }, 5000)
-    };
+    const identifier = setTimeout(()=>{
+      dispatchFn(authAction.setErrorMsg(""));
+    }, 5000)
+
+    return () => clearTimeout(identifier);
   }, [errorMessage, dispatchFn]);
 
   const {
