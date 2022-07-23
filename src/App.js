@@ -10,6 +10,7 @@ import {ToastContainer} from "react-toastify";
 import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Login from "./pages/auth/login/Login";
+import CustomButton from "./components/Buttons/CustomButton";
 
 function App() {
     return (

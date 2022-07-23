@@ -6,10 +6,10 @@ import { styled } from "@mui/material/styles";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import InputAdornment from "@mui/material/InputAdornment";
 import { IconButton } from "@mui/material";
-import classes from "./IsInputComponent.module.css";
+import classes from "./InputComponent.module.css";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-const IsInputComponent = (props) => {
+const InputComponent = (props) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const CssTextField = styled(TextField)({
     "& .MuiFormHelperText-root": {
@@ -156,7 +156,7 @@ const IsInputComponent = (props) => {
   );
 };
 
-IsInputComponent.propTypes = {
+InputComponent.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
   name: PropTypes.string,
@@ -165,4 +165,4 @@ IsInputComponent.propTypes = {
   // control: PropTypes.object,
 };
 
-export default IsInputComponent;
+export default InputComponent;

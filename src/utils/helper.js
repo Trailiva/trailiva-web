@@ -5,3 +5,7 @@ export const extractTwoCharacter: string = (str: string) => {
 export const extractErrorMessage: string = (error: any) => {
     return (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 }
+
+export const isEmptyOrUndefined: boolean = (data) => {
+    return data === undefined || data === null || data.trim().length < 1;
+}

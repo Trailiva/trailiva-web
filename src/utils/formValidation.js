@@ -61,4 +61,15 @@ export const registrationOption = {
       message: "Text cannot be greater than 100 characters",
     },
   },
+  workspaceName: {
+    required: "Workspace name is required",
+    minLength: {
+      value: 5,
+      message: "Workspace name must have at least 5 characters",
+    },
+    maxLength: {
+      value: 30,
+      message: "Workspace name cannot be greater than 30 characters",
+    },
+  }
 };

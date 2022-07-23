@@ -2,7 +2,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { IconButton } from "@mui/material";
-import "./IsPhoneInputComponent.css";
+import "./PhoneInputComponent.css";
 import { Controller } from "react-hook-form";
 
 const PhoneInputComp = ({ control, name, label }) => {

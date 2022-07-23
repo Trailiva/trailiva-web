@@ -6,7 +6,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import InputAdornment from "@mui/material/InputAdornment";
 import { IconButton } from "@mui/material";
 
-const IsTextareaComponent = (props) => {
+const TextareaComponent = (props) => {
   const CssTextField = styled(TextField)({
     "& .MuiFormHelperText-root": {
       margin: ".3rem 0rem",
@@ -113,4 +113,4 @@ const IsTextareaComponent = (props) => {
   );
 };
 
-export default IsTextareaComponent;
+export default TextareaComponent;

@@ -16,6 +16,7 @@ const CustomButton = (
 		icon?: [position, value];
 		label?: string;
 		disabled?: boolean;
+		sx?: Object;
 	}) => {
 
 
@@ -108,6 +109,7 @@ const CustomButton = (
 					disabled={props.disabled}
 					startIcon={startIcon}
 					endIcon={endIcon}
+					sx={props.sx}
 				>
 					{props.text.value}
 				</LoadingButton>}
@@ -125,6 +127,7 @@ const CustomButton = (
 					disabled={props.disabled}
 					startIcon={startIcon}
 					endIcon={endIcon}
+					sx={props.sx}
 				>
 					{props.text.value}
 				</LoadingButton>}
@@ -152,6 +155,6 @@ CustomButton.defaultProps = {
 		indicator: '',
 	},
 	size: "large",
-	disabled: false
+	disabled: false,
 }
 export default CustomButton;
