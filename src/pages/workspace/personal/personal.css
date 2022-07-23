@@ -174,9 +174,3 @@
         display: none;
     }
 }
-
-@media only screen and (max-width: 460px){
-    .form_wrapper {
-        padding: 0 1rem;
-    }
-}
