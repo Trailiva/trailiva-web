@@ -7,11 +7,9 @@ import CheckedProfile from "../../../images/checkedProfile.svg";
 import CheckedOffice from "../../../images/checkOffice.svg";
 import {useNavigate} from "react-router-dom";
 import RegisterBackgroundImage from "../../../images/RegisterBackground.png";
-import {handleWorkspaceCreation} from "../../../services/workspaceService";
 import CustomButton from "../../../components/Buttons/CustomButton";
 import "react-toastify/dist/ReactToastify.css";
 import {toast} from "react-toastify";
-import {extractErrorMessage} from "../../../utils/helper";
 import {useDispatch, useSelector} from "react-redux";
 import {authAction} from "../../../store/auth-slice";
 import {createWorkspaceHandler} from "../../../store/workspace-action";
@@ -229,7 +227,8 @@ const CreateWorkspace = () => {
                             value={workspaceDescriptionState.value}
                             onChange={handleOnChange}
                         />
-                        <small className="input_message">{!workspaceDescriptionState.isValid && "Workspace description is required and it must contain 5 character"}</small>
+                        <small className="input_message">{!workspaceDescriptionState.isValid &&
+                            "Workspace description is required and it must contain 5 character"}</small>
                         <div className="step_btn">
                             <CustomButton
                                 text={{value: "prev"}}

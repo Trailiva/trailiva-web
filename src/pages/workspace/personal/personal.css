@@ -24,10 +24,6 @@
 }
 
 /*========Form Wrapper style ==========*/
-.form_wrapper {
-    /*border: 2px solid black;*/
-}
-
 .form_wrapper h3 {
     font-style: normal;
     font-weight: 700;
@@ -59,7 +55,6 @@
     padding: 12px;
     font-size: 1rem;
     outline: none;
-    /* z-index: -1;*/
 }
 
 .form_wrapper input::placeholder {
@@ -81,20 +76,6 @@
     padding: 15px 25px;
     text-decoration: none;
     font-size: 17px;
-}
-
-.next_btn {
-    margin-top: 3rem;
-    padding: 0.5rem 2rem;
-    font-size: 1rem;
-    border: none;
-    color: white;
-    display: block;
-    cursor: pointer;
-    background: #3754db;
-    box-shadow: 0 12px 25px rgba(22, 36, 104, 0.06);
-    border-radius: 12px;
-    text-transform: capitalize;
 }
 
 /*========Image Container style ==========*/
@@ -171,4 +152,31 @@
 
 .step_btn button:nth-child(1) {
     margin-right: 3rem;
+}
+
+
+/* RESPONSIVE DESIGN*/
+
+@media only screen and (max-width: 1185px){
+    .img_container img {
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 995px){
+    .img_container img {
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 995px){
+    .img_container{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 460px){
+    .form_wrapper {
+        padding: 0 1rem;
+    }
 }
