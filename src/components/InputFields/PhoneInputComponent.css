@@ -1,0 +1,48 @@
+.phone-input-label {
+  display: block;
+  padding: 0.5rem 0rem;
+}
+
+.phone-input-input {
+  caret-color: blue;
+}
+
+.phone-input-input:focus {
+  border: 1px solid blue;
+}
+
+.flag-dropdown {
+  top: 1px !important;
+  left: 1px !important;
+  bottom: 1px !important;
+  border: none !important;
+}
+
+.phone-input-errorState .flag-dropdown {
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+}
+
+.phone-input-inputFilled .phone-input-input {
+  border: 0.4px solid #2746d8;
+  background-color: #fbfbfe;
+}
+
+.phone-input-errorState .phone-input-input {
+  background: #fffafa;
+  border: none;
+  border-radius: 8px;
+}
+.phone-input-container {
+  display: flex;
+}
+.phone-input-errorState .phone-input-container {
+  border: 1.3px solid #fb151a;
+  border-radius: 8px;
+  width: min-content;
+  background: #fffafa;
+}
+
+.phone-input-errorState small {
+  color: #fb151a;
+}

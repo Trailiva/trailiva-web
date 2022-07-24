@@ -2,8 +2,10 @@
 .nav_bar {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    margin-top: 2rem;
+    justify-content: space-between;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    max-width: 150vh;
 }
 
 .nav_bar * {
@@ -35,7 +37,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     min-height: 90vh;
 }
 
@@ -155,4 +156,13 @@ form {
     position: absolute;
     top: 51%;
     left: 92%;
+}
+
+
+
+form a {
+    color: #3754DB;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
 }

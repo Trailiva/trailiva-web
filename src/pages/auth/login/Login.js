@@ -1,91 +1,116 @@
 import Navbar from "../../../components/Navbar";
-import {registrationOption} from "../../../utils/formValidation";
-import {useForm} from "react-hook-form";
-import {ACCESS_TOKEN, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
+import { registrationOption } from "../../../utils/formValidation";
+import { useForm } from "react-hook-form";
+import { HAS_WORKSPACE } from "../../../constants";
 import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
-import {Link, useNavigate} from "react-router-dom";
-import {handleForgetPasswordToken} from "../../../api/ApiUtils";
-import 'react-toastify/dist/ReactToastify.css';
-import {useOnLoginMutation} from "../../../services/authService";
-import {isErrorWithMessage, isFetchBaseQueryError} from "../../../helpers";
-import {toast} from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import Link from "@mui/material/Link";
+import Box from "@mui/material/Box";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin, forgetPasswordToken } from "../../../store/auth-actions";
+import { authAction } from "../../../store/auth-slice";
 
 const Login = () => {
-    const {register, handleSubmit, reset, formState: {errors}} = useForm();
-    const navigate = useNavigate();
-    const [onLogin, response] = useOnLoginMutation();
+  const dispatchFn = useDispatch();
+  const loading = useSelector((state) => state.auth.isLoading);
+  const errorMessage = useSelector((state) => state.auth.errorMsg);
+  const navigate = useNavigate();
 
-    const onHandleLogin = async data => {
-        const userData = {
-            email: data.email,
-            password: data.password
-        };
-        try {
-            const response = await onLogin(userData).unwrap();
-            localStorage.setItem(ACCESS_TOKEN, response.jwtToken);
-            reset({
-                email: "",
-                password: ""
-            })
-            navigate("/create-workspace")
-        } catch (error) {
-            if (isFetchBaseQueryError(error)) {
-                    toast.error(error.error);
-            } else if (isErrorWithMessage(error)){
-                toast.error(error.data.message);
-            }
-            else toast.error(error);
-        }
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
     }
 
-    const handleError = (errors) => console.log(errors);
+    return () => {
+      setTimeout(()=>{
+        dispatchFn(authAction.setErrorMsg(""));
+      }, 5000)
+    };
+  }, [errorMessage, dispatchFn]);
 
-    const forgetPasswordHandler = async () => {
-        try {
-            let response = await handleForgetPasswordToken();
-            localStorage.setItem(VERIFICATION_TOKEN, response.data.token);
-            localStorage.setItem(TOKEN_EXPIRY_DATE, response.data.expiry);
-            navigate("/forget-password")
-        } catch (err) {
-            console.log("error ==> ", err)
-        }
-    }
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-    return (
-        <>
-            <Navbar text="Create Account" path="/register"/>
-            <div className="form-container">
-                <div className="form-header">
-                    <h2>Welcome Back Login</h2>
-                </div>
+  const login = (data) => {
+    const getStoredWorkspace = () => {
+      reset({
+        email: "",
+        password: "",
+      });
+      if (!localStorage.getItem(HAS_WORKSPACE)) navigate("/create-workspace");
+      else navigate("/");
+    };
+    dispatchFn(userLogin(data, getStoredWorkspace));
+  };
 
-                <form onSubmit={handleSubmit(onHandleLogin, handleError)} noValidate>
-                    <FormControl
-                        label="Enter email address"
-                        name="email"
-                        placeholder="example@gmail.com"
-                        visibility={false}
-                        useForm_register_return={register("email", registrationOption.email)}
-                        errors={errors}
-                    />
+  const handleError = (errors) => console.log(errors);
 
-                    <FormControl
-                        label="Enter a password"
-                        name="password"
-                        placeholder="Enter your password"
-                        visibility={true}
-                        useForm_register_return={register("password", registrationOption.password)}
-                        errors={errors}
-                    />
+  const forgetPasswordHandler = () => {
+    const navigateToForgetPasswordPage = () => {
+      navigate("/forget-password");
+    };
+    dispatchFn(forgetPasswordToken(navigateToForgetPasswordPage));
+  };
 
-                    <AuthButton disabled={response.isLoading} text="Login" loadingText="Logging..."/>
-                    <Link to="/forget-password" onClick={forgetPasswordHandler}>Forget password ?</Link>
-                </form>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <Navbar text="Create Account" path="/register" />
+      <div className="form-container">
+        <Box variant="body1">
+          <div className="form-header">
+            <h2>Welcome Back Login</h2>
+          </div>
 
+          <form onSubmit={handleSubmit(login, handleError)} noValidate>
+            <FormControl
+              label="Enter email address"
+              name="email"
+              placeholder="example@gmail.com"
+              visibility={false}
+              useForm_register_return={register(
+                "email",
+                registrationOption.email
+              )}
+              errors={errors}
+            />
+
+            <FormControl
+              label="Enter a password"
+              name="password"
+              placeholder="Enter your password"
+              visibility={true}
+              useForm_register_return={register(
+                "password",
+                registrationOption.password
+              )}
+              errors={errors}
+            />
+
+            <AuthButton
+              disabled={loading}
+              text="Login"
+              loadingText="Logging..."
+            />
+          </form>
+          <Link
+            underline="hover"
+            sx={{ color: "#3754DB", fontSize: "1rem" }}
+            onClick={forgetPasswordHandler}
+          >
+            Forget password ?
+          </Link>
+        </Box>
+      </div>
+    </>
+  );
 };
 
 export default Login;

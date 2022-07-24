@@ -1,51 +1,72 @@
 import React, {useState} from 'react';
 import CustomTextArea from "./CustomTextArea";
 import CancelIcon from "@mui/icons-material/Cancel";
-import {Snackbar} from "@mui/material";
-import {Alert} from "@mui/lab";
-import {handleCreateTask} from "../api/ApiUtils";
+import {HAS_CREATED_TASK} from "../constants";
+import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import {extractErrorMessage} from "../utils/helper";
+import {handleCreateTask} from "../services/taskService";
 
-const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}) => {
+
+const TaskCreator = ({handleClosePopup, open, validateTaskCreated}) => {
     const INITIAL_DATA = {name: "", priority: "", description: "", dueDate: ""}
-    const [formData, setFormData] = useState(INITIAL_DATA);
+    const [task, setTask] = useState(INITIAL_DATA);
     const options = ["LOW", "MEDIUM", "HIGH"];
     const [loading, setLoading] = useState(false);
 
     const createTask = async e => {
         e.preventDefault()
-        //Validation
-        setLoading(true);
-        try {
-          const res =   await handleCreateTask(formData)
-            console.log(res.data)
-            validateTaskCreated(true);
-        } catch (e) {
-            console.log("err", e)
+       {
+            setLoading(true);
+            try {
+                await handleCreateTask(task)
+                setLoading(false);
+                localStorage.setItem(HAS_CREATED_TASK, true);
+                validateTaskCreated(true)
+                setTask(INITIAL_DATA);
+                toast.success("Task created successful");
+                setLoading(false);
+            } catch (e) {
+                toast.error(extractErrorMessage(e));
+                setLoading(false);
+            }
         }
-        setLoading(false);
-        setFormData(INITIAL_DATA);
-        console.log(formData)
     }
+
+    // function validateTaskDueDate(dueDate, today) {
+    //     return dueDate.getFullYear() >= today.getFullYear() &&
+    //         dueDate.getMonth() + 1 >= today.getMonth() + 1 &&
+    //         dueDate.getDate() >= today.getDate();
+    // }
+
+    // const validateTask = task => {
+    //     let today = new Date();
+    //     let dueDate = new Date(task.dueDate);
+    //     if (!task.name.trim().length > 0) {
+    //         toast.error("Task name is required")
+    //         return false;
+    //     }
+    //     if (!validateTaskDueDate(dueDate, today)) {
+    //         toast.error("Due date must be at least today")
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
     const handleOnChange = e => {
         const {name, value} = e.target;
-        setFormData({...formData, [name]: value})
+        setTask({...task, [name]: value})
     }
 
     const handleClose = () => {
         setLoading(false);
-        setFormData(INITIAL_DATA);
+        setTask(INITIAL_DATA);
         handleClosePopup();
     }
 
     return (
         <>
             <div className="backdrop" onClick={handleClose} style={{display: open ? "block" : "none"}}/>
-            {isSuccessful && <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{width: '100%', fontWeight: "bold"}}>
-                    Task created successful
-                </Alert>
-            </Snackbar>}
             {open &&
                 <div className="task_creator popup">
                     <CancelIcon sx={{
@@ -60,7 +81,7 @@ const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}
                     <form onSubmit={createTask}>
                         <div className="form-input">
                             <label htmlFor="task_name">task name</label>
-                            <input type="text" name="name" value={formData.name} onChange={handleOnChange}/>
+                            <input type="text" name="name" value={task.name} onChange={handleOnChange}/>
                         </div>
 
                         <div className="form_select">
@@ -68,7 +89,7 @@ const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}
                                 <label htmlFor="task_name">task priority</label>
                                 <select name="priority"
                                         onChange={handleOnChange}
-                                        value={formData.priority}
+                                        value={task.priority}
                                 >
                                     <option defaultValue="Select task priority">Select Task priority</option>
                                     {options.map((option, index) => {
@@ -78,22 +99,23 @@ const TaskCreator = ({handleClosePopup, open, validateTaskCreated, isSuccessful}
                             </div>
                             <div className="form-input">
                                 <label htmlFor="task_date">due date</label>
-                                <input type="date" name="dueDate" value={formData.dueDate}
+                                <input type="date" name="dueDate" value={task.dueDate}
                                        onChange={handleOnChange}/>
                             </div>
                         </div>
 
                         <CustomTextArea
-                            description={formData.description}
+                            description={task.description}
                             label="Enter task description"
                             placeholder="Type your content here..."
                             handleOnChange={handleOnChange}
                             row={3}
                             name="description"
                         />
-                        <button type="submit" className="task_btn"> {loading && (
+                        <button type="submit" className="task_btn" disabled={loading}> {loading && (
                             <i className="fa fa-refresh fa-spin" style={{marginRight: "5px"}}/>
-                        )}create task</button>
+                        )}create task
+                        </button>
                     </form>
                 </div>
             }

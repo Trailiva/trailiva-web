@@ -23,14 +23,8 @@
     justify-content: center;
 }
 
-
 /*========Form Wrapper style ==========*/
-.form_wrapper{
-/*border: 2px solid black;*/
-}
-
-
-.form_wrapper h3{
+.form_wrapper h3 {
     font-style: normal;
     font-weight: 700;
     font-size: 28px;
@@ -40,23 +34,23 @@
     margin-bottom: 2rem;
 }
 
-.form_wrapper h3 span{
-    color: #3754DB;
+.form_wrapper h3 span {
+    color: #3754db;
 }
 
-.form_wrapper label{
+.form_wrapper label {
     line-height: 2rem;
     font-style: normal;
     font-weight: 400;
     font-size: 0.9rem;
-    color: #2C2E3A;
+    color: #2c2e3a;
 }
 
-.form_wrapper input{
+.form_wrapper input {
     display: block;
     width: 80%;
-    background: #FBFBFE;
-    border: 1px solid #A8ABBD;
+    background: #fbfbfe;
+    border: 1px solid #a8abbd;
     border-radius: 12px;
     padding: 12px;
     font-size: 1rem;
@@ -68,7 +62,11 @@
     font-weight: normal;
     font-size: 0.9rem;
     line-height: 19px;
-    color: #83848e;
+    color: #d1d1d3;
+}
+
+.form_wrapper input:focus {
+    border: 1px solid #3754db;
 }
 
 .form_container a {
@@ -80,28 +78,12 @@
     font-size: 17px;
 }
 
-.next_btn{
-    margin-top: 3rem;
-    padding: 0.5rem 2rem;
-    font-size: 1rem;
-    border: none;
-    color: white;
-    display: block;
-    cursor: pointer;
-    background: #3754DB;
-    box-shadow: 0 12px 25px rgba(22, 36, 104, 0.06);
-    border-radius: 12px;text-transform: capitalize;
-}
-
-
-
-
 /*========Image Container style ==========*/
-.img_container{
+.img_container {
     padding: 1rem 0;
 }
 
-.img_container img{
+.img_container img {
     height: 100%;
     position: relative;
     width: 630px;
@@ -116,13 +98,13 @@
 }
 
 /*====== Workspace button style=======*/
-.workspace_type{
-   display: flex;
+.workspace_type {
+    display: flex;
     justify-content: space-between;
 }
 
-.workspace_type button{
-    border: 1px solid #B3B3B3;
+.workspace_type button {
+    border: 1px solid #b3b3b3;
     display: block;
     box-sizing: border-box;
     border-radius: 16px;
@@ -135,7 +117,7 @@
     position: relative;
 }
 
-.workspace_type button p{
+.workspace_type button p {
     font-weight: 600;
     font-size: 1.2rem;
     line-height: 40px;
@@ -143,32 +125,52 @@
     color: #000000;
 }
 
-.workspace_type button small{
+.workspace_type button small {
     font-weight: 400;
     font-size: 0.8rem;
     line-height: 20px;
-    color: #807F7F;
+    color: #807f7f;
 }
 
-.description{
+.description {
     width: 100%;
     display: block;
-    border: 1px solid #A8ABBD;
+    border: 1px solid #a8abbd;
     padding: 1rem;
     border-radius: 12px;
     font-size: 1rem;
 }
 
-.description::placeholder{
-    color: #C2C4CF;
+.description::placeholder {
+    color: #c2c4cf;
 }
 
-.step_btn{
+.step_btn {
     display: flex;
     align-items: center;
 }
-.step_btn button:nth-child(1){
+
+.step_btn button:nth-child(1) {
     margin-right: 3rem;
 }
 
 
+/* RESPONSIVE DESIGN*/
+
+@media only screen and (max-width: 1185px){
+    .img_container img {
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 995px){
+    .img_container img {
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 995px){
+    .img_container{
+        display: none;
+    }
+}

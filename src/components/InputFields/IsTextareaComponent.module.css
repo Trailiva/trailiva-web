@@ -1,0 +1,27 @@
+.input {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.input label {
+  margin: 0.5rem 0;
+}
+
+.input fieldset:hover {
+  border: 1px solid #2746d8;
+}
+
+.disabled {
+  color: #bbbbbb;
+}
+
+.filledInput textarea {
+  background-color: transparent;
+}
+
+.filledInput fieldset {
+  background-color: #fbfbfe;
+  z-index: -1;
+  border: 1px solid #2746d8;
+}

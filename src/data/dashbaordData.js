@@ -29,12 +29,14 @@ export const SETUP_DATA = [
     {
         name: "profile",
         active: true,
+        done: false,
         content: " update your profile picture",
         icon: ProfileSetup,
     },
     {
         name: "task",
         active: false,
+        done: false,
         content: "create your first task in your workspace",
         icon: TaskSetup,
     }
