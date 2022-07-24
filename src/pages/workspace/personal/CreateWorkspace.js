@@ -13,6 +13,7 @@ import {toast} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux";
 import {authAction} from "../../../store/auth-slice";
 import {createWorkspaceHandler} from "../../../store/workspace-action";
+import {workspaceAction} from "../../../store/workspace-slice";
 
 const isActionType = (action, actionType) => {
     return action.type === actionType;
@@ -36,17 +37,21 @@ const CreateWorkspace = () => {
     const [selected, setSelected] = useState(false);
     const [step, setStep] = useState(1);
     const [workspaceNameState, dispatchWorkspaceName] = useReducer(workspaceNameReducer, {value: '', isValid: null});
-    const [workspaceDescriptionState, dispatchWorkspaceDescription] = useReducer(workspaceDescriptionReducer, {value: '', isValid: null});
+    const [workspaceDescriptionState, dispatchWorkspaceDescription] = useReducer(workspaceDescriptionReducer, {
+        value: '',
+        isValid: null
+    });
     const [formIsValid, setFormIsValid] = useState(false);
     const [workspaceType, setWorkspaceType] = useState("");
     const dispatchFn = useDispatch();
     const loading = useSelector((state) => state.workspace.isLoading);
     const errorMessage = useSelector((state) => state.workspace.errorMsg);
     const isSuccessful = useSelector((state => state.workspace.isSuccessful))
+    const errorStatus = useSelector((state => state.workspace.errorStatus))
     const navigate = useNavigate();
 
-    const { isValid: workspaceNameIsValid } = workspaceNameState;
-    const { isValid: workspaceDescription } = workspaceDescriptionState;
+    const {isValid: workspaceNameIsValid} = workspaceNameState;
+    const {isValid: workspaceDescription} = workspaceDescriptionState;
 
     useEffect(() => {
         const identifier = setTimeout(() => {
@@ -59,22 +64,18 @@ const CreateWorkspace = () => {
     useEffect(() => {
         if (errorMessage) toast.error(errorMessage);
         if (isSuccessful) navigate("/")
-
-        const identifier = setTimeout(()=>{
-            dispatchFn(authAction.setErrorMsg(""));
-        }, 500)
-
-        return () => clearTimeout(identifier);
+        if (errorStatus === 401) navigate("/login")
+        return () => setTimeout(()=> dispatchFn(workspaceAction.setErrorMsg("")), 5000)
     }, [errorMessage, isSuccessful, dispatchFn]);
 
     const createWorkspace = async (e) => {
         e.preventDefault();
-            const formData = {
-                name: workspaceNameState.value,
-                description: workspaceDescriptionState.value,
-                workSpaceType: workspaceType,
-            }
-            dispatchFn(createWorkspaceHandler(formData))
+        const formData = {
+            name: workspaceNameState.value,
+            description: workspaceDescriptionState.value,
+            workSpaceType: workspaceType,
+        }
+        dispatchFn(createWorkspaceHandler(formData))
     };
 
     const prevStep = () => setStep((prevStep) => prevStep - 1);
@@ -92,9 +93,9 @@ const CreateWorkspace = () => {
 
     const handleOnChange = (e) => {
         const {name, value} = e.target;
-        if(name === "name"){
+        if (name === "name") {
             dispatchWorkspaceName({type: 'USER_INPUT', val: value})
-        }else if(name === "description") {
+        } else if (name === "description") {
             dispatchWorkspaceDescription({type: 'USER_INPUT', val: value})
         }
     };
@@ -141,7 +142,8 @@ const CreateWorkspace = () => {
                             onChange={handleOnChange}
                         />
 
-                        <small className="input_message">{!workspaceNameState.isValid && "Workspace name is required and it must contain 5 character"}</small>
+                        <small
+                            className="input_message">{!workspaceNameState.isValid && "Workspace name is required and it must contain 5 character"}</small>
                         <CustomButton
                             text={{value: "next"}}
                             handleClick={Continue}

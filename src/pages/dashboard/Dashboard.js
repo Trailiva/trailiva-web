@@ -173,11 +173,18 @@ const Dashboard = () => {
     }
   };
 
-  const removeAction = (actionType) => {
-    const updatedSetup = setups.filter((setup) => setup.name !== actionType);
-    console.log(updatedSetup);
-    if (updatedSetup.length > 0) updatedSetup[0].active = true;
-    setSetups(updatedSetup);
+  const removeSetup = () => {
+    const profile = localStorage.getItem("HAS_UPLOAD_IMAGE") ? "profile" : "";
+    const task = localStorage.getItem("HAS_CREATED_TASK") ? "task" : "";
+
+    const updatedSetups = setups.map((setup) => {
+      if (profile && setup.name === profile)setup.done = true;
+      if (task && setup.name === task)setup.done = true;
+      return { ...setup};
+    });
+
+    setSetups(updatedSetups);
+    console.log(updatedSetups);
   };
 
   const handleSetup = (name) => {
@@ -255,7 +262,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     populateDashboard();
-  }, [imageData.url]);
+    removeSetup();
+  }, [imageData.url, taskCreated]);
 
   return isLoading ? (
     <div
@@ -335,9 +343,7 @@ const Dashboard = () => {
                       <WelcomeHeader firstName={userProfile?.firstName} />
                     )}
                     {sidebar.tasks && (
-                      <TaskHeader
-                        handleCreateTask={handleOpenCreateTaskModal}
-                      />
+                      <TaskHeader handleCreateTask={handleOpenCreateTaskModal}/>
                     )}
                   </SidebarHeader>
                   {sidebar.tasks && (

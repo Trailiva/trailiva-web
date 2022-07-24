@@ -5,7 +5,8 @@ const workspaceSlice = createSlice({
     initialState: {
         isLoading: false,
         errorMsg: "",
-        isSuccessful: "",
+        isSuccessful: false,
+        errorStatus: ""
     },
     reducers: {
         setIsLoading(state, action) {
@@ -14,9 +15,12 @@ const workspaceSlice = createSlice({
         setErrorMsg(state, action) {
             state.errorMsg = action.payload;
         },
-        setSuccessMsg(state, action) {
+        setIsSuccessful(state, action) {
             state.isSuccessful = action.payload;
         },
+        setErrorStatus(state, action){
+            state.errorStatus = action.payload;
+        }
     },
 });
 
