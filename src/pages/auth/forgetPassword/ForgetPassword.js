@@ -1,50 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../../components/Navbar";
 import { Alert } from "@mui/material";
 import FormControl from "../../../components/FormControl";
 import { registrationOption } from "../../../utils/formValidation";
 import AuthButton from "../../../components/AuthButton";
 import { useForm } from "react-hook-form";
-import { TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN } from "../../../constants";
 import { useNavigate } from "react-router-dom";
-import { handleForgetPassword } from "../../../services/authService";
-import {extractErrorMessage} from "../../../utils/helper";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Box from "@mui/material/Box";
+import { useDispatch, useSelector } from "react-redux";
+import { authAction } from "../../../store/auth-slice";
+import { forgotPassword } from "../../../store/auth-actions";
 
 const ForgetPassword = () => {
+  const dispatchFn = useDispatch();
+  const loading = useSelector((state) => state.auth.isLoading);
+  const errorMessage = useSelector((state) => state.auth.errorMsg);
+  const isSuccessful = useSelector((state) => state.auth.isSuccessful);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+    } else if (isSuccessful) {
+      toast.success(isSuccessful);
+    }
+
+    return () => {
+      setTimeout(() => {
+        dispatchFn(authAction.setErrorMsg(""));
+        dispatchFn(authAction.setSuccessMsg(""));
+      }, 5000);
+    };
+  }, [errorMessage, dispatchFn, isSuccessful]);
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-  const [isSuccessFul, setIsSuccessFul] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [errorDate, setErrorData] = useState("");
-  const navigate = useNavigate();
 
-  const forgetPassword = async (data) => {
-    setLoading(true);
-    try {
-      const res = await handleForgetPassword(data);
-      localStorage.removeItem(VERIFICATION_TOKEN);
-      localStorage.removeItem(TOKEN_EXPIRY_DATE);
-      setLoading(false);
-      toast.success(res.data.successful);
+  const forgetPassword = (data) => {
+    const navigateToLogin = () => {
+      reset({
+        email: "",
+        password: "",
+      });
       navigate("/login");
-    } catch (err) {
-      setErrorData(err);
-      const message = extractErrorMessage(err);
-      toast.error(message);
-      setLoading(false);
-      setIsSuccessFul(false);
-    }
-    reset({
-      email: "",
-      password: "",
-    });
+    };
+
+    dispatchFn(forgotPassword(data, navigateToLogin));
   };
 
   const handleError = (errors) => console.log(errors);
@@ -54,14 +60,14 @@ const ForgetPassword = () => {
       <Navbar path="/quoteHandler" text="Create Account" />
       <div className="form-container">
         <Box variant="body1">
-          {!isSuccessFul && (
-              <Alert
-                  variant="filled"
-                  severity="error"
-                  style={{ marginBottom: "1rem" }}
-              >
-                {errorDate}!
-              </Alert>
+          {errorMessage && (
+            <Alert
+              variant="filled"
+              severity="error"
+              style={{ marginBottom: "1rem" }}
+            >
+              {errorMessage}!
+            </Alert>
           )}
           <div className="form-header">
             <h2>Forget Password</h2>
@@ -69,33 +75,33 @@ const ForgetPassword = () => {
 
           <form onSubmit={handleSubmit(forgetPassword, handleError)} noValidate>
             <FormControl
-                label="Enter email address"
-                name="email"
-                placeholder="example@gmail.com"
-                visibility={false}
-                useForm_register_return={register(
-                    "email",
-                    registrationOption.email
-                )}
-                errors={errors}
+              label="Enter email address"
+              name="email"
+              placeholder="example@gmail.com"
+              visibility={false}
+              useForm_register_return={register(
+                "email",
+                registrationOption.email
+              )}
+              errors={errors}
             />
 
             <FormControl
-                label="Enter a your new password"
-                name="password"
-                placeholder="Enter your password"
-                visibility={true}
-                useForm_register_return={register(
-                    "password",
-                    registrationOption.password
-                )}
-                errors={errors}
+              label="Enter a your new password"
+              name="password"
+              placeholder="Enter your password"
+              visibility={true}
+              useForm_register_return={register(
+                "password",
+                registrationOption.password
+              )}
+              errors={errors}
             />
 
             <AuthButton
-                disabled={loading}
-                text="Recover Account"
-                loadingText="Loading..."
+              disabled={loading}
+              text="Recover Account"
+              loadingText="Loading..."
             />
           </form>
         </Box>
