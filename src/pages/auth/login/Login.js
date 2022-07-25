@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { HAS_WORKSPACE } from "../../../constants";
 import IsInputComponent from "../../../components/InputFields/IsInputComponent";
 import CustomButton from "../../../components/Buttons/CustomButton";
-import AuthButton from "../../../components/AuthButton";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
