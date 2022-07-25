@@ -13,7 +13,8 @@ const IsInputComponent = (props) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const CssTextField = styled(TextField)({
     "& .MuiFormHelperText-root": {
-      margin: ".3rem 0rem",
+      margin: "0rem",
+      fontSize: ".6rem",
     },
     "& .MuiOutlinedInput-root": {
       padding: "0rem",
@@ -29,6 +30,7 @@ const IsInputComponent = (props) => {
         display: "block",
         outline: "none",
         border: "none",
+        fontSize: "16px !important",
       },
 
       "&.Mui-focused:not(.Mui-error) fieldset": {
@@ -95,6 +97,7 @@ const IsInputComponent = (props) => {
               error={!!error}
               onChange={onChange}
               value={value}
+              autoComplete={"off"}
               placeholder={props.placeholder}
               fullWidth
               disabled={props.disabled}
