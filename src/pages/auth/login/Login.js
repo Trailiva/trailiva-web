@@ -1,8 +1,12 @@
 import Navbar from "../../../components/Navbar";
 import { registrationOption } from "../../../utils/formValidation";
 import { useForm } from "react-hook-form";
-import { HAS_WORKSPACE } from "../../../constants";
-import FormControl from "../../../components/FormControl";
+import {
+  ACCESS_TOKEN,
+  HAS_WORKSPACE,
+  TOKEN_EXPIRY_DATE,
+  VERIFICATION_TOKEN,
+} from "../../../constants";
 import AuthButton from "../../../components/AuthButton";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";

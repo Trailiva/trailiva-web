@@ -1,7 +1,6 @@
 import "./register.css";
 import Navbar from "../../../components/Navbar";
 import { registrationOption } from "../../../utils/formValidation";
-import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -121,7 +120,7 @@ const Register = () => {
           </form>
         </Box>
       </div>
-    </>
+    </div>
   );
 };
 
