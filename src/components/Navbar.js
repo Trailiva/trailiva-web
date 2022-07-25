@@ -6,7 +6,7 @@ import ClickableButton from "./ClickableButton";
 const Navbar = ({ text, path }) => {
   return (
     <nav className="nav_bar">
-      <Link to="/" className="name-logo">
+      <Link to="/" className="logo-name">
         <img src={Logo} alt="logo" />
       </Link>
       <ClickableButton to={path} text={text} />
