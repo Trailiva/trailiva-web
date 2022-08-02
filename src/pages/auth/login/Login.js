@@ -62,79 +62,80 @@ const Login = () => {
   };
 
   const loadingIcon = (
-      <i className="fa fa-refresh fa-spin" style={{ marginRight: "5px" }} />
+    <i className="fa fa-refresh fa-spin" style={{ marginRight: "5px" }} />
   );
 
   return (
-      <div className="home-page">
-        <div className="first-div">
-          <div>
-            <img src={logoImage} alt="logo" />
-          </div>
-          <div className="home-page-title">
-            Take your productivity to the next level
-          </div>
-          <div>Copyright 2021 | All Right Reserved</div>
+    <div className="home-page">
+      <div className="first-div">
+        <div>
+          <img src={logoImage} alt="logo" />
         </div>
-        <div className="second-div">
-          <Navbar text="Create Account" path="/register" />
-          <div className="form-container">
-            <Box variant="body1">
-              <div className="form-header">
-                <h2>Welcome Back Login</h2>
-              </div>
+        <div className="home-page-title">
+          Take your productivity to the next level
+        </div>
+        <div>Copyright 2021 | All Right Reserved</div>
+      </div>
+      <div className="second-div">
+        <Navbar text="Create Account" path="/register" />
+        <div className="form-container">
+          <Box variant="body1">
+            <div className="form-header">
+              <h2>Welcome Back Login</h2>
+            </div>
 
-              <form onSubmit={handleSubmit(login, handleError)} noValidate>
-                <IsInputComponent
-                    label="Enter email address"
-                    name="email"
-                    type="email"
-                    control={control}
-                    placeholder="example@gmail.com"
-                    validation={registrationOption.email}
-                />
+            <form onSubmit={handleSubmit(login, handleError)} noValidate>
+              <IsInputComponent
+                label="Enter email address"
+                name="email"
+                type="email"
+                control={control}
+                placeholder="example@gmail.com"
+                validation={registrationOption.email}
+              />
 
-                <IsInputComponent
-                    label="Enter a password"
-                    name="password"
-                    type="password"
-                    control={control}
-                    placeholder="Enter your password"
-                    validation={registrationOption.password}
-                />
+              <IsInputComponent
+                label="Enter a password"
+                name="password"
+                type="password"
+                control={control}
+                placeholder="Enter your password"
+                validation={registrationOption.password}
+              />
 
-                <CustomButton
-                    text={{
-                      value: loading ? "logging..." : "login",
-                    }}
-                    handleClick={handleSubmit(login, handleError)}
-                    fullWidth={true}
-                    disableElevation={true}
-                    disabled={loading}
-                    variant={"primary"}
-                    color={"rgba(55, 84, 219, 1)"}
-                    size={"large"}
-                    loading={{
-                      position: "start",
-                      status: loading,
-                      indicator: loadingIcon,
-                    }}
-                    sx={{
-                      marginTop: "1rem",
-                    }}
-                />
-              </form>
-              <Link
-                  underline="hover"
-                  sx={{ color: "#3754DB", fontSize: "1rem" }}
-                  onClick={forgetPasswordHandler}
-              >
-                Forget password ?
-              </Link>
-            </Box>
-          </div>
+              <CustomButton
+                text={{
+                  value: loading ? "logging..." : "login",
+                }}
+                handleClick={handleSubmit(login, handleError)}
+                fullWidth={true}
+                disableElevation={true}
+                disabled={loading}
+                variant={"primary"}
+                color={"rgba(55, 84, 219, 1)"}
+                size={"large"}
+                startIcon={null}
+                loading={{
+                  position: "start",
+                  status: loading,
+                  indicator: loadingIcon,
+                }}
+                sx={{
+                  marginTop: "1rem",
+                }}
+              />
+            </form>
+            <Link
+              underline="hover"
+              sx={{ color: "#3754DB", fontSize: "1rem" }}
+              onClick={forgetPasswordHandler}
+            >
+              Forget password ?
+            </Link>
+          </Box>
         </div>
       </div>
+    </div>
   );
 };
 
