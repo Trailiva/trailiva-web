@@ -75,7 +75,6 @@ const CustomButton = (
     },
   });
 
-
   const icon = makeStyles({
     iconButton: {
       color: backgroundColor,
@@ -111,7 +110,7 @@ const CustomButton = (
           onClick={props.handleClick}
           href={props.href}
           disabled={props.disabled}
-          startIcon={startIcon}
+          startIcon={props.startIcon}
           endIcon={endIcon}
           sx={props.sx}
         >
