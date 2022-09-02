@@ -3,22 +3,7 @@ import { IconButton } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 
-const CustomButton = (
-  props
-  // : {
-  // 	handleClick: ()=> void;
-  // 	text?: Object;
-  // 	color?: string;
-  // 	variant?: string;
-  // 	size?: string;
-  // 	children?: any;
-  // 	href?: string;
-  // 	loading?: Object;
-  // 	icon?: [position, value];
-  // 	label?: string;
-  // 	disabled?: boolean;
-  //
-) => {
+const CustomButton = (props) => {
   const backgroundColor = props.color;
   const textColor = props.text.color ? props.text.color : "white";
   const loading = makeStyles({
