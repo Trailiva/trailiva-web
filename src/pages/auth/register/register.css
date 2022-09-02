@@ -59,47 +59,6 @@
   }
 }
 
-.logo-name {
-  display: none;
-}
-
-.nav_bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 150vh;
-  /*margin: 2rem auto;
-  */
-  padding: 0 2rem;
-}
-
-.nav_bar * {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-.login_btn {
-  background: #fff;
-  border-radius: 12px;
-  font-size: 1rem;
-  padding: 0.7rem 2rem;
-  font-style: normal;
-  font-weight: 500;
-  color: #3754db;
-  transition: all 0.5s ease-in-out;
-  outline: none;
-  margin-left: auto;
-  border: 2px solid #3754db;
-}
-
-.login_btn:hover {
-  background: transparent;
-  border: 2px solid #3754db;
-  color: #fff;
-  background-color: #3754db;
-}
-
 .form-container {
   display: flex;
   align-items: center;
