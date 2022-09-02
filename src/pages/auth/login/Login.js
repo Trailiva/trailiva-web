@@ -7,7 +7,7 @@ import CustomButton from "../../../components/Buttons/CustomButton";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import logoImage from "../../../images/logo name.svg";
+// import logoImage from "../../../images/logo name.svg";
 import { useEffect } from "react";
 import Link from "@mui/material/Link";
 // import Box from "@mui/material/Box";
@@ -67,7 +67,7 @@ const Login = () => {
 
   return (
     <div className="home-page">
-      <div className="first-div">
+      {/* <div className="first-div">
         <div>
           <img src={logoImage} alt="logo" />
         </div>
@@ -75,7 +75,7 @@ const Login = () => {
           Take your productivity to the next level
         </div>
         <div>Copyright 2021 | All Right Reserved</div>
-      </div>
+      </div> */}
       <div className="second-div">
         <Navbar text="Create Account" path="/register" />
         <div className="form-container">
