@@ -41,7 +41,9 @@ const Navbar = ({ text, path }) => {
           color={"rgba(55, 84, 219, 1)"}
           size={"sm"}
           sx={{ padding: "0.4rem 1.5rem", textTransform: "capitalize" }}
-          href={path}
+          handleClick={() => {
+            navigate(path);
+          }}
         />
       </Toolbar>
     </AppBar>
