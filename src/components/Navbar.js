@@ -1,4 +1,3 @@
-import React from "react";
 import Logo from "../images/Frame 416.svg";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
