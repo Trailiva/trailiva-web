@@ -67,19 +67,9 @@ const Login = () => {
 
   return (
     <div className="home-page">
-      {/* <div className="first-div">
-        <div>
-          <img src={logoImage} alt="logo" />
-        </div>
-        <div className="home-page-title">
-          Take your productivity to the next level
-        </div>
-        <div>Copyright 2021 | All Right Reserved</div>
-      </div> */}
       <div className="second-div">
         <Navbar text="Create Account" path="/register" />
         <div className="form-container">
-          {/* <Box variant="body1"> */}
           <div className="form-header">
             <h2>Welcome Back!</h2>
           </div>
