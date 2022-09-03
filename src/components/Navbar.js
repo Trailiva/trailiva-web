@@ -22,7 +22,7 @@ const Navbar = ({ text, path }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0",
+          padding: "0 1rem",
         }}
       >
         <Box

@@ -1,9 +1,10 @@
 .home-page {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  grid-column-gap: 4rem;
+  grid-column-gap: 4rem; */
+  display: flex;
   height: 100vh;
-  padding: 1rem 2rem;
+  padding: 0rem 2rem;
   width: 70%;
   margin: 0 auto;
 }
@@ -20,37 +21,13 @@
   }
 }
 
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 600px) {
   .home-page {
-    grid-column-gap: 2rem;
+    padding: 1rem;
   }
 }
 
-.home-page .first-div {
-  width: 100%;
-  height: 100%;
-  background-image: url("../../../images/login\ bgImage.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: 1.5rem;
-  padding: 2rem 4rem;
-  color: #fff;
-}
-
-@media only screen and (max-width: 1100px) {
-  .home-page .first-div {
-    padding: 2rem;
-  }
-}
-
-@media only screen and (max-width: 850px) {
-  .home-page .first-div {
-    display: none;
-  }
-}
-
-.home-page .second-div {
+.home-page .main-div {
   width: 100%;
   height: 100%;
   display: flex;
@@ -129,13 +106,14 @@
 
 @media only screen and (max-width: 1000px) {
   .form-container {
+    margin: 4rem auto 0;
     width: 60%;
   }
 }
 
 @media only screen and (max-width: 600px) {
   .form-container {
-    width: 95%;
+    width: 90%;
   }
 }
 
@@ -231,7 +209,7 @@ form {
   border: none;
   color: white;
   font-size: 1rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;

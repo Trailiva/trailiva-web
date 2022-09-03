@@ -1,17 +1,16 @@
 import "./register.css";
 import Navbar from "../../../components/Navbar";
 import { registrationOption } from "../../../utils/formValidation";
-import FormControl from "../../../components/FormControl";
 import AuthButton from "../../../components/AuthButton";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { userRegistration } from "../../../store/auth-actions";
 import { authAction } from "../../../store/auth-slice";
+import IsInputComponent from "../../../components/InputFields/IsInputComponent";
 
 const Register = () => {
   const dispatchFn = useDispatch();
@@ -32,18 +31,17 @@ const Register = () => {
     };
   }, [errorMessage, dispatchFn]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-
+  const { handleSubmit, reset, control } = useForm({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+    },
+  });
   const registerUser = (data) => {
     const navigateToVerify = () => {
       reset({
-        firstName: "",
-        lastName: "",
+        fullName: "",
         email: "",
         password: "",
       });
@@ -56,61 +54,40 @@ const Register = () => {
   const handleError = (errors) => console.log(errors);
 
   return (
-    <>
-      <Navbar text="Login" path="/login" />
-      <div className="form-container">
-        <Box variant="body1">
+    <div className="home-page">
+      <div className="main-div">
+        <Navbar text="Login" path="/login" />
+        <div className="form-container">
           <div className="form-header">
             <h2>Create an Account</h2>
             <p>{`It's`}Simple and Easy !!</p>
           </div>
           <form onSubmit={handleSubmit(registerUser, handleError)} noValidate>
-            <FormControl
-              label="Enter your first name"
-              name="firstName"
-              placeholder="John"
-              visibility={false}
-              useForm_register_return={register(
-                "firstName",
-                registrationOption.fullName
-              )}
-              errors={errors}
+            <IsInputComponent
+              label="Enter your full name"
+              name="fullName"
+              type="text"
+              control={control}
+              placeholder="John Doe"
+              validation={registrationOption.fullName}
             />
 
-            <FormControl
-              label="Enter your last name"
-              name="lastName"
-              placeholder="Doe"
-              visibility={false}
-              useForm_register_return={register(
-                "lastName",
-                registrationOption.fullName
-              )}
-              errors={errors}
-            />
-
-            <FormControl
+            <IsInputComponent
               label="Enter email address"
               name="email"
+              type="email"
+              control={control}
               placeholder="example@gmail.com"
-              visibility={false}
-              useForm_register_return={register(
-                "email",
-                registrationOption.email
-              )}
-              errors={errors}
+              validation={registrationOption.email}
             />
 
-            <FormControl
+            <IsInputComponent
               label="Enter a password"
               name="password"
+              type="password"
+              control={control}
               placeholder="Enter your password"
-              visibility={true}
-              useForm_register_return={register(
-                "password",
-                registrationOption.password
-              )}
-              errors={errors}
+              validation={registrationOption.password}
             />
 
             <AuthButton
@@ -119,9 +96,9 @@ const Register = () => {
               loadingText="Loading..."
             />
           </form>
-        </Box>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
