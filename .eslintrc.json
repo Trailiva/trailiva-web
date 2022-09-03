@@ -11,7 +11,14 @@
     // "indent": ["error", 2],
     // "linebreak-style": 1,
     // "quotes": ["error", "double"],
+<<<<<<< HEAD
     "react/react-in-jsx-scope": "off"
+=======
+    "react/react-in-jsx-scope": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "react/jsx-uses-react": "off"
+>>>>>>> 355ca9bf0a6ab89c77e3a038af4607db475e428f
   },
   "parserOptions": {
     "ecmaVersion": 2021,

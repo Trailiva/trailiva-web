@@ -14,115 +14,115 @@ import { userRegistration } from "../../../store/auth-actions";
 import { authAction } from "../../../store/auth-slice";
 
 const Register = () => {
-    const dispatchFn = useDispatch();
-    const loading = useSelector((state) => state.auth.isLoading);
-    const errorMessage = useSelector((state) => state.auth.errorMsg);
-    const navigate = useNavigate();
+  const dispatchFn = useDispatch();
+  const loading = useSelector((state) => state.auth.isLoading);
+  const errorMessage = useSelector((state) => state.auth.errorMsg);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (errorMessage) {
-            toast.error(errorMessage);
-            console.log("showing");
-        }
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+      console.log("showing");
+    }
 
-        return () => {
-            setTimeout(() => {
-                dispatchFn(authAction.setErrorMsg(""));
-            }, 5000);
-        };
-    }, [errorMessage, dispatchFn]);
+    return () => {
+      setTimeout(() => {
+        dispatchFn(authAction.setErrorMsg(""));
+      }, 5000);
+    };
+  }, [errorMessage, dispatchFn]);
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-    const registerUser = (data) => {
-        const navigateToVerify = () => {
-            reset({
-                firstName: "",
-                lastName: "",
-                email: "",
-                password: "",
-            });
-            navigate("/to-verify");
-        };
-
-        dispatchFn(userRegistration(data, navigateToVerify));
+  const registerUser = (data) => {
+    const navigateToVerify = () => {
+      reset({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      });
+      navigate("/to-verify");
     };
 
-    const handleError = (errors) => console.log(errors);
+    dispatchFn(userRegistration(data, navigateToVerify));
+  };
 
-    return (
-        <>
-            <Navbar text="Login" path="/login" />
-            <div className="form-container">
-                <Box variant="body1">
-                    <div className="form-header">
-                        <h2>Create an Account</h2>
-                        <p>It's Simple and Easy !!</p>
-                    </div>
-                    <form onSubmit={handleSubmit(registerUser, handleError)} noValidate>
-                        <FormControl
-                            label="Enter your first name"
-                            name="firstName"
-                            placeholder="John"
-                            visibility={false}
-                            useForm_register_return={register(
-                                "firstName",
-                                registrationOption.fullName
-                            )}
-                            errors={errors}
-                        />
+  const handleError = (errors) => console.log(errors);
 
-                        <FormControl
-                            label="Enter your last name"
-                            name="lastName"
-                            placeholder="Doe"
-                            visibility={false}
-                            useForm_register_return={register(
-                                "lastName",
-                                registrationOption.fullName
-                            )}
-                            errors={errors}
-                        />
+  return (
+    <>
+      <Navbar text="Login" path="/login" />
+      <div className="form-container">
+        <Box variant="body1">
+          <div className="form-header">
+            <h2>Create an Account</h2>
+            <p>{`It's`}Simple and Easy !!</p>
+          </div>
+          <form onSubmit={handleSubmit(registerUser, handleError)} noValidate>
+            <FormControl
+              label="Enter your first name"
+              name="firstName"
+              placeholder="John"
+              visibility={false}
+              useForm_register_return={register(
+                "firstName",
+                registrationOption.fullName
+              )}
+              errors={errors}
+            />
 
-                        <FormControl
-                            label="Enter email address"
-                            name="email"
-                            placeholder="example@gmail.com"
-                            visibility={false}
-                            useForm_register_return={register(
-                                "email",
-                                registrationOption.email
-                            )}
-                            errors={errors}
-                        />
+            <FormControl
+              label="Enter your last name"
+              name="lastName"
+              placeholder="Doe"
+              visibility={false}
+              useForm_register_return={register(
+                "lastName",
+                registrationOption.fullName
+              )}
+              errors={errors}
+            />
 
-                        <FormControl
-                            label="Enter a password"
-                            name="password"
-                            placeholder="Enter your password"
-                            visibility={true}
-                            useForm_register_return={register(
-                                "password",
-                                registrationOption.password
-                            )}
-                            errors={errors}
-                        />
+            <FormControl
+              label="Enter email address"
+              name="email"
+              placeholder="example@gmail.com"
+              visibility={false}
+              useForm_register_return={register(
+                "email",
+                registrationOption.email
+              )}
+              errors={errors}
+            />
 
-                        <AuthButton
-                            disabled={loading}
-                            text="Create Account"
-                            loadingText="Loading..."
-                        />
-                    </form>
-                </Box>
-            </div>
-        </>
-    );
+            <FormControl
+              label="Enter a password"
+              name="password"
+              placeholder="Enter your password"
+              visibility={true}
+              useForm_register_return={register(
+                "password",
+                registrationOption.password
+              )}
+              errors={errors}
+            />
+
+            <AuthButton
+              disabled={loading}
+              text="Create Account"
+              loadingText="Loading..."
+            />
+          </form>
+        </Box>
+      </div>
+    </>
+  );
 };
 
 export default Register;
