@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Verification from "./pages/auth/verificationPage/Verification";
 import Register from "./pages/auth/register/Register";
-// eslint-disable-next-line import/namespace,import/default
 import ToVerify from "./pages/auth/verificationPage/ToVerify";
 import ForgetPassword from "./pages/auth/forgetPassword/ForgetPassword";
 import ResetPassword from "./pages/auth/ResetPassword/ResetPassword";

@@ -19,6 +19,8 @@
 
 .verification_header > div{
     width: 90%;
+    max-width: 600px;
+    padding: 10px;
     margin: 0 auto;
 }
 @media (min-width: 520px){
@@ -63,3 +65,62 @@
     cursor: pointer;
 }
 
+.Toastify{
+    width: 100vw;
+    height: 50%;
+}
+
+.Toastify__toast{
+    margin-bottom: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    background: #FAFFFD;
+    justify-content: space-between;
+    border-radius: 12px;
+    border: 1.6px solid #00C271;
+}
+
+.Toastify__toast-container {
+    width: 90%;
+    margin: 0 auto;
+    max-width: max-content !important;
+    bottom: 10% !important;
+    position: relative !important;
+}
+
+.Toastify__toast-body > div:last-child{
+
+}
+
+.Toastify__toast-icon {
+    font-size: 20px;
+    padding: 10px;
+    border-radius:  100%;
+    color: #00C271;
+    width: max-content !important;
+    background: #E6FFF4;
+}
+
+@media (min-width: 520px){
+    .verification_header > div {
+        width: 55%
+    }
+
+    .Toastify__toast-container{
+        margin: 0;
+    }
+
+
+}
+
+@media (min-width: 1023px){
+    .verification_header > div {
+        width: 40%
+    }
+}
+
+@media (min-width: 1480px){
+    .verification_header > div {
+        width: 30%
+    }
+}
