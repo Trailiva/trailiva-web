@@ -24,7 +24,7 @@ const Nav = ({workspaceName, name, onHandleLink}) => {
 
     const [links, setLinks] = useState(SIDE_BAR_DATA);
 
-    const handleLink = (linkText: string) => {
+    const handleLink = (linkText) => {
         let currentLink = links.find(link => link.text === linkText);
         currentLink.active = true;
 

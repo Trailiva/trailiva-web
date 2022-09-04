@@ -1,16 +1,10 @@
 import React from 'react';
 import Typography from "@mui/material/Typography";
-import {Button, Card, CardActions, CardContent, Step, StepButton, StepLabel, Stepper} from "@mui/material";
+import {Button, Card, CardActions, CardContent} from "@mui/material";
 import editIcon from "../../images/editIcon.svg";
 import deleteIcon from "../../images/deleteIcon.svg";
-import Box from "@mui/material/Box";
 
 const ViewTask = ({task}) => {
-    const steps = [
-        'Select master blaster campaign settings',
-        'Create an ad group',
-        'Create an ad',
-    ];
     return (
 
         <Card elevation={0} sx={{

@@ -1,17 +1,16 @@
-import React from 'react';
-import {ToastContainer} from "react-toastify";
+import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Dashboard from "../src/pages/dashboard/Dashboard";
-import {Route, Routes} from "react-router-dom";
 import Verification from "./pages/auth/verificationPage/Verification";
 import Register from "./pages/auth/register/Register";
+// eslint-disable-next-line import/namespace,import/default
 import ToVerify from "./pages/auth/verificationPage/ToVerify";
 import ForgetPassword from "./pages/auth/forgetPassword/ForgetPassword";
 import ResetPassword from "./pages/auth/ResetPassword/ResetPassword";
 import PageNotFound from "./components/PageNotFound";
-import Login from "./pages/auth/login/Login";
 import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
-
+import Login from "./pages/auth/login/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
+import {ToastContainer} from "react-toastify";
 
 function App() {
     return (

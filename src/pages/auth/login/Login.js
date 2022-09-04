@@ -1,88 +1,130 @@
 import Navbar from "../../../components/Navbar";
-import {registrationOption} from "../../../utils/formValidation";
-import {useForm} from "react-hook-form";
-import {ACCESS_TOKEN, HAS_WORKSPACE, TOKEN_EXPIRY_DATE, VERIFICATION_TOKEN} from "../../../constants";
-import FormControl from "../../../components/FormControl";
-import AuthButton from "../../../components/AuthButton";
-import {Link, useNavigate} from "react-router-dom";
-import 'react-toastify/dist/ReactToastify.css';
-import {toast} from "react-toastify";
-import {useState} from "react";
-import {extractErrorMessage} from "../../../utils/helper";
-import {handleForgetPasswordToken, handleUserLogin} from "../../../services/authService";
+import { registrationOption } from "../../../utils/formValidation";
+import { useForm } from "react-hook-form";
+import { HAS_WORKSPACE } from "../../../constants";
+import IsInputComponent from "../../../components/InputFields/IsInputComponent";
+import CustomButton from "../../../components/Buttons/CustomButton";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import Link from "@mui/material/Link";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin, forgetPasswordToken } from "../../../store/auth-actions";
+import { authAction } from "../../../store/auth-slice";
 
 const Login = () => {
-    const {register, handleSubmit, reset, formState: {errors}} = useForm();
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+  const dispatchFn = useDispatch();
+  const loading = useSelector((state) => state.auth.isLoading);
+  const errorMessage = useSelector((state) => state.auth.errorMsg);
+  const navigate = useNavigate();
 
-    const login = async (data) => {
-        setLoading(true);
-        try {
-            const res = await handleUserLogin(data);
-            localStorage.setItem(ACCESS_TOKEN, res.data.jwtToken);
-            setLoading(false);
-            if (!localStorage.getItem(HAS_WORKSPACE))
-                navigate("/create-workspace")
-            else navigate("/")
-        } catch (error) {
-            setLoading(false);
-            const message = extractErrorMessage(error);
-            toast.error(message);
-        }
-        reset({
-            email: "",
-            password: ""
-        })
-    };
-
-    const handleError = (errors) => console.log(errors);
-
-    const forgetPasswordHandler = async () => {
-        try {
-            let response = await handleForgetPasswordToken();
-            localStorage.setItem(VERIFICATION_TOKEN, response.data.token);
-            localStorage.setItem(TOKEN_EXPIRY_DATE, response.data.expiry);
-            navigate("/forget-password")
-        } catch (err) {
-            console.log("error ==> ", err)
-        }
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
     }
 
-    return (
-        <>
-            <Navbar text="Create Account" path="/register"/>
-            <div className="form-container">
-                <div className="form-header">
-                    <h2>Welcome Back Login</h2>
-                </div>
+    return () => {
+      setTimeout(() => {
+        dispatchFn(authAction.setErrorMsg(""));
+      }, 5000);
+    };
+  }, [errorMessage, dispatchFn]);
 
-                <form onSubmit={handleSubmit(login, handleError)} noValidate>
-                    <FormControl
-                        label="Enter email address"
-                        name="email"
-                        placeholder="example@gmail.com"
-                        visibility={false}
-                        useForm_register_return={register("email", registrationOption.email)}
-                        errors={errors}
-                    />
+  const { handleSubmit, reset, control } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-                    <FormControl
-                        label="Enter a password"
-                        name="password"
-                        placeholder="Enter your password"
-                        visibility={true}
-                        useForm_register_return={register("password", registrationOption.password)}
-                        errors={errors}
-                    />
+  const login = (data) => {
+    const getStoredWorkspace = () => {
+      reset({
+        email: "",
+        password: "",
+      });
+      if (!localStorage.getItem(HAS_WORKSPACE)) navigate("/create-workspace");
+      else navigate("/");
+    };
+    dispatchFn(userLogin(data, getStoredWorkspace));
+  };
 
-                    <AuthButton disabled={loading} text="Login" loadingText="Logging..."/>
-                    <Link to="/forget-password" onClick={forgetPasswordHandler}>Forget password ?</Link>
-                </form>
+  const handleError = (errors) => console.log(errors);
+
+  const forgetPasswordHandler = () => {
+    const navigateToForgetPasswordPage = () => {
+      navigate("/forget-password");
+    };
+    dispatchFn(forgetPasswordToken(navigateToForgetPasswordPage));
+  };
+
+  const loadingIcon = (
+      <i className="fa fa-refresh fa-spin" style={{ marginRight: "5px" }} />
+  );
+
+  return (
+      <div className="home-page">
+        <div className="second-div">
+          <Navbar text="Create Account" path="/register" />
+          <div className="form-container">
+            <div className="form-header">
+              <h2>Welcome Back!</h2>
             </div>
-        </>
-    );
 
+            <form onSubmit={handleSubmit(login, handleError)} noValidate>
+              <IsInputComponent
+                  label="Enter email address"
+                  name="email"
+                  type="email"
+                  control={control}
+                  placeholder="example@gmail.com"
+                  validation={registrationOption.email}
+              />
+
+              <IsInputComponent
+                  label="Enter a password"
+                  name="password"
+                  type="password"
+                  control={control}
+                  placeholder="Enter your password"
+                  validation={registrationOption.password}
+              />
+
+              <CustomButton
+                  text={{
+                    value: loading ? "logging..." : "login",
+                  }}
+                  handleClick={handleSubmit(login, handleError)}
+                  fullWidth={true}
+                  disableElevation={true}
+                  disabled={loading}
+                  variant={"primary"}
+                  color={"rgba(55, 84, 219, 1)"}
+                  size={"large"}
+                  startIcon={null}
+                  loading={{
+                    position: "start",
+                    status: loading,
+                    indicator: loadingIcon,
+                  }}
+                  sx={{
+                    marginTop: "1rem",
+                  }}
+              />
+            </form>
+            <Link
+                underline="hover"
+                sx={{ color: "#3754DB", fontSize: "1rem" }}
+                onClick={forgetPasswordHandler}
+            >
+              Forget password ?
+            </Link>
+            {/* </Box> */}
+          </div>
+        </div>
+      </div>
+  );
 };
 
 export default Login;
