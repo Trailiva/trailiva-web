@@ -13,15 +13,14 @@ const Verification = () => {
     const navigate = useNavigate();
 
     const verifyUser = async () => {
-        console.log(token)
         try {
             const res = await handleTokenVerification(token);
             setSuccessful(true);
             setMessage(res.data.message)
+            navigate("/login")
         } catch (err) {
-            // console.log('err', err);
-            // setSuccessful(false);
-            // navigate("/loginHandler")
+            setSuccessful(false);
+            navigate("/")
         }
     }
 
