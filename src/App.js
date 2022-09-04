@@ -26,11 +26,7 @@ function App() {
                         <CreateWorkspace/>
                     </ProtectedRoute>
                 }/>
-                <Route path="user-verification/:token" element={
-                    <ProtectedRoute>
-                        <Verification/>
-                    </ProtectedRoute>
-                }/>
+                <Route path="user-verification/:token" element={<Verification/>}/>
 
                 <Route path="register" element={<Register/>}/>
                 <Route exact path="to-verify" element={<ToVerify/>}/>

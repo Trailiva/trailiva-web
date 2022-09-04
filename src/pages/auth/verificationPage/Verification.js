@@ -19,9 +19,9 @@ const Verification = () => {
             setSuccessful(true);
             setMessage(res.data.message)
         } catch (err) {
-            console.log('err', err);
-            setSuccessful(false);
-            navigate("/loginHandler")
+            // console.log('err', err);
+            // setSuccessful(false);
+            // navigate("/loginHandler")
         }
     }
 
