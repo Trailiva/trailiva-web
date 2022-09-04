@@ -10,6 +10,7 @@ import CreateWorkspace from "./pages/workspace/personal/CreateWorkspace";
 import Login from "./pages/auth/login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import {ToastContainer} from "react-toastify";
+import CreateNewPassword from "./pages/auth/forgetPassword/CreateNewPassword";
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                     </ProtectedRoute>
                 }/>
                 <Route path="user-verification/:token" element={<Verification/>}/>
+                <Route path="new-password" element={<CreateNewPassword/>}/>
 
                 <Route path="register" element={<Register/>}/>
                 <Route exact path="to-verify" element={<ToVerify/>}/>

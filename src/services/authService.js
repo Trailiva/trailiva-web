@@ -1,5 +1,5 @@
 import {api} from "../api/api";
-import {ACCESS_TOKEN, USER_EMAIL} from "../constants";
+import {ACCESS_TOKEN, FORGET_PASSWORD_TOKEN, USER_EMAIL} from "../constants";
 
 export const getCurrentUser = () => {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
@@ -20,15 +20,15 @@ export const handleForgetPasswordToken = () => {
 
 
 export const handleForgetPassword = (data) => {
-    if (!localStorage.getItem("verificationToken")) {
+    const token = localStorage.getItem(FORGET_PASSWORD_TOKEN);
+    if (!token) {
         return Promise.reject("Token not set");
     }
     const userData = {
-        email: data.email,
+        token,
         password: data.password
     };
-    const token = localStorage.getItem("verificationToken");
-    return api.post(`auth/password/forget-password/${token}`, userData);
+    return api.post(`auth/password/save-reset-password`, userData);
 }
 
 export const handleResetPassword = (data) => {

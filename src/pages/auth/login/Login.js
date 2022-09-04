@@ -93,7 +93,7 @@ const Login = () => {
 
               <CustomButton
                   text={{
-                    value: loading ? "logging..." : "login",
+                    value: loading ? "Loading..." : "login",
                   }}
                   handleClick={handleSubmit(login, handleError)}
                   fullWidth={true}
