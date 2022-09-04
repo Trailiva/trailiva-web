@@ -48,29 +48,26 @@ const ToVerify = () => {
 
 	const classes = useStyles()
 	const snackClasses = snackbar()
-	localStorage.setItem('username','Mona')
-	const [username, setUsername] = useState(localStorage.getItem('username'))
+	const [username, setUsername] = useState(localStorage.getItem('firstName'))
 
 	return (
 		<>
 			<Navbar path="/login" text="Login"/>
 			<header className="verification_header">
 				<div>
-					<h3>Verify Your Account</h3>
-					<p>Your account has been created successfully.  A <br/> verification link has been sent to your registered email <br/> address.</p>
+					<h3>Your account has been created successfully</h3>
+					<p>To have access to this wonderful service, you must first verify your account.</p>
 				</div>
 
 				<Snackbar
 					className={snackClasses.snackbar}
 					open={open}
-					// autoHideDuration={6000}
 					anchorOrigin={{horizontal: "center", vertical: "bottom"}}
 					onClose={handleClose}
 				>
 					<Alert severity="success" onClose={handleClose} icon={<CheckRounded fontSize={"inherit"} />}  className={classes.cookieAlert}>
 						<AlertTitle>Hello {username}</AlertTitle>
-						You would be sent a recovery Link to the email
-					</Alert>
+						Check your email account; an email has been sent to you for account verification.					</Alert>
 				</Snackbar>
 			</header>
 		</>

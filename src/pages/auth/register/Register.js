@@ -17,20 +17,22 @@ const Register = () => {
     const dispatchFn = useDispatch();
     const loading = useSelector((state) => state.auth.isLoading);
     const errorMessage = useSelector((state) => state.auth.errorMsg);
+    const data = useSelector((state) => state.auth.data);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (errorMessage) {
             toast.error(errorMessage);
-            console.log("showing");
         }
-
+        if (data){
+            localStorage.setItem("firstName", data.firstName);
+        }
         return () => {
             setTimeout(() => {
                 dispatchFn(authAction.setErrorMsg(""));
             }, 5000);
         };
-    }, [errorMessage, dispatchFn]);
+    }, [errorMessage, dispatchFn, data]);
 
     const {handleSubmit, reset, control} = useForm({
         defaultValues: {

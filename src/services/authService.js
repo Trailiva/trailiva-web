@@ -40,7 +40,7 @@ export const handleResetPassword = (data) => {
     return api.post(`auth/password/reset`, userData);
 }
 
-export const handleUserRegistration = (data) => {
+export const  handleUserRegistration = (data) => {
     const userData = {
         firstName: data.fullName.split(" ")[0],
         lastName: data.fullName.split(" ")[1],

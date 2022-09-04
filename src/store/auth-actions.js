@@ -50,6 +50,7 @@ export const userRegistration = (data, navigateToVerify) => {
       const res = await handleUserRegistration(data);
       localStorage.setItem("email", res.data.email);
       dispatch(authAction.setIsLoading(false));
+      dispatch(authAction.setData(res.data));
       navigateToVerify();
     } catch (err) {
       dispatch(authAction.setIsLoading(false));
