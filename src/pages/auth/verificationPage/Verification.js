@@ -13,6 +13,7 @@ const Verification = () => {
     const navigate = useNavigate();
 
     const verifyUser = async () => {
+        console.log(token)
         try {
             const res = await handleTokenVerification(token);
             setSuccessful(true);

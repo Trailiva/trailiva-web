@@ -59,7 +59,7 @@ export const handleUserLogin = (data) => {
 }
 
 export const handleTokenVerification = (token) => {
-    return api.get(`/auth/registrationConfirm?token=${token}`)
+    return api.get(`/auth/verify-token?token=${token}`)
 }
 
 export const handleResetVerificationToken = () => {
