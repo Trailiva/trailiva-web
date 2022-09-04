@@ -66,7 +66,7 @@ const IsInputComponent = (props) => {
     },
   });
 
-  const togglePasswordVisibilty = () =>
+  const togglePasswordVisibility = () =>
     setPasswordShown((prevState) => !prevState);
 
   const Icon = (
@@ -117,7 +117,7 @@ const IsInputComponent = (props) => {
                         <InputAdornment position="end">
                           {error ? (
                             (error && props.disabled && (
-                              <IconButton onClick={togglePasswordVisibilty}>
+                              <IconButton onClick={togglePasswordVisibility}>
                                 {passwordShown ? (
                                   <Visibility />
                                 ) : (
@@ -127,7 +127,7 @@ const IsInputComponent = (props) => {
                             )) ||
                             Icon
                           ) : (
-                            <IconButton onClick={togglePasswordVisibilty}>
+                            <IconButton onClick={togglePasswordVisibility}>
                               {passwordShown ? (
                                 <Visibility />
                               ) : (
@@ -166,7 +166,6 @@ IsInputComponent.propTypes = {
   name: PropTypes.string,
   placeholder: PropTypes.string,
   validation: PropTypes.object,
-  // control: PropTypes.object,
 };
 
 export default IsInputComponent;

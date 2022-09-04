@@ -42,8 +42,8 @@ export const handleResetPassword = (data) => {
 
 export const handleUserRegistration = (data) => {
     const userData = {
-        firstName: data.firstName,
-        lastName: data.lastName,
+        firstName: data.fullName.split(" ")[0],
+        lastName: data.fullName.split(" ")[1],
         email: data.email,
         password: data.password
     };
