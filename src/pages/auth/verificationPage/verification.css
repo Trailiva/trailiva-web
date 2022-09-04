@@ -23,7 +23,17 @@
     padding: 10px;
     margin: 0 auto;
 }
+@media (min-width: 520px){
+    .verification_header > div {
+        width: 50%
+    }
+}
 
+@media (min-width: 1023px){
+    .verification_header > div {
+        width: 30%
+    }
+}
 .verification_header p{
     font-family: 'Poppins', sans-serif;
     font-style: normal;

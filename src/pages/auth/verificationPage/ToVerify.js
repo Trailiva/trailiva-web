@@ -3,7 +3,6 @@ import Navbar from "../../../components/Navbar";
 import { CheckRounded } from "@mui/icons-material";
 import { toast } from 'react-toastify'
 
-
 function VerificationMessage(props) {
 	return (
 		<>
@@ -19,7 +18,6 @@ function VerificationMessage(props) {
 }
 
 const ToVerify = () => {
-
 	localStorage.setItem('username', 'Mona')
 	const [username, setUsername] = useState(localStorage.getItem('username'))
 

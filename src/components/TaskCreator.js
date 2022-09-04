@@ -16,17 +16,16 @@ const TaskCreator = ({handleClosePopup, open, validateTaskCreated}) => {
 
     const createTask = async e => {
         e.preventDefault()
-        if (validateTask(task)) {
+       {
             setLoading(true);
             try {
                 await handleCreateTask(task)
                 setLoading(false);
-                if (validateTask(task)) {
-                    localStorage.setItem(HAS_CREATED_TASK, true);
-                    validateTaskCreated(true)
-                    setTask(INITIAL_DATA);
-                    toast.success("Task created successful");
-                }
+                localStorage.setItem(HAS_CREATED_TASK, true);
+                validateTaskCreated(true)
+                setTask(INITIAL_DATA);
+                toast.success("Task created successful");
+                setLoading(false);
             } catch (e) {
                 toast.error(extractErrorMessage(e));
                 setLoading(false);
@@ -34,25 +33,25 @@ const TaskCreator = ({handleClosePopup, open, validateTaskCreated}) => {
         }
     }
 
-    function validateTaskDueDate(dueDate, today) {
-        return dueDate.getFullYear() >= today.getFullYear() &&
-            dueDate.getMonth() + 1 >= today.getMonth() + 1 &&
-            dueDate.getDate() >= today.getDate();
-    }
+    // function validateTaskDueDate(dueDate, today) {
+    //     return dueDate.getFullYear() >= today.getFullYear() &&
+    //         dueDate.getMonth() + 1 >= today.getMonth() + 1 &&
+    //         dueDate.getDate() >= today.getDate();
+    // }
 
-    const validateTask = task => {
-        let today = new Date();
-        let dueDate = new Date(task.dueDate);
-        if (!task.name.trim().length > 0) {
-            toast.error("Task name is required")
-            return false;
-        }
-        if (!validateTaskDueDate(dueDate, today)) {
-            toast.error("Due date must be at least today")
-            return false;
-        }
-        return true;
-    }
+    // const validateTask = task => {
+    //     let today = new Date();
+    //     let dueDate = new Date(task.dueDate);
+    //     if (!task.name.trim().length > 0) {
+    //         toast.error("Task name is required")
+    //         return false;
+    //     }
+    //     if (!validateTaskDueDate(dueDate, today)) {
+    //         toast.error("Due date must be at least today")
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
     const handleOnChange = e => {
         const {name, value} = e.target;

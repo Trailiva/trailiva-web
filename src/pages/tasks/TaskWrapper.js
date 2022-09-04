@@ -10,6 +10,7 @@ const TaskWrapper = () => {
                     return <TaskCard
                         taskTab={task.taskTab}
                         name={task.name}
+                        key={task.id}
                         referencedName={task.referenceName}
                     />
                 })

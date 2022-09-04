@@ -59,6 +59,7 @@ const TaskContainer = ({onHandleClick, isSuccessful, handleViewTask}) => {
     const getTask = async () => {
         try {
             const res = await handleFetchWorkspaceTasks();
+            console.log(res.data)
             setTask(res.data);
         } catch (err) {
             console.log("err", err)
@@ -157,7 +158,6 @@ return (
                         value={value}
                         onChange={handleChange}
                         scrollButtons="auto"
-                        aria-label="scrollable auto tabs example"
                     >
                         {tabs.map((tab, index) => {
                             return (
@@ -168,7 +168,6 @@ return (
                                            style={{textTransform: "capitalize", letterSpacing: "0.05em"}}/>
                             )
                         })}
-
                     </StyledTabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
@@ -191,3 +190,4 @@ return (
 ;
 
 export default TaskContainer;
+
