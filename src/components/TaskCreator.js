@@ -4,6 +4,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import {HAS_CREATED_TASK} from "../constants";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+// eslint-disable-next-line import/namespace
 import {extractErrorMessage} from "../utils/helper";
 import {handleCreateTask} from "../services/taskService";
 

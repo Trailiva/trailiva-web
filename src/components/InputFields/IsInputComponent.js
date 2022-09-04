@@ -20,6 +20,7 @@ const IsInputComponent = (props) => {
       padding: "0rem",
       borderRadius: ".8rem",
       overflow: "hidden",
+      transition: "all .3s ease",
 
       "& fieldset": {
         width: "auto",

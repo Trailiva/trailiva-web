@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-import React from "react";
 import Logo from "../images/Frame 416.svg";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -24,7 +22,7 @@ const Navbar = ({ text, path }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0",
+          padding: "0 1rem",
         }}
       >
         <Box

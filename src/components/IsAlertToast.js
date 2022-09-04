@@ -1,12 +1,11 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import AlertTitle from '@mui/material/AlertTitle';
 import MuiAlert from '@mui/material/Alert';
 import { makeStyles } from "@material-ui/core";
 import './alertToast.css';
-import SuccessOuline from '../images/successoutlined.svg'
+import SuccessOutline from '../images/successoutlined.svg'
 import SuccessFilled from '../images/successfilled.svg'
 import ErrorFilled from '../images/errorfilled.svg'
 import ErrorOutlined from '../images/erroroutlined.svg'
@@ -56,7 +55,7 @@ function IsAlertToast({severity, variant, alertTitle, alertMessage, vertical, ho
     return (
         <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={6000} onClose={handleClose}>
         <Stack sx={{ width: '100%', margin: '10px auto'}} spacing={2}>
-        <Alert icon={<img src={SuccessFilled} />} onClose={handleClose} variant={variant} severity={severity} className={classes.mySuccess}>
+        <Alert icon={<img alt="icon"  src={SuccessFilled} />} onClose={handleClose} variant={variant} severity={severity} className={classes.mySuccess}>
             <AlertTitle> {alertTitle} </AlertTitle>
             {alertMessage}
         </Alert>
@@ -67,7 +66,7 @@ function IsAlertToast({severity, variant, alertTitle, alertMessage, vertical, ho
     return (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Stack sx={{ width: '100%', margin: '10px auto'}} spacing={2}>
-        <Alert icon={<img src={SuccessOuline} />} onClose={handleClose} variant={variant} severity={severity} className={classes.mySuccess}>
+        <Alert icon={<img alt="icon" src={SuccessOutline} />} onClose={handleClose} variant={variant} severity={severity} className={classes.mySuccess}>
             <AlertTitle> {alertTitle} </AlertTitle>
             {alertMessage}
         </Alert>
@@ -78,7 +77,7 @@ function IsAlertToast({severity, variant, alertTitle, alertMessage, vertical, ho
     return (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Stack sx={{ width: '100%', margin: '10px auto'}} spacing={2}>
-        <Alert icon={<img src={WarningFilled} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myWarning}>
+        <Alert icon={<img alt="icon" src={WarningFilled} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myWarning}>
             <AlertTitle> {alertTitle} </AlertTitle>
             {alertMessage}
         </Alert>
@@ -89,7 +88,7 @@ function IsAlertToast({severity, variant, alertTitle, alertMessage, vertical, ho
     return (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Stack sx={{ width: '100%', margin: '10px auto'}} spacing={2}>
-        <Alert icon={<img src={WarningOutlined} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myWarning}>
+        <Alert icon={<img alt="icon" src={WarningOutlined} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myWarning}>
             <AlertTitle> {alertTitle} </AlertTitle>
             {alertMessage}
         </Alert>
@@ -100,7 +99,7 @@ function IsAlertToast({severity, variant, alertTitle, alertMessage, vertical, ho
     return (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Stack sx={{ width: '100%', margin: '10px auto'}} spacing={2}>
-        <Alert icon={<img src={InfoFilled} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myInfo}>
+        <Alert icon={<img alt="icon" src={InfoFilled} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myInfo}>
             <AlertTitle> {alertTitle} </AlertTitle>
             {alertMessage}
         </Alert>
@@ -111,7 +110,7 @@ function IsAlertToast({severity, variant, alertTitle, alertMessage, vertical, ho
     return (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Stack sx={{ width: '100%', margin: '10px auto'}} spacing={2}>
-        <Alert icon={<img src={InfoOutlined} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myInfo}>
+        <Alert icon={<img alt="icon" src={InfoOutlined} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myInfo}>
             <AlertTitle> {alertTitle} </AlertTitle>
             {alertMessage}
         </Alert>
@@ -122,7 +121,7 @@ function IsAlertToast({severity, variant, alertTitle, alertMessage, vertical, ho
     return (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Stack sx={{ width: '100%', margin: '10px auto'}} spacing={2}>
-        <Alert icon={<img src={ErrorFilled} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myError}>
+        <Alert icon={<img alt="icon" src={ErrorFilled} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myError}>
             <AlertTitle> {alertTitle} </AlertTitle>
             {alertMessage}
         </Alert>
@@ -133,7 +132,7 @@ function IsAlertToast({severity, variant, alertTitle, alertMessage, vertical, ho
     return (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Stack sx={{ width: '100%', margin: '10px auto'}} spacing={2}>
-        <Alert icon={<img src={ErrorOutlined} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myError}>
+        <Alert icon={<img alt="icon" src={ErrorOutlined} />} onClose={handleClose} variant={variant} severity={severity} className={classes.myError}>
             <AlertTitle> {alertTitle} </AlertTitle>
             {alertMessage}
         </Alert>
