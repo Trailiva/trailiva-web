@@ -61,15 +61,20 @@ export const userRegistration = (data, navigateToVerify) => {
 };
 
 export const forgotPassword = (data, navigateToLogin) => {
+  const token = localStorage.getItem(FORGET_PASSWORD_TOKEN);
+  const userData = {
+    token,
+    password: data.password
+  };
   return async (dispatch) => {
     dispatch(authAction.setIsLoading(true));
     try {
-      const res = await handleForgetPassword(data);
-      localStorage.removeItem(FORGET_PASSWORD_TOKEN);
-      localStorage.removeItem(TOKEN_EXPIRY_DATE);
+      const res = await handleForgetPassword(userData);
+      // localStorage.removeItem(FORGET_PASSWORD_TOKEN);
+      // localStorage.removeItem(TOKEN_EXPIRY_DATE);
       dispatch(authAction.setIsLoading(false));
       if (res.data.successful) {
-        dispatch(authAction.setIsSuccess(true));
+        dispatch(authAction.setIsSuccessful(true));
       }
       navigateToLogin();
     } catch (err) {

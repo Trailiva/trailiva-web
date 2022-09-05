@@ -21,14 +21,9 @@ export const handleForgetPasswordToken = () => {
 
 export const handleForgetPassword = (data) => {
     const token = localStorage.getItem(FORGET_PASSWORD_TOKEN);
-    if (!token) {
+    if (!token)
         return Promise.reject("Token not set");
-    }
-    const userData = {
-        token,
-        password: data.password
-    };
-    return api.post(`auth/password/save-reset-password`, userData);
+    return api.post(`auth/password/save-reset-password`, data);
 }
 
 export const handleResetPassword = (data) => {

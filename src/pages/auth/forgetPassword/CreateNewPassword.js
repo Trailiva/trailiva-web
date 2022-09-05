@@ -7,10 +7,8 @@ import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import {authAction} from "../../../store/auth-slice";
 import {useForm} from "react-hook-form";
-import {HAS_WORKSPACE} from "../../../constants";
-import {userLogin} from "../../../store/auth-actions";
 import CustomButton from "../../../components/Buttons/CustomButton";
-import {handleForgetPassword} from "../../../services/authService";
+import {forgotPassword} from "../../../store/auth-actions";
 
 const CreateNewPassword = () => {
     const dispatchFn = useDispatch();
@@ -33,21 +31,24 @@ const CreateNewPassword = () => {
 
     const { handleSubmit, reset, control } = useForm({
         defaultValues: {
-            email: "",
             password: "",
+            confirmPassword: "",
         },
     });
 
     const updatePassword = (data) => {
-
+        if (data.password.trim() !== data.confirmPassword.trim()){
+            toast.error("Password does not match");
+            return;
+        }
         const navigateToLogin = () => {
             reset({
                 password: "",
                 confirmPassword: "",
             });
-            if (isSuccessful) navigate("/login");
+          if (isSuccessful) navigate("/login")
         };
-        dispatchFn(handleForgetPassword(data, navigateToLogin));
+        dispatchFn(forgotPassword(data, navigateToLogin));
     };
 
     const handleError = (errors) => console.log(errors);
