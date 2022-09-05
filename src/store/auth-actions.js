@@ -70,8 +70,7 @@ export const forgotPassword = (data, navigateToLogin) => {
     dispatch(authAction.setIsLoading(true));
     try {
       const res = await handleForgetPassword(userData);
-      // localStorage.removeItem(FORGET_PASSWORD_TOKEN);
-      // localStorage.removeItem(TOKEN_EXPIRY_DATE);
+      localStorage.removeItem(FORGET_PASSWORD_TOKEN);
       dispatch(authAction.setIsLoading(false));
       if (res.data.successful) {
         dispatch(authAction.setIsSuccessful(true));
