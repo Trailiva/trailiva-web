@@ -5,7 +5,8 @@ const authSlice = createSlice({
   initialState: {
     isLoading: false,
     errorMsg: "",
-    isSuccessful: "",
+    isSuccessful: false,
+    successMsg: "",
     data: "",
   },
   reducers: {
@@ -15,11 +16,14 @@ const authSlice = createSlice({
     setErrorMsg(state, action) {
       state.errorMsg = action.payload;
     },
-    setSuccessMsg(state, action) {
+    setIsSuccessful(state, action) {
       state.isSuccessful = action.payload;
     },
     setData(state, action){
       state.data = action.payload
+    },
+    setSuccessMsg(state, action) {
+      state.successMsg = action.payload
     }
   },
 });

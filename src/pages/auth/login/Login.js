@@ -23,7 +23,6 @@ const Login = () => {
     if (errorMessage) {
       toast.error(errorMessage);
     }
-
     return () => {
       setTimeout(() => {
         dispatchFn(authAction.setErrorMsg(""));
@@ -93,7 +92,7 @@ const Login = () => {
 
               <CustomButton
                   text={{
-                    value: loading ? "logging..." : "login",
+                    value: loading ? "Loading..." : "login",
                   }}
                   handleClick={handleSubmit(login, handleError)}
                   fullWidth={true}
@@ -115,12 +114,11 @@ const Login = () => {
             </form>
             <Link
                 underline="hover"
-                sx={{ color: "#3754DB", fontSize: "1rem" }}
+                sx={{ color: "#3754DB", fontSize: "1rem", cursor: "pointer"}}
                 onClick={forgetPasswordHandler}
             >
               Forget password ?
             </Link>
-            {/* </Box> */}
           </div>
         </div>
       </div>

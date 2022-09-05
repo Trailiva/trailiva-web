@@ -53,67 +53,10 @@
     margin-bottom: 1rem;
 }
 
-.token-btn{
-    background: #3754DB;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    padding: 0.7rem 2rem;
-    font-style: normal;
-    font-weight: 500;
-    color: #FFF;
-    transition: all .5s ease-in-out;
-    outline: none;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-}
-
-.Toastify{
-    width: 100vw;
-    height: 50%;
-}
-
-.Toastify__toast{
-    margin-bottom: 0 !important;
-    background: none !important;
-    box-shadow: none !important;
-    background: #FAFFFD;
-    justify-content: space-between;
-    border-radius: 12px;
-    border: 1.6px solid #00C271;
-}
-
-.Toastify__toast-container {
-    width: 90%;
-    margin: 0 auto;
-    max-width: max-content !important;
-    bottom: 10% !important;
-    position: relative !important;
-}
-
-.Toastify__toast-body > div:last-child{
-
-}
-
-.Toastify__toast-icon {
-    font-size: 20px;
-    padding: 10px;
-    border-radius:  100%;
-    color: #00C271;
-    width: max-content !important;
-    background: #E6FFF4;
-}
-
 @media (min-width: 520px){
     .verification_header > div {
         width: 55%
     }
-
-    .Toastify__toast-container{
-        margin: 0;
-    }
-
-
 }
 
 @media (min-width: 1023px){

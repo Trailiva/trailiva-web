@@ -14,7 +14,7 @@ const IsInputComponent = (props) => {
   const CssTextField = styled(TextField)({
     "& .MuiFormHelperText-root": {
       margin: "0rem",
-      fontSize: ".6rem",
+      fontSize: ".9rem",
     },
     "& .MuiOutlinedInput-root": {
       padding: "0rem",

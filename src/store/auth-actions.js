@@ -9,7 +9,7 @@ import {
 } from "../services/authService";
 import {
   ACCESS_TOKEN,
-  VERIFICATION_TOKEN,
+  FORGET_PASSWORD_TOKEN,
   TOKEN_EXPIRY_DATE,
 } from "../constants";
 
@@ -33,7 +33,7 @@ export const forgetPasswordToken = (changePage) => {
   return async (dispatch) => {
     try {
       let response = await handleForgetPasswordToken();
-      localStorage.setItem(VERIFICATION_TOKEN, response.data.token);
+      localStorage.setItem(FORGET_PASSWORD_TOKEN, response.data.token);
       localStorage.setItem(TOKEN_EXPIRY_DATE, response.data.expiry);
       changePage();
     } catch (err) {
@@ -61,15 +61,20 @@ export const userRegistration = (data, navigateToVerify) => {
 };
 
 export const forgotPassword = (data, navigateToLogin) => {
+  const token = localStorage.getItem(FORGET_PASSWORD_TOKEN);
+  const userData = {
+    token,
+    password: data.password
+  };
   return async (dispatch) => {
     dispatch(authAction.setIsLoading(true));
     try {
-      const res = await handleForgetPassword(data);
-      localStorage.removeItem(VERIFICATION_TOKEN);
-      localStorage.removeItem(TOKEN_EXPIRY_DATE);
+      const res = await handleForgetPassword(userData);
+      // localStorage.removeItem(FORGET_PASSWORD_TOKEN);
+      // localStorage.removeItem(TOKEN_EXPIRY_DATE);
       dispatch(authAction.setIsLoading(false));
       if (res.data.successful) {
-        dispatch(authAction.setSuccessMsg("Password recovered!"));
+        dispatch(authAction.setIsSuccessful(true));
       }
       navigateToLogin();
     } catch (err) {
