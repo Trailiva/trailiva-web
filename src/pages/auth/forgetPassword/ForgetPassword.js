@@ -1,17 +1,15 @@
 import React, { useEffect } from "react";
 import Navbar from "../../../components/Navbar";
-import { Alert } from "@mui/material";
-import FormControl from "../../../components/FormControl";
 import { registrationOption } from "../../../utils/formValidation";
-import AuthButton from "../../../components/AuthButton";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { authAction } from "../../../store/auth-slice";
-import { forgotPassword } from "../../../store/auth-actions";
+import { forgetPasswordToken } from "../../../store/auth-actions";
+import IsInputComponent from "../../../components/InputFields/IsInputComponent";
+import CustomButton from "../../../components/Buttons/CustomButton";
 
 const ForgetPassword = () => {
   const dispatchFn = useDispatch();
@@ -34,79 +32,77 @@ const ForgetPassword = () => {
     };
   }, [errorMessage, dispatchFn, isSuccessful]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { handleSubmit, reset, control } = useForm({
+    defaultValues: {
+      email: "",
+    },
+  });
 
   const forgetPassword = (data) => {
-    const navigateToLogin = () => {
+    const navigateToResetPassword = () => {
       reset({
         email: "",
-        password: "",
       });
-      navigate("/login");
+      navigate("/new-password");
     };
 
-    dispatchFn(forgotPassword(data, navigateToLogin));
+    dispatchFn(forgetPasswordToken(data, navigateToResetPassword));
   };
 
   const handleError = (errors) => console.log(errors);
 
+  const loadingIcon = (
+    <i className="fa fa-refresh fa-spin" style={{ marginRight: "5px" }} />
+  );
+
   return (
-    <>
-      <Navbar path="/quoteHandler" text="Create Account" />
-      <div className="form-container">
-        <Box variant="body1">
-          {errorMessage && (
-            <Alert
-              variant="filled"
-              severity="error"
-              style={{ marginBottom: "1rem" }}
-            >
-              {errorMessage}!
-            </Alert>
-          )}
+    <div className="home-page">
+      <div className="second-div">
+        <Navbar path="/quoteHandler" text="Create Account" />
+        <div className="form-container">
           <div className="form-header">
             <h2>Forget Password</h2>
+            <p>
+              We are sorry to hear that happen. Don't be sad we coud hep you get
+              back to productivity in no time.
+            </p>
           </div>
 
           <form onSubmit={handleSubmit(forgetPassword, handleError)} noValidate>
-            <FormControl
+            <IsInputComponent
               label="Enter email address"
               name="email"
+              type="email"
+              control={control}
               placeholder="example@gmail.com"
-              visibility={false}
-              useForm_register_return={register(
-                "email",
-                registrationOption.email
-              )}
-              errors={errors}
+              validation={registrationOption.email}
             />
 
-            <FormControl
-              label="Enter a your new password"
-              name="password"
-              placeholder="Enter your password"
-              visibility={true}
-              useForm_register_return={register(
-                "password",
-                registrationOption.password
-              )}
-              errors={errors}
-            />
-
-            <AuthButton
+            <CustomButton
+              text={{
+                value: loading ? "Loading..." : "Next",
+              }}
+              handleClick={handleSubmit(forgetPassword, handleError)}
+              fullWidth={true}
+              disableElevation={true}
               disabled={loading}
-              text="Recover Account"
-              loadingText="Loading..."
+              variant={"primary"}
+              color={"rgba(55, 84, 219, 1)"}
+              size={"large"}
+              startIcon={null}
+              loading={{
+                position: "start",
+                status: loading,
+                indicator: loadingIcon,
+              }}
+              sx={{
+                marginTop: "1rem",
+              }}
             />
           </form>
-        </Box>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
