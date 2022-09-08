@@ -43,9 +43,8 @@ const ForgetPassword = () => {
       reset({
         email: "",
       });
-      navigate("/new-password");
+      navigate("/reset-password");
     };
-
     dispatchFn(forgetPasswordToken(data, navigateToResetPassword));
   };
 
@@ -58,12 +57,12 @@ const ForgetPassword = () => {
   return (
     <div className="home-page">
       <div className="second-div">
-        <Navbar path="/quoteHandler" text="Create Account" />
+        <Navbar path="/register" text="Create Account" />
         <div className="form-container">
           <div className="form-header">
             <h2>Forget Password</h2>
             <p>
-              We are sorry to hear that happen. Don't be sad we coud hep you get
+              We are sorry to hear that happen. Don't be sad we could hep you get
               back to productivity in no time.
             </p>
           </div>

@@ -11,7 +11,7 @@ export const getCurrentUser = () => {
 };
 
 export const handleForgetPasswordToken = (email) => {
-  return api.get(`auth/password/reset?email=${email}`);
+  return api.post(`auth/password/reset?email=${email}`);
 };
 
 export const handleForgetPassword = (data) => {

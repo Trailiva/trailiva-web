@@ -10,16 +10,19 @@ import {useForm} from "react-hook-form";
 import CustomButton from "../../../components/Buttons/CustomButton";
 import {forgotPassword} from "../../../store/auth-actions";
 
-const CreateNewPassword = () => {
+const ResetPassword = () => {
     const dispatchFn = useDispatch();
     const loading = useSelector((state) => state.auth.isLoading);
     const errorMessage = useSelector((state) => state.auth.errorMsg);
-    const isSuccessful = useSelector((state) => state.auth.isSuccessful)
+    const isSuccessful = useSelector((state) => state.auth.isSuccessful);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (errorMessage) {
             toast.error(errorMessage);
+        }
+        else if (isSuccessful) {
+            toast.success(isSuccessful);
         }
 
         return () => {
@@ -27,9 +30,9 @@ const CreateNewPassword = () => {
                 dispatchFn(authAction.setErrorMsg(""));
             }, 5000);
         };
-    }, [errorMessage, dispatchFn]);
+    }, [errorMessage, dispatchFn, isSuccessful]);
 
-    const { handleSubmit, reset, control } = useForm({
+    const {handleSubmit, reset, control} = useForm({
         defaultValues: {
             password: "",
             confirmPassword: "",
@@ -37,7 +40,7 @@ const CreateNewPassword = () => {
     });
 
     const updatePassword = (data) => {
-        if (data.password.trim() !== data.confirmPassword.trim()){
+        if (data.password.trim() !== data.confirmPassword.trim()) {
             toast.error("Password does not match");
             return;
         }
@@ -46,7 +49,6 @@ const CreateNewPassword = () => {
                 password: "",
                 confirmPassword: "",
             });
-          if (isSuccessful) navigate("/login")
         };
         dispatchFn(forgotPassword(data, navigateToLogin));
     };
@@ -54,18 +56,19 @@ const CreateNewPassword = () => {
     const handleError = (errors) => console.log(errors);
 
     const loadingIcon = (
-        <i className="fa fa-refresh fa-spin" style={{ marginRight: "5px" }} />
+        <i className="fa fa-refresh fa-spin" style={{marginRight: "5px"}}/>
     );
 
 
     return (
         <div className="home-page">
             <div className="second-div">
-                <Navbar text="Login" path="/login" />
+                <Navbar text="Login" path="/login"/>
                 <div className="form-container">
                     <div className="form-header">
                         <h2>Enter New Password</h2>
-                        <p>Your account was recovered. To regain full control of your account, enter your new password.</p>
+                        <p>Your account was recovered. To regain full control of your account, enter your new
+                            password.</p>
                     </div>
 
                     <form onSubmit={handleSubmit(updatePassword, handleError)} noValidate>
@@ -116,4 +119,4 @@ const CreateNewPassword = () => {
     );
 };
 
-export default CreateNewPassword;
+export default ResetPassword;

@@ -115,7 +115,7 @@ const Login = () => {
             <Link
                 underline="hover"
                 sx={{ color: "#3754DB", fontSize: "1rem", cursor: "pointer"}}
-                onClick={forgetPasswordHandler}
+                onClick={() => navigate("/forget-password")}
             >
               Forget password ?
             </Link>

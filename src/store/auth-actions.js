@@ -10,7 +10,6 @@ import {
 import {
   ACCESS_TOKEN,
   FORGET_PASSWORD_TOKEN,
-  TOKEN_EXPIRY_DATE,
 } from "../constants";
 
 export const userLogin = (data, getStoredWorkspace) => {
@@ -29,7 +28,7 @@ export const userLogin = (data, getStoredWorkspace) => {
   };
 };
 
-export const forgetPasswordToken = (email, navigateToResetPassword) => {
+export const forgetPasswordToken = ({email}, navigateToResetPassword) => {
   return async (dispatch) => {
     dispatch(authAction.setIsLoading(true));
     try {
