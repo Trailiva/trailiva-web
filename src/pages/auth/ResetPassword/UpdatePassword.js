@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authAction } from "../../../store/auth-slice";
 import { resetPassword } from "../../../store/auth-actions";
 
-const ResetPassword = () => {
+const UpdatePassword = () => {
   const dispatchFn = useDispatch();
   const loading = useSelector((state) => state.auth.isLoading);
   const errorMessage = useSelector((state) => state.auth.errorMsg);
@@ -126,4 +126,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default UpdatePassword;

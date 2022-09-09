@@ -10,7 +10,6 @@ import {
 import {
   ACCESS_TOKEN,
   FORGET_PASSWORD_TOKEN,
-  TOKEN_EXPIRY_DATE,
 } from "../constants";
 
 export const userLogin = (data, getStoredWorkspace) => {
@@ -29,14 +28,16 @@ export const userLogin = (data, getStoredWorkspace) => {
   };
 };
 
-export const forgetPasswordToken = (changePage) => {
+export const forgetPasswordToken = ({email}, navigateToResetPassword) => {
   return async (dispatch) => {
+    dispatch(authAction.setIsLoading(true));
     try {
-      let response = await handleForgetPasswordToken();
+      let response = await handleForgetPasswordToken(email);
+      dispatch(authAction.setIsLoading(false));
       localStorage.setItem(FORGET_PASSWORD_TOKEN, response.data.token);
-      localStorage.setItem(TOKEN_EXPIRY_DATE, response.data.expiry);
-      changePage();
+      navigateToResetPassword();
     } catch (err) {
+      dispatch(authAction.setIsLoading(false));
       const message = extractErrorMessage(err);
       dispatch(authAction.setErrorMsg(message));
     }
