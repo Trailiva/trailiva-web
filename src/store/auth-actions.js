@@ -64,7 +64,7 @@ export const forgotPassword = (data, navigateToLogin) => {
   const token = localStorage.getItem(FORGET_PASSWORD_TOKEN);
   const userData = {
     token,
-    password: data.password
+    password: data.password,
   };
   return async (dispatch) => {
     dispatch(authAction.setIsLoading(true));
