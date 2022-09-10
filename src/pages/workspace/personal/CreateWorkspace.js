@@ -129,9 +129,7 @@ const CreateWorkspace = () => {
       case 1:
         return (
             <div>
-              <h3>
-                create a <span>workspace</span>
-              </h3>
+              <h3>create a <span>workspace</span></h3>
               <label htmlFor="title">Title your workspace</label>
               <input
                   type="text"

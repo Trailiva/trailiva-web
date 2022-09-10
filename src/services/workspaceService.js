@@ -27,3 +27,4 @@ export const handleWorkspaceCreation = (data) => {
         headers: {"Authorization": `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`}
     });
 }
+
