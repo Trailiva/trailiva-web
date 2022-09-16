@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 import {authAction} from "../../../store/auth-slice";
 import {useForm} from "react-hook-form";
 import CustomButton from "../../../components/Buttons/CustomButton";
-import {forgotPassword} from "../../../store/auth-actions";
+import {forgotPassword} from "../../../store/auth-action";
 
 const ResetPassword = () => {
     const dispatchFn = useDispatch();

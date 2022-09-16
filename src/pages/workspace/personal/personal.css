@@ -3,14 +3,12 @@
   padding: 0 1rem;
   display: flex;
   align-items: center;
-  height: 100vh;
-  overflow-y: hidden;
-  justify-content: space-around;
+  height: 80vh;
+  justify-content: center;
 }
 
-.container > div {
-  width: 50%;
-  height: 100vh;
+.container > div{
+  width: 40%;
 }
 
 /*=====Form Container style======*/

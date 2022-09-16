@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authAction } from "../../../store/auth-slice";
-import { forgetPasswordToken } from "../../../store/auth-actions";
+import { forgetPasswordToken } from "../../../store/auth-action";
 import IsInputComponent from "../../../components/InputFields/IsInputComponent";
 import CustomButton from "../../../components/Buttons/CustomButton";
 

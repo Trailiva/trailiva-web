@@ -10,6 +10,7 @@ import Login from "./pages/auth/login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import {ToastContainer} from "react-toastify";
 import ResetPassword from "./pages/auth/forgetPassword/ResetPassword";
+import CreateProject from "./pages/project/CreateProject";
 
 function App() {
     return (
@@ -26,11 +27,18 @@ function App() {
                         <CreateWorkspace/>
                     </ProtectedRoute>
                 }/>
+                <Route exact path="create-project" element={
+                    <ProtectedRoute>
+                        <CreateProject/>
+                    </ProtectedRoute>
+                }/>
+
                 <Route path="user-verification/:token" element={<Verification/>}/>
                 <Route path="new-password" element={<ResetPassword/>}/>
 
                 <Route path="register" element={<Register/>}/>
                 <Route exact path="to-verify" element={<ToVerify/>}/>
+                <Route exact path="create-project" element={<CreateProject/>}/>
 
                 <Route path="forget-password" element={<ForgetPassword/>}/>
                 <Route path="reset-password" element={<ResetPassword/>}/>

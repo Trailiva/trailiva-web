@@ -29,7 +29,7 @@ import {
   handleImageUploadToCloudinary,
 } from "../../services/userService";
 import { getCurrentUser } from "../../services/authService";
-import { handleWorkspaceDetails } from "../../services/workspaceService";
+import {handlePersonalWorkspaceDetails} from "../../services/workspaceService";
 
 const Dashboard = () => {
   const INITIAL_IMAGE_DATA = { url: "", public_id: "", blob: "", file: "" };
@@ -219,7 +219,7 @@ const Dashboard = () => {
 
   const getUserWorkspace = async () => {
     try {
-      const workspace = await handleWorkspaceDetails();
+      const workspace = await handlePersonalWorkspaceDetails();
       const { name, description, referenceName, workSpaceType, datePublished } =
         workspace.data;
 

@@ -62,8 +62,8 @@ const CreateWorkspace = () => {
 
   useEffect(() => {
     if (errorMessage) toast.error(errorMessage);
-    if (isSuccessful) navigate("/")
-    if (errorStatus === 401) navigate("/login")
+    if (isSuccessful) navigate("/create-project")
+    if (errorStatus === 401) navigate("/create-workspace")
     return () => setTimeout(()=> dispatchFn(workspaceAction.setErrorMsg("")), 5000)
   }, [errorMessage, isSuccessful, dispatchFn]);
 
@@ -129,9 +129,7 @@ const CreateWorkspace = () => {
       case 1:
         return (
             <div>
-              <h3>
-                create a <span>workspace</span>
-              </h3>
+              <h3>create a <span>workspace</span></h3>
               <label htmlFor="title">Title your workspace</label>
               <input
                   type="text"
