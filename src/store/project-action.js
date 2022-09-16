@@ -1,12 +1,12 @@
 import {projectAction} from "./project-slice";
-import {handleProjectCreation} from "../services/projectService";
+import {handlePersonalProjectCreation} from "../services/projectService";
 import {extractErrorMessage} from "../utils/helper";
 
 export const createProjectHandler = data => {
     return async (dispatch) => {
         dispatch(projectAction.setIsLoading(true));
         try {
-            const res = await handleProjectCreation(data);
+            const res = await handlePersonalProjectCreation(data);
             dispatch(projectAction.setIsLoading(false));
             dispatch(projectAction.setIsSuccessful(true));
             localStorage.setItem("PROJECT_ID", res.data.projectId);

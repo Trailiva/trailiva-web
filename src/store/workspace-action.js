@@ -1,12 +1,12 @@
 import {workspaceAction} from "./workspace-slice";
 import {extractErrorMessage} from "../utils/helper";
-import {handleWorkspaceCreation} from "../services/workspaceService";
+import {handlePersonalWorkspaceCreation} from "../services/workspaceService";
 
 export const createWorkspaceHandler = data => {
     return async (dispatch) => {
         dispatch(workspaceAction.setIsLoading(true));
         try {
-            const res = await handleWorkspaceCreation(data);
+            const res = await handlePersonalWorkspaceCreation(data);
             dispatch(workspaceAction.setIsLoading(false));
             dispatch(workspaceAction.setIsSuccessful(true));
             localStorage.setItem("HAS_WORKSPACE", true);

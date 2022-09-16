@@ -7,7 +7,7 @@ import TaskCard from "./TaskCard";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
-import {handleFetchWorkspaceTasks} from "../../services/workspaceService";
+import {handleProjectTasks} from "../../services/projectService";
 
 
 const StyledTabs = styled((props) => (
@@ -58,7 +58,7 @@ const TaskContainer = ({onHandleClick, isSuccessful, handleViewTask}) => {
     }
     const getTask = async () => {
         try {
-            const res = await handleFetchWorkspaceTasks();
+            const res = await handleProjectTasks();
             console.log(res.data)
             setTask(res.data);
         } catch (err) {

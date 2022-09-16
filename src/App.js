@@ -27,6 +27,12 @@ function App() {
                         <CreateWorkspace/>
                     </ProtectedRoute>
                 }/>
+                <Route exact path="create-project" element={
+                    <ProtectedRoute>
+                        <CreateProject/>
+                    </ProtectedRoute>
+                }/>
+
                 <Route path="user-verification/:token" element={<Verification/>}/>
                 <Route path="new-password" element={<ResetPassword/>}/>
 
