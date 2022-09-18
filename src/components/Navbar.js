@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import CustomButton from "./Buttons/CustomButton";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ text, path }) => {
+const Navbar = ({ text, path, none }) => {
   const navigate = useNavigate();
   return (
     <AppBar
@@ -34,18 +34,20 @@ const Navbar = ({ text, path }) => {
             navigate("/");
           }}
         />
-        {text && (
-          <CustomButton
-            text={{ value: text }}
-            variant={"secondary"}
-            color={"rgba(55, 84, 219, 1)"}
-            size={"sm"}
-            sx={{ padding: "0.4rem 1.5rem", textTransform: "capitalize" }}
-            handleClick={() => {
-              navigate(path);
-            }}
-          />
-        )}
+        <CustomButton
+          text={{ value: text }}
+          variant={"secondary"}
+          color={"rgba(55, 84, 219, 1)"}
+          size={"sm"}
+          sx={{
+            padding: "0.4rem 1.5rem",
+            textTransform: "capitalize",
+            display: none ? "none" : null,
+          }}
+          handleClick={() => {
+            navigate(path);
+          }}
+        />
       </Toolbar>
     </AppBar>
   );

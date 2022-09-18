@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import Link from "@mui/material/Link";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogin, forgetPasswordToken } from "../../../store/auth-actions";
+import { userLogin, forgetPasswordToken } from "../../../store/auth-action";
 import { authAction } from "../../../store/auth-slice";
 
 const Login = () => {
