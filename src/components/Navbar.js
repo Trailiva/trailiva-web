@@ -34,16 +34,18 @@ const Navbar = ({ text, path }) => {
             navigate("/");
           }}
         />
-        <CustomButton
-          text={{ value: text }}
-          variant={"secondary"}
-          color={"rgba(55, 84, 219, 1)"}
-          size={"sm"}
-          sx={{ padding: "0.4rem 1.5rem", textTransform: "capitalize" }}
-          handleClick={() => {
-            navigate(path);
-          }}
-        />
+        {text && (
+          <CustomButton
+            text={{ value: text }}
+            variant={"secondary"}
+            color={"rgba(55, 84, 219, 1)"}
+            size={"sm"}
+            sx={{ padding: "0.4rem 1.5rem", textTransform: "capitalize" }}
+            handleClick={() => {
+              navigate(path);
+            }}
+          />
+        )}
       </Toolbar>
     </AppBar>
   );

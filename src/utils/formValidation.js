@@ -11,8 +11,8 @@ export const registrationOption = {
     },
     pattern: {
       value: /^[A-Z][a-z]+\s[A-Z][a-z]+$/i,
-      message: "Full name is required"
-    }
+      message: "Full name is required",
+    },
   },
   email: {
     required: "Email is required",
@@ -54,15 +54,15 @@ export const registrationOption = {
       message: "Task cannot be greater than 100 characters",
     },
   },
-  text_field: {
-    required: "Text is required",
+  work_space: {
+    required: "Workspace description is required",
     minLength: {
       value: 10,
-      message: "Text must have at least 10 characters",
+      message: "It must have at least 10 characters",
     },
     maxLength: {
-      value: 100,
-      message: "Text cannot be greater than 100 characters",
+      value: 300,
+      message: "Text cannot be greater than 300 characters",
     },
   },
 };
