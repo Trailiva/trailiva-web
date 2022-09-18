@@ -39,7 +39,11 @@ const Navbar = ({ text, path, none }) => {
           variant={"secondary"}
           color={"rgba(55, 84, 219, 1)"}
           size={"sm"}
-          sx={{ padding: "0.4rem 1.5rem", textTransform: "capitalize", display: none ? "none" : null}}
+          sx={{
+            padding: "0.4rem 1.5rem",
+            textTransform: "capitalize",
+            display: none ? "none" : null,
+          }}
           handleClick={() => {
             navigate(path);
           }}

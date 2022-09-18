@@ -155,14 +155,14 @@ form {
 /*}*/
 
 .form-control input {
-  width: 100%;
+  /* width: 100%;
   background: transparent !important;
   border: none;
   outline: none;
   display: block;
   padding: 16px 0;
   font-size: 1rem;
-  margin-right: 0.5rem;
+  margin-right: 0.5rem; */
 }
 
 .input-container {
